@@ -1,2 +1,2 @@
 # BusynessNYC
-To see how busy certain stuff. 
+To check how busy NYC is at a certain time 

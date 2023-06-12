@@ -15,4 +15,4 @@ To check how busy NYC is at a certain time
 
 5. In every Thursday, 'next-dev' branch will merge to 'main' branch.
 
-6. Saoirse's repository should never be touched if not needed to.
+6. Saoirse's repository should never be touched directly if not needed to.

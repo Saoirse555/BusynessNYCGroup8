@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Hero = () => {
     return (
-        <Container>
+        <Container id="hero">
             <Left>
                 <SmallLine src="../img/line_small.svg"></SmallLine>
                 <Title>

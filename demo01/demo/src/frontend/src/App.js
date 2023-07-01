@@ -1,8 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import {
+    getWeatherData,
+    getWeatherForeCast
+} from './components/Main/Weather/getWeatherAPI';
 import styled from 'styled-components';
 import Hero from './components/Hero/Hero';
 import Main from './components/Main/Main';
 import './App.css';
+
+const App = () => {
+    const [weatherData, setWeatherData] = useState({});
+    const [foreCastData, setForeCastData] = useState({});
+
+    // useEffect(() => {
+    //     getWeatherData().then((data) => setWeatherData(data));
+    //     getWeatherForeCast().then((data) => setForeCastData(data));
+    // }, []);
+
+    return (
+        <Container>
+            <Hero />
+            <Main weatherInfo={weatherData} foreCastInfo={foreCastData} />
+        </Container>
+    );
+};
+
+export default App;
 
 const Container = styled.div`
     margin: 0;
@@ -16,14 +39,3 @@ const Container = styled.div`
         display: none;
     }
 `;
-
-const App = () => {
-    return (
-        <Container>
-            <Hero />
-            <Main />
-        </Container>
-    );
-};
-
-export default App;

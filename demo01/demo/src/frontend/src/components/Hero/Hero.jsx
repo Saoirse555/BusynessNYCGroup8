@@ -136,7 +136,7 @@ const Marker = styled.img`
     height: 81.6px;
     padding-left: 2%;
     padding-top: 2%;
-    animation: slideInFromTop 2s ease-in-out;
+    animation: slideInFromTop 1.5s ease-in-out;
 
     @media screen and (max-width: 900px) {
         width: 3rem;

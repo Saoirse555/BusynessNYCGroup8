@@ -1,10 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import {
     StandaloneSearchBox,
     InfoWindow,
     GoogleMap,
     LoadScript,
-    Marker
+    Marker,
+    Circle,
+    DirectionsRenderer
 } from '@react-google-maps/api';
 import geoJsonData from './manhattan.json';
 import colors from './color';
@@ -12,9 +14,9 @@ import styled from 'styled-components';
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import EvStationIcon from '@mui/icons-material/EvStation';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
+import Weather from '../Weather/Weather';
 
-const Map = () => {
-    const center = { lat: 40.7826, lng: -73.9656 };
+const Map = ({ weatherInfo, foreCastInfo }) => {
     const zoom = 11.5;
     const [map, setMap] = useState(null);
     const inputStartRef = useRef();
@@ -25,14 +27,21 @@ const Map = () => {
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [selectedLocPosition, setSelectedLocPosition] = useState(null);
 
+    const [parkingIcons, setParkingIcons] = useState(false);
+    const [petrolStationIcons, setPetrolStationIcons] = useState(false);
+    const [evChargingIcons, setevChargingIcons] = useState(false);
+
+    const center = useMemo(() => ({ lat: 40.7826, lng: -73.9656 }), []);
+
     const handleStartPlaceChange = async () => {
         const [startPlace] = inputStartRef.current.getPlaces();
         if (startPlace) {
             const lat = await startPlace.geometry.location.lat();
             const lng = await startPlace.geometry.location.lng();
-            console.log('start: ', { lat }, { lng });
+            // console.log('start: ', { lat }, { lng });
             setStartLocation({ lat, lng });
         }
+        // console.log({ startPlace });
     };
 
     const handleDestPlaceChange = async () => {
@@ -40,7 +49,7 @@ const Map = () => {
         if (destPlace) {
             const lat = await destPlace.geometry.location.lat();
             const lng = await destPlace.geometry.location.lng();
-            console.log('end: ', { lat }, { lng });
+            // console.log('end: ', { lat }, { lng });
             setDestLocation({ lat, lng });
         }
     };
@@ -53,8 +62,8 @@ const Map = () => {
             const locationId = feature.getProperty('location_id');
             return {
                 fillColor: colors[locationId],
-                strokeWeight: 0.3,
-                fillOpacity: 0.5
+                strokeWeight: 0.25,
+                fillOpacity: 0.25
             };
         });
         geoJsonLayer.setMap(map);
@@ -85,17 +94,80 @@ const Map = () => {
     useEffect(() => {
         if (map && startLocation) {
             map.panTo(startLocation);
+            setDirections(null);
         }
     }, [map, startLocation]);
 
     useEffect(() => {
         if (map && destLocation) {
             map.panTo(destLocation);
+            setDirections(null);
+            // console.log('destination changed');
         }
     }, [map, destLocation]);
 
+    const [directions, setDirections] = useState();
+
+    const handleEmptyCase = (e) => {
+        if (e.key === 'Enter' && e.target.value === '') {
+            if (e.target.id === 'start-input') {
+                setDirections(null);
+                setStartLocation(null);
+            } else {
+                setDirections(null);
+                setDestLocation(null);
+            }
+        }
+    };
+
+    const fetchDirections = (start, end) => {
+        if (!start || !end) return;
+        const service = new window.google.maps.DirectionsService();
+        service.route(
+            {
+                origin: start,
+                destination: end,
+                travelMode: window.google.maps.TravelMode.DRIVING
+            },
+            (result, status) => {
+                if (status === 'OK' && result) {
+                    setDirections(result);
+                }
+            }
+        );
+    };
+
+    const startInputRef = useRef(null);
+    const destInputRef = useRef(null);
+
+    const handleDrag = (e, marker_id) => {
+        const { latLng } = e;
+        const lat = latLng.lat();
+        const lng = latLng.lng();
+        if (marker_id === 'start-marker') {
+            setStartLocation({ lat, lng });
+        } else {
+            setDestLocation({ lat, lng });
+        }
+
+        const geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+            if (status === 'OK' && results.length > 0) {
+                const address = results[0].formatted_address;
+                console.log('New Address', address);
+                if (marker_id === 'start-marker') {
+                    startInputRef.current.value = address;
+                } else {
+                    destInputRef.current.value = address;
+                }
+            } else {
+                console.error('Geocoder error:', status);
+            }
+        });
+    };
+
     return (
-        <PageContainer>
+        <PageContainer id="main">
             <PageHeader>
                 <PageTitle>
                     Auto Mate
@@ -115,8 +187,11 @@ const Map = () => {
                                 onPlacesChanged={handleStartPlaceChange}
                             >
                                 <StartInput
+                                    id="start-input"
                                     type="text"
                                     placeholder="Search start..."
+                                    onKeyDown={handleEmptyCase}
+                                    ref={startInputRef}
                                 />
                             </StandaloneSearchBox>
                             <StandaloneSearchBox
@@ -125,25 +200,45 @@ const Map = () => {
                                 onPlacesChanged={handleDestPlaceChange}
                             >
                                 <EndInput
+                                    id="end-input"
                                     type="text"
                                     placeholder="Search destination..."
+                                    onKeyDown={handleEmptyCase}
+                                    ref={destInputRef}
                                 />
                             </StandaloneSearchBox>
                         </InputContainer>
                         <AmenitiesContainer>
-                            <CarParks>
-                                <LocalParkingIcon />
+                            <CarParks
+                                background={parkingIcons}
+                                onClick={() => setParkingIcons(!parkingIcons)}
+                            >
+                                <LocalParkingIcon color={'info'} />
                             </CarParks>
-                            <PetrolStations>
-                                <LocalGasStationIcon />
+                            <PetrolStations
+                                background={petrolStationIcons}
+                                onClick={() =>
+                                    setPetrolStationIcons(!petrolStationIcons)
+                                }
+                            >
+                                <LocalGasStationIcon color={'error'} />
                             </PetrolStations>
-                            <EVCharging>
-                                <EvStationIcon />
+                            <EVCharging
+                                background={evChargingIcons}
+                                onClick={() =>
+                                    setevChargingIcons(!evChargingIcons)
+                                }
+                            >
+                                <EvStationIcon color={'success'} />
                             </EVCharging>
                         </AmenitiesContainer>
                     </Left>
 
                     <Right>
+                        <Weather
+                            weatherInfo={weatherInfo}
+                            foreCastInfo={foreCastInfo}
+                        />
                         <GoogleMap
                             center={center}
                             zoom={zoom}
@@ -156,23 +251,87 @@ const Map = () => {
                             options={{
                                 disableDefaultUI: true,
                                 clickableIcons: false,
-                                mapId: '7df5b499f8ea804a'
+                                mapId: '890875aa171abb1a',
+                                disableAutoPan: true
                             }}
                         >
                             {startLocation && (
-                                <Marker position={startLocation} />
+                                <Marker
+                                    position={startLocation}
+                                    draggable={true}
+                                    onDragEnd={(e) =>
+                                        handleDrag(e, 'start-marker')
+                                    }
+                                    onClick={() => {
+                                        fetchDirections(
+                                            startLocation,
+                                            destLocation
+                                        );
+                                    }}
+                                    key={'start-marker'}
+                                />
                             )}
+                            {destLocation && (
+                                <>
+                                    <Marker
+                                        draggable={true}
+                                        onDragEnd={(e) =>
+                                            handleDrag(e, 'end-marker')
+                                        }
+                                        key={'end-marker'}
+                                        position={destLocation}
+                                        onClick={() => {
+                                            fetchDirections(
+                                                startLocation,
+                                                destLocation
+                                            );
+                                        }}
+                                    />
 
-                            {destLocation && <Marker position={destLocation} />}
-
+                                    <Circle
+                                        center={destLocation}
+                                        radius={300}
+                                        options={threeHundredMetresCircle}
+                                    />
+                                    <Circle
+                                        center={destLocation}
+                                        radius={600}
+                                        options={sixHundredMetresCircle}
+                                    />
+                                    <Circle
+                                        center={destLocation}
+                                        radius={1000}
+                                        options={kiloMetresCircle}
+                                    />
+                                </>
+                            )}
+                            {directions && (
+                                <DirectionsRenderer
+                                    directions={directions}
+                                    options={{
+                                        suppressMarkers: true,
+                                        polylineOptions: {
+                                            zIndex: 13,
+                                            strokeColor: '#41a0ff',
+                                            strokeWeight: 7
+                                        }
+                                    }}
+                                />
+                            )}
                             {selectedLocation && (
                                 <InfoWindow
                                     position={selectedLocPosition}
                                     onCloseClick={() =>
                                         setSelectedLocation(null)
                                     }
+                                    options={{ disableAutoPan: true }}
                                 >
-                                    <h3>Location ID: {selectedLocation}</h3>
+                                    <>
+                                        <h3>Location ID: {selectedLocation}</h3>
+                                        <h4>
+                                            Busyness: {colors[selectedLocation]}
+                                        </h4>
+                                    </>
                                 </InfoWindow>
                             )}
                         </GoogleMap>
@@ -185,6 +344,36 @@ const Map = () => {
 
 export default Map;
 
+const defaultCircleOptions = {
+    strokeOpacity: 1,
+    strokeWeight: 2,
+    clickable: false,
+    draggable: false,
+    editable: false,
+    visible: true
+};
+
+const threeHundredMetresCircle = {
+    ...defaultCircleOptions,
+    zIndex: 10,
+    fillOpacity: 0.5,
+    strokeColor: '#00FF00',
+    fillColor: 'transparent'
+};
+const sixHundredMetresCircle = {
+    ...defaultCircleOptions,
+    zIndex: 9,
+    fillOpacity: 0.25,
+    strokeColor: '#FFFF00',
+    fillColor: 'transparent'
+};
+const kiloMetresCircle = {
+    ...defaultCircleOptions,
+    zIndex: 8,
+    fillOpacity: 0.15,
+    strokeColor: '#FF5252',
+    fillColor: 'transparent'
+};
 const AmenitiesContainer = styled.div`
     display: flex;
     flex-direction: row;
@@ -195,28 +384,37 @@ const AmenitiesContainer = styled.div`
     padding-top: 40px;
 `;
 const CarParks = styled.div`
+    background-color: ${(props) => (props.background ? '#222222' : '')};
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid gray;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     width: 100px;
     height: 30px;
     border-radius: 5px;
+    cursor: pointer;
 `;
 const PetrolStations = styled.div`
+    cursor: pointer;
+    background-color: ${(props) => (props.background ? '#222222' : '')};
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid gray;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     width: 100px;
     height: 30px;
     border-radius: 5px;
 `;
 const EVCharging = styled.div`
+    cursor: pointer;
+    background-color: ${(props) => (props.background ? '#222222' : '')};
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid gray;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 5px;
     width: 100px;
     height: 30px;
@@ -235,14 +433,16 @@ const StartInput = styled.input`
     height: 36;
     padding: 10px;
     border-radius: 10px;
-    border: 1px solid black;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.25);
 `;
 const EndInput = styled.input`
     width: 200px;
     height: 36px;
     padding: 10px;
     border-radius: 10px;
-    border: 1px solid black;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.25);
 `;
 const Container = styled.div`
     display: flex;
@@ -259,13 +459,13 @@ const Right = styled.div`
     position: relative;
     flex: 3.5;
     height: auto;
-    background-color: red;
 `;
 const PageContainer = styled.div`
     display: flex;
     width: 100vw;
     height: 100vh;
     flex-direction: column;
+    z-index: 10;
 `;
 const PageHeader = styled.div`
     display: flex;

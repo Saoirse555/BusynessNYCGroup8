@@ -51,7 +51,7 @@ public class ParkingStationServiceImpl implements ParkingStationService {
             }
             parkingStationVO.setRateZone(station.getRateZone());
             parkingStationVO.setZoneInfo(station.getZoneInfo());
-            parkingStationVO.setLocationId(station.getStationId());
+            parkingStationVO.setLocationId(station.getLocationId());
             parkingStationVO.setGeometryType(station.getGeometryType());
 
             parkingStationVOList.add(parkingStationVO);

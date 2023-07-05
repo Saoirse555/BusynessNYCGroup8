@@ -182,7 +182,7 @@ const Map = ({ weatherInfo, foreCastInfo }) => {
             setSelectedDay(today);
             setSelectedHour(time);
         }
-    }, []);
+    }, [weatherInfo, foreCastInfo]);
 
     const handleDayChange = (e) => {
         const pickedDay = e.target.value;

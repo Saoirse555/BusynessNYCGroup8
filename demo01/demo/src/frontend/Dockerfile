@@ -5,6 +5,7 @@ COPY . .
 #Set runtime dependecies
 RUN npm ci
 RUN npm install styled-components
+RUN npm install @mui/icons-material
 #Build the app
 RUN npm run build
 

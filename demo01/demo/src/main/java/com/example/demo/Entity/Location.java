@@ -9,7 +9,6 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Entity
 @Table
 public class Location {

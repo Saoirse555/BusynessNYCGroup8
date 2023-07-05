@@ -1,7 +1,8 @@
-package com.example.demo.Service.Impl;
+package com.example.demo.Controller.Impl;
 
 import com.example.demo.Controller.LocationController;
 import com.example.demo.Entity.Location;
+import com.example.demo.Service.Impl.LocationServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

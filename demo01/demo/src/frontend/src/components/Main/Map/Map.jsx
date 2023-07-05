@@ -166,6 +166,40 @@ const Map = ({ weatherInfo, foreCastInfo }) => {
         });
     };
 
+    const [selectedDay, setSelectedDay] = useState('');
+    const [selectedDayIndex, setSelectedDayIndex] = useState('');
+    const [selectedHour, setSelectedHour] = useState('');
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    useEffect(() => {
+        if (weatherInfo !== {} || foreCastInfo !== {}) {
+            const today = Date(weatherInfo.dt * 1000).slice(0, 10);
+            const time = Date(weatherInfo.dt * 1000).slice(16, 18);
+            const index = daysOfWeek.findIndex(
+                (day) => day === today.slice(0, 3)
+            );
+            setSelectedDayIndex(index);
+            setSelectedDay(today);
+            setSelectedHour(time);
+        }
+    }, []);
+
+    const handleDayChange = (e) => {
+        const pickedDay = e.target.value;
+        setSelectedDay(pickedDay);
+        console.log(
+            'User chose the day: ',
+            pickedDay,
+            foreCastInfo.list[pickedDay * 8].dt //actual argument we need to pass to the backend
+        );
+    };
+
+    const handleHourChange = (e) => {
+        const pickedHour = e.target.value;
+        setSelectedHour(pickedHour);
+        console.log('User chose the hour: ', pickedHour);
+    };
+
     return (
         <PageContainer id="main">
             <PageHeader>
@@ -208,6 +242,32 @@ const Map = ({ weatherInfo, foreCastInfo }) => {
                                 />
                             </StandaloneSearchBox>
                         </InputContainer>
+                        <Selector>
+                            <DaySelector
+                                value={selectedDay}
+                                onChange={handleDayChange}
+                            >
+                                {[...Array(5)].map((_, index) => (
+                                    <option key={index} value={index}>
+                                        {
+                                            daysOfWeek[
+                                                (selectedDayIndex + index) % 7
+                                            ]
+                                        }
+                                    </option>
+                                ))}
+                            </DaySelector>
+                            <HourSelector
+                                value={selectedHour}
+                                onChange={handleHourChange}
+                            >
+                                {[...Array(24)].map((_, index) => (
+                                    <option key={index} value={index}>
+                                        {index.toString().padStart(2, '0')} : 00
+                                    </option>
+                                ))}
+                            </HourSelector>
+                        </Selector>
                         <AmenitiesContainer>
                             <CarParks
                                 background={parkingIcons}
@@ -374,6 +434,38 @@ const kiloMetresCircle = {
     strokeColor: '#FF5252',
     fillColor: 'transparent'
 };
+
+const Selector = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 40px;
+    margin-right: 40px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+`;
+const DaySelector = styled.select`
+    display: flex;
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+`;
+const HourSelector = styled.select`
+    display: flex;
+    flex: 1;
+    margin-left: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+`;
+
 const AmenitiesContainer = styled.div`
     display: flex;
     flex-direction: row;
@@ -430,7 +522,7 @@ const InputContainer = styled.div`
 `;
 const StartInput = styled.input`
     width: 200px;
-    height: 36;
+    height: 36px;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);

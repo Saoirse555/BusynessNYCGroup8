@@ -12,7 +12,7 @@ const Weather = ({ weatherInfo, foreCastInfo }) => {
             (day) => day === Date(weatherInfo.dt * 1000).slice(0, 3)
         );
         setDayIndex(weekDay);
-        console.log(weekDay, ' is the index ', daysOfWeek[weekDay]);
+        // console.log(weekDay, ' is the index ', daysOfWeek[weekDay]);
     }, [foreCastInfo]);
 
     const handleClick = () => {

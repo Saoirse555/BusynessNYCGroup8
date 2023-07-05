@@ -154,7 +154,6 @@ const Text = styled.div`
     color: #000;
     font-size: 3.5rem;
     font-family: Roboto;
-    font-style: light;
     font-weight: 100;
     line-height: 170%;
     letter-spacing: 8px;

@@ -4,6 +4,7 @@ WORKDIR /app
 COPY . .
 #Set runtime dependecies
 RUN npm ci
+RUN npm install styled-components
 #Build the app
 RUN npm run build
 

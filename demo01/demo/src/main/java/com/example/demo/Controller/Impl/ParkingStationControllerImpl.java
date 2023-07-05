@@ -4,6 +4,7 @@ import com.example.demo.Controller.ParkingStationController;
 import com.example.demo.Entity.VO.ParkingStationVO;
 import com.example.demo.Service.Impl.ParkingStationServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,7 @@ public class ParkingStationControllerImpl implements ParkingStationController {
     private final ParkingStationServiceImpl parkingStationService;
 
     @Override
+    @GetMapping
     public List<ParkingStationVO> getAllParkingStation() {
         return parkingStationService.getAllParkingStation();
     }

@@ -17,6 +17,7 @@ import EvStationIcon from '@mui/icons-material/EvStation';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import Weather from '../Weather/Weather';
 import parkingMarker from './parking.svg';
+import locationMarker from './marker.svg';
 
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const zoom = 11.5;
@@ -320,7 +321,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                             {startLocation && (
                                 <Marker
                                     icon={{
-                                        url: 'https://www.svgrepo.com/show/302636/map-marker.svg',
+                                        url: locationMarker,
                                         scaledSize: {
                                             height: 64,
                                             width: 32
@@ -348,7 +349,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 <>
                                     <Marker
                                         icon={{
-                                            url: 'https://www.svgrepo.com/show/302636/map-marker.svg',
+                                            url: locationMarker,
                                             scaledSize: {
                                                 height: 64,
                                                 width: 32
@@ -525,8 +526,8 @@ const AmenitiesContainer = styled.div`
     height: 40px;
     padding-top: 40px;
 `;
-const CarParks = styled.div`
-    background-color: ${(props) => (props.background ? '#222222' : '')};
+const CarParks = styled.button`
+    background-color: ${(props) => (props.background ? '#ff6666' : '#ffffff')};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -537,9 +538,9 @@ const CarParks = styled.div`
     border-radius: 5px;
     cursor: pointer;
 `;
-const PetrolStations = styled.div`
+const PetrolStations = styled.button`
     cursor: pointer;
-    background-color: ${(props) => (props.background ? '#222222' : '')};
+    background-color: ${(props) => (props.background ? '#ff6666' : '#ffffff')};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -549,9 +550,9 @@ const PetrolStations = styled.div`
     height: 30px;
     border-radius: 5px;
 `;
-const EVCharging = styled.div`
+const EVCharging = styled.button`
     cursor: pointer;
-    background-color: ${(props) => (props.background ? '#222222' : '')};
+    background-color: ${(props) => (props.background ? '#ff6666' : '#ffffff')};
     display: flex;
     justify-content: center;
     align-items: center;

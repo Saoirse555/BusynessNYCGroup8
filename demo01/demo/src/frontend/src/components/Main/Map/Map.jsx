@@ -203,6 +203,31 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         console.log('User chose the hour: ', pickedHour);
     };
 
+    const [showInfoWindow, setShowInfoWindow] = useState(false);
+    const [infoWindowPos, setInfoWindowPos] = useState();
+    const [infoWindowData, setInfoWindowData] = useState({
+        name: '',
+        zone: '',
+        rate: ''
+    });
+
+    const handleCarParkClick = (locationInfo) => {
+        setShowInfoWindow(true);
+        const lat = locationInfo.coordinates.latitude;
+        const lng = locationInfo.coordinates.longitude;
+        setInfoWindowPos({ lat: lat, lng: lng });
+        const name = locationInfo.parkingStationName;
+        const zone = locationInfo.rateZone;
+        const rate = locationInfo.zoneInfo;
+        setInfoWindowData((previousLocation) => ({
+            ...previousLocation,
+            name: name,
+            zone: zone,
+            rate: rate
+        }));
+        console.log(showInfoWindow, infoWindowData, infoWindowPos);
+    };
+
     return (
         <PageContainer id="main">
             <PageHeader>
@@ -425,6 +450,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     {(clusterer) =>
                                         locationInfo.map((carPark, index) => (
                                             <Marker
+                                                onClick={() =>
+                                                    handleCarParkClick(carPark)
+                                                }
                                                 clusterer={clusterer}
                                                 icon={{
                                                     url: parkingMarker,
@@ -444,6 +472,24 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         ))
                                     }
                                 </MarkerClusterer>
+                            )}
+
+                            {showInfoWindow && (
+                                <InfoWindow
+                                    position={infoWindowPos}
+                                    onCloseClick={() =>
+                                        setShowInfoWindow(false)
+                                    }
+                                >
+                                    <CarParkInfoWindow>
+                                        <h3>Name: </h3>
+                                        {infoWindowData.name}
+                                        <h4>Zone: </h4>
+                                        {infoWindowData.zone}
+                                        <h4>Rate: </h4>
+                                        {infoWindowData.rate}
+                                    </CarParkInfoWindow>
+                                </InfoWindow>
                             )}
                         </GoogleMap>
                     </Right>
@@ -485,6 +531,14 @@ const kiloMetresCircle = {
     strokeColor: '#FF5252',
     fillColor: 'transparent'
 };
+
+const CarParkInfoWindow = styled.div`
+    display: flex;
+    flex-direction: column;
+    font-family: Roboto;
+    font-weight: 100;
+    width: 245px;
+`;
 
 const Selector = styled.div`
     display: flex;

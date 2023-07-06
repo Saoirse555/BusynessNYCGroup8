@@ -16,7 +16,7 @@ import EvStationIcon from '@mui/icons-material/EvStation';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import Weather from '../Weather/Weather';
 
-const Map = ({ weatherInfo, foreCastInfo }) => {
+const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const zoom = 11.5;
     const [map, setMap] = useState(null);
     const inputStartRef = useRef();
@@ -394,6 +394,12 @@ const Map = ({ weatherInfo, foreCastInfo }) => {
                                     </>
                                 </InfoWindow>
                             )}
+                            {locationInfo.length ? (
+                                console.log(locationInfo.length),
+                                locationInfo.map((carPark, index) => (
+                                    <Marker key={index} position={{lat: carPark.coordinates.latitude, lng: carPark.coordinates.longitude}} />
+                                ))
+                            ) : ("")}
                         </GoogleMap>
                     </Right>
                 </LoadScript>

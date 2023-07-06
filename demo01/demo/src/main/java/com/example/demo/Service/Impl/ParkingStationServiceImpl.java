@@ -60,16 +60,16 @@ public class ParkingStationServiceImpl implements ParkingStationService {
     }
 
     private static Point calculateCenter(List<Point> coordinates){
-        int totalX = 0;
-        int totalY = 0;
+        double totalX = 0;
+        double totalY = 0;
 
         for (Point point : coordinates) {
             totalX += point.getLatitude();
             totalY += point.getLongitude();
         }
 
-        int centerX = totalX / coordinates.size();
-        int centerY = totalY / coordinates.size();
+        double centerX = totalX / coordinates.size();
+        double centerY = totalY / coordinates.size();
 
         return new Point(centerX, centerY);
     }

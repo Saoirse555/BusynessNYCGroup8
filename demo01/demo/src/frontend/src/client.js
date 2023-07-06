@@ -1,14 +1,10 @@
-import fetch from 'unfetch'
-
-const checkStatus = response => {
-    if (response.ok) {
-        return response
-    }
-    const error = new Error(response.statusText);
-    error.response = response;
-    return Promise.reject(error)
-}
+import axios from 'axios'
 
 export const getAllLocations = async () => {
-        fetch("api/v1/locations").then(checkStatus)
+    try {
+        const { data } = await axios.get('api/v1/parkingstations')
+        console.log("Getting stations data.")
+        return data
+    } catch (error) {console.log("Can't get stations")}
+
 }

@@ -9,9 +9,8 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Entity
-@Table
+@Table(name = "location")
 public class Location {
     @Id
     @SequenceGenerator(

@@ -7,20 +7,24 @@ import styled from 'styled-components';
 import Hero from './components/Hero/Hero';
 import Map from './components/Main/Map/Map';
 import './App.css';
+import {getAllLocations} from "./client";
 
 const App = () => {
     const [weatherData, setWeatherData] = useState({});
     const [foreCastData, setForeCastData] = useState({});
+    const [locations, setLocations] = useState([]);
 
     useEffect(() => {
         getWeatherData().then((data) => setWeatherData(data));
         getWeatherForeCast().then((data) => setForeCastData(data));
+        getAllLocations().then((data) => setLocations(data));
     }, []);
+
 
     return (
         <Container>
             <Hero />
-            <Map weatherInfo={weatherData} foreCastInfo={foreCastData} />
+            <Map weatherInfo={weatherData} foreCastInfo={foreCastData} locationInfo = {locations}/>
         </Container>
     );
 };

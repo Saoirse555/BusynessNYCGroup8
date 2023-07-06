@@ -6,7 +6,8 @@ import {
     LoadScript,
     Marker,
     Circle,
-    DirectionsRenderer
+    DirectionsRenderer,
+    MarkerClusterer
 } from '@react-google-maps/api';
 import geoJsonData from './manhattan.json';
 import colors from './color';
@@ -15,13 +16,15 @@ import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import EvStationIcon from '@mui/icons-material/EvStation';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import Weather from '../Weather/Weather';
+import parkingMarker from './parking.svg';
+import locationMarker from './marker.svg';
 
-const Map = ({ weatherInfo, foreCastInfo }) => {
+const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const zoom = 11.5;
     const [map, setMap] = useState(null);
     const inputStartRef = useRef();
     const inputDestRef = useRef();
-    const [libraries] = useState(['places']);
+    const [libraries] = useState(['places', 'marker']);
     const [startLocation, setStartLocation] = useState(null);
     const [destLocation, setDestLocation] = useState(null);
     const [selectedLocation, setSelectedLocation] = useState(null);
@@ -166,6 +169,65 @@ const Map = ({ weatherInfo, foreCastInfo }) => {
         });
     };
 
+    const [selectedDay, setSelectedDay] = useState('');
+    const [selectedDayIndex, setSelectedDayIndex] = useState('');
+    const [selectedHour, setSelectedHour] = useState('');
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    useEffect(() => {
+        if (weatherInfo !== {} || foreCastInfo !== {}) {
+            const today = Date(weatherInfo.dt * 1000).slice(0, 10);
+            const time = Date(weatherInfo.dt * 1000).slice(16, 18);
+            const index = daysOfWeek.findIndex(
+                (day) => day === today.slice(0, 3)
+            );
+            setSelectedDayIndex(index);
+            setSelectedDay(today);
+            setSelectedHour(time);
+        }
+    }, [weatherInfo, foreCastInfo]);
+
+    const handleDayChange = (e) => {
+        const pickedDay = e.target.value;
+        setSelectedDay(pickedDay);
+        console.log(
+            'User chose the day: ',
+            pickedDay,
+            foreCastInfo.list[pickedDay * 8].dt //actual argument we need to pass to the backend
+        );
+    };
+
+    const handleHourChange = (e) => {
+        const pickedHour = e.target.value;
+        setSelectedHour(pickedHour);
+        console.log('User chose the hour: ', pickedHour);
+    };
+
+    const [showInfoWindow, setShowInfoWindow] = useState(false);
+    const [infoWindowPos, setInfoWindowPos] = useState();
+    const [infoWindowData, setInfoWindowData] = useState({
+        name: '',
+        zone: '',
+        rate: ''
+    });
+
+    const handleCarParkClick = (locationInfo) => {
+        setShowInfoWindow(true);
+        const lat = locationInfo.coordinates.latitude;
+        const lng = locationInfo.coordinates.longitude;
+        setInfoWindowPos({ lat: lat, lng: lng });
+        const name = locationInfo.parkingStationName;
+        const zone = locationInfo.rateZone;
+        const rate = locationInfo.zoneInfo;
+        setInfoWindowData((previousLocation) => ({
+            ...previousLocation,
+            name: name,
+            zone: zone,
+            rate: rate
+        }));
+        console.log(showInfoWindow, infoWindowData, infoWindowPos);
+    };
+
     return (
         <PageContainer id="main">
             <PageHeader>
@@ -208,6 +270,32 @@ const Map = ({ weatherInfo, foreCastInfo }) => {
                                 />
                             </StandaloneSearchBox>
                         </InputContainer>
+                        <Selector>
+                            <DaySelector
+                                value={selectedDay}
+                                onChange={handleDayChange}
+                            >
+                                {[...Array(5)].map((_, index) => (
+                                    <option key={index} value={index}>
+                                        {
+                                            daysOfWeek[
+                                                (selectedDayIndex + index) % 7
+                                            ]
+                                        }
+                                    </option>
+                                ))}
+                            </DaySelector>
+                            <HourSelector
+                                value={selectedHour}
+                                onChange={handleHourChange}
+                            >
+                                {[...Array(24)].map((_, index) => (
+                                    <option key={index} value={index}>
+                                        {index.toString().padStart(2, '0')} : 00
+                                    </option>
+                                ))}
+                            </HourSelector>
+                        </Selector>
                         <AmenitiesContainer>
                             <CarParks
                                 background={parkingIcons}
@@ -257,6 +345,17 @@ const Map = ({ weatherInfo, foreCastInfo }) => {
                         >
                             {startLocation && (
                                 <Marker
+                                    icon={{
+                                        url: locationMarker,
+                                        scaledSize: {
+                                            height: 64,
+                                            width: 32
+                                        },
+                                        anchor: {
+                                            x: 15.5,
+                                            y: 50
+                                        }
+                                    }}
                                     position={startLocation}
                                     draggable={true}
                                     onDragEnd={(e) =>
@@ -274,6 +373,17 @@ const Map = ({ weatherInfo, foreCastInfo }) => {
                             {destLocation && (
                                 <>
                                     <Marker
+                                        icon={{
+                                            url: locationMarker,
+                                            scaledSize: {
+                                                height: 64,
+                                                width: 32
+                                            },
+                                            anchor: {
+                                                x: 15.5,
+                                                y: 50
+                                            }
+                                        }}
                                         draggable={true}
                                         onDragEnd={(e) =>
                                             handleDrag(e, 'end-marker')
@@ -334,6 +444,53 @@ const Map = ({ weatherInfo, foreCastInfo }) => {
                                     </>
                                 </InfoWindow>
                             )}
+
+                            {locationInfo.length && parkingIcons && (
+                                <MarkerClusterer>
+                                    {(clusterer) =>
+                                        locationInfo.map((carPark, index) => (
+                                            <Marker
+                                                onClick={() =>
+                                                    handleCarParkClick(carPark)
+                                                }
+                                                clusterer={clusterer}
+                                                icon={{
+                                                    url: parkingMarker,
+                                                    scaledSize: {
+                                                        height: 64,
+                                                        width: 32
+                                                    }
+                                                }}
+                                                key={index}
+                                                position={{
+                                                    lat: carPark.coordinates
+                                                        .latitude,
+                                                    lng: carPark.coordinates
+                                                        .longitude
+                                                }}
+                                            />
+                                        ))
+                                    }
+                                </MarkerClusterer>
+                            )}
+
+                            {showInfoWindow && (
+                                <InfoWindow
+                                    position={infoWindowPos}
+                                    onCloseClick={() =>
+                                        setShowInfoWindow(false)
+                                    }
+                                >
+                                    <CarParkInfoWindow>
+                                        <h3>Name: </h3>
+                                        {infoWindowData.name}
+                                        <h4>Zone: </h4>
+                                        {infoWindowData.zone}
+                                        <h4>Rate: </h4>
+                                        {infoWindowData.rate}
+                                    </CarParkInfoWindow>
+                                </InfoWindow>
+                            )}
                         </GoogleMap>
                     </Right>
                 </LoadScript>
@@ -374,6 +531,46 @@ const kiloMetresCircle = {
     strokeColor: '#FF5252',
     fillColor: 'transparent'
 };
+
+const CarParkInfoWindow = styled.div`
+    display: flex;
+    flex-direction: column;
+    font-family: Roboto;
+    font-weight: 100;
+    width: 245px;
+`;
+
+const Selector = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 40px;
+    margin-right: 40px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+`;
+const DaySelector = styled.select`
+    display: flex;
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+`;
+const HourSelector = styled.select`
+    display: flex;
+    flex: 1;
+    margin-left: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+`;
+
 const AmenitiesContainer = styled.div`
     display: flex;
     flex-direction: row;
@@ -383,8 +580,8 @@ const AmenitiesContainer = styled.div`
     height: 40px;
     padding-top: 40px;
 `;
-const CarParks = styled.div`
-    background-color: ${(props) => (props.background ? '#222222' : '')};
+const CarParks = styled.button`
+    background-color: ${(props) => (props.background ? '#ff6666' : '#ffffff')};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -395,9 +592,9 @@ const CarParks = styled.div`
     border-radius: 5px;
     cursor: pointer;
 `;
-const PetrolStations = styled.div`
+const PetrolStations = styled.button`
     cursor: pointer;
-    background-color: ${(props) => (props.background ? '#222222' : '')};
+    background-color: ${(props) => (props.background ? '#ff6666' : '#ffffff')};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -407,9 +604,9 @@ const PetrolStations = styled.div`
     height: 30px;
     border-radius: 5px;
 `;
-const EVCharging = styled.div`
+const EVCharging = styled.button`
     cursor: pointer;
-    background-color: ${(props) => (props.background ? '#222222' : '')};
+    background-color: ${(props) => (props.background ? '#ff6666' : '#ffffff')};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -430,7 +627,7 @@ const InputContainer = styled.div`
 `;
 const StartInput = styled.input`
     width: 200px;
-    height: 36;
+    height: 36px;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);

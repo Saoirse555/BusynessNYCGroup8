@@ -6,7 +6,8 @@ import {
     LoadScript,
     Marker,
     Circle,
-    DirectionsRenderer
+    DirectionsRenderer,
+    MarkerClusterer
 } from '@react-google-maps/api';
 import geoJsonData from './manhattan.json';
 import colors from './color';
@@ -15,13 +16,14 @@ import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import EvStationIcon from '@mui/icons-material/EvStation';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import Weather from '../Weather/Weather';
+import parkingMarker from './parking.svg';
 
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const zoom = 11.5;
     const [map, setMap] = useState(null);
     const inputStartRef = useRef();
     const inputDestRef = useRef();
-    const [libraries] = useState(['places']);
+    const [libraries] = useState(['places', 'marker']);
     const [startLocation, setStartLocation] = useState(null);
     const [destLocation, setDestLocation] = useState(null);
     const [selectedLocation, setSelectedLocation] = useState(null);
@@ -317,6 +319,17 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                         >
                             {startLocation && (
                                 <Marker
+                                    icon={{
+                                        url: 'https://www.svgrepo.com/show/302636/map-marker.svg',
+                                        scaledSize: {
+                                            height: 64,
+                                            width: 32
+                                        },
+                                        anchor: {
+                                            x: 15.5,
+                                            y: 50
+                                        }
+                                    }}
                                     position={startLocation}
                                     draggable={true}
                                     onDragEnd={(e) =>
@@ -334,6 +347,17 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                             {destLocation && (
                                 <>
                                     <Marker
+                                        icon={{
+                                            url: 'https://www.svgrepo.com/show/302636/map-marker.svg',
+                                            scaledSize: {
+                                                height: 64,
+                                                width: 32
+                                            },
+                                            anchor: {
+                                                x: 15.5,
+                                                y: 50
+                                            }
+                                        }}
                                         draggable={true}
                                         onDragEnd={(e) =>
                                             handleDrag(e, 'end-marker')
@@ -394,12 +418,32 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     </>
                                 </InfoWindow>
                             )}
-                            {locationInfo.length ? (
-                                console.log(locationInfo.length),
-                                locationInfo.map((carPark, index) => (
-                                    <Marker key={index} position={{lat: carPark.coordinates.latitude, lng: carPark.coordinates.longitude}} />
-                                ))
-                            ) : ("")}
+
+                            {locationInfo.length && parkingIcons && (
+                                <MarkerClusterer>
+                                    {(clusterer) =>
+                                        locationInfo.map((carPark, index) => (
+                                            <Marker
+                                                clusterer={clusterer}
+                                                icon={{
+                                                    url: parkingMarker,
+                                                    scaledSize: {
+                                                        height: 64,
+                                                        width: 32
+                                                    }
+                                                }}
+                                                key={index}
+                                                position={{
+                                                    lat: carPark.coordinates
+                                                        .latitude,
+                                                    lng: carPark.coordinates
+                                                        .longitude
+                                                }}
+                                            />
+                                        ))
+                                    }
+                                </MarkerClusterer>
+                            )}
                         </GoogleMap>
                     </Right>
                 </LoadScript>

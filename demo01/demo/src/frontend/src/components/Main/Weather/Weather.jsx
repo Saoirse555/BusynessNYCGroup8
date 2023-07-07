@@ -140,4 +140,13 @@ const WeatherContainer = styled.div`
     line-height: 170%;
     letter-spacing: 2px;
     transition: width 0.3s ease, height 0.3s ease;
+    @media screen and (max-width: 400px) {
+        font-size: 1rem;
+        font-family: Roboto;
+        font-weight: 300;
+        line-height: 170%;
+        letter-spacing: 1px;
+        width: ${({ expanded }) => (expanded ? '300px' : '150px')};
+        height: ${({ expanded }) => (expanded ? '100px' : '30px')};
+    }
 `;

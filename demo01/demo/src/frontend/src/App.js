@@ -72,4 +72,7 @@ const Container = styled.div`
     &::-webkit-scrollbar {
         display: none;
     }
+    @media screen and (max-width: 900px) {
+        height: auto;
+    }
 `;

@@ -571,6 +571,8 @@ const Selector = styled.div`
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 10px;
+    @media screen and (max-width: 400px) {
+    }
 `;
 const DaySelector = styled.select`
     display: flex;
@@ -580,6 +582,10 @@ const DaySelector = styled.select`
     border-radius: 10px;
     margin-right: 10px;
     cursor: pointer;
+    @media screen and (max-width: 400px) {
+        height: 24px;
+        padding: 0;
+    }
 `;
 const HourSelector = styled.select`
     display: flex;
@@ -589,6 +595,10 @@ const HourSelector = styled.select`
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    @media screen and (max-width: 400px) {
+        height: 24px;
+        padding: 0;
+    }
 `;
 
 const AmenitiesContainer = styled.div`
@@ -644,6 +654,11 @@ const InputContainer = styled.div`
     align-items: center;
     width: 100%;
     height: 50px;
+    @media screen and (max-width: 400px) {
+        flex-direction: column;
+        height: 80px;
+        margin-top: 10px;
+    }
 `;
 const StartInput = styled.input`
     width: 200px;
@@ -652,6 +667,9 @@ const StartInput = styled.input`
     border-radius: 10px;
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.25);
+    @media screen and (max-width: 400px) {
+        height: 18px;
+    }
 `;
 const EndInput = styled.input`
     width: 200px;
@@ -660,26 +678,38 @@ const EndInput = styled.input`
     border-radius: 10px;
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.25);
+    @media screen and (max-width: 400px) {
+        height: 18px;
+    }
 `;
 const Container = styled.div`
     display: flex;
     flex-direction: row;
     height: 100%;
     width: 100vw;
+    @media screen and (max-width: 900px) {
+        flex-direction: column;
+    }
 `;
 const Left = styled.div`
     flex: 2;
     height: auto;
     scroll-snap-align: center;
+    @media screen and (max-width: 900px) {
+        flex: 1;
+    }
 `;
 const Right = styled.div`
     position: relative;
     flex: 3.5;
     height: auto;
+    @media screen and (max-width: 900px) {
+        flex: 3;
+    }
 `;
 const PageContainer = styled.div`
     display: flex;
-    width: 100vw;
+    /* width: 100vw; */
     height: 100vh;
     flex-direction: column;
     z-index: 10;

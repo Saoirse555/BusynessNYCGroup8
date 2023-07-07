@@ -19,6 +19,7 @@ import Weather from '../Weather/Weather';
 import parkingMarker from './parking.svg';
 import locationMarker from './marker.svg';
 
+// Map component
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const zoom = 11.5;
     const [map, setMap] = useState(null);
@@ -37,6 +38,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const center = useMemo(() => ({ lat: 40.7826, lng: -73.9656 }), []);
 
     const handleStartPlaceChange = async () => {
+        // Get the selected start location
         const [startPlace] = inputStartRef.current.getPlaces();
         if (startPlace) {
             const lat = await startPlace.geometry.location.lat();
@@ -48,6 +50,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     };
 
     const handleDestPlaceChange = async () => {
+        // Get the selected destination location
         const [destPlace] = inputDestRef.current.getPlaces();
         if (destPlace) {
             const lat = await destPlace.geometry.location.lat();
@@ -58,6 +61,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     };
 
     const onLoad = (map) => {
+        // Load the map and GeoJSON data
         setMap(map);
         const geoJsonLayer = new window.google.maps.Data();
         geoJsonLayer.addGeoJson(geoJsonData);
@@ -71,6 +75,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         });
         geoJsonLayer.setMap(map);
         console.log('GeoJSON Loaded');
+        // Show info window for the clicked location
         geoJsonLayer.addListener('click', async (e) => {
             setSelectedLocPosition({
                 lat: e.latLng.lat(),
@@ -80,6 +85,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         });
     };
 
+    // Defines the boundaries for the search options
     const defaultBounds = {
         north: center.lat + 0.1,
         south: center.lat - 0.1,
@@ -87,6 +93,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         west: center.lng - 0.1
     };
 
+    // Specifies the options for the StandaloneSearchBox component
     const SearchOptions = {
         bounds: defaultBounds,
         componentRestrictions: {
@@ -94,6 +101,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
     };
 
+    /* If map and startLocation have values
+       the map pans to the startLocation and sets the directions state to null.*/
     useEffect(() => {
         if (map && startLocation) {
             map.panTo(startLocation);
@@ -101,6 +110,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
     }, [map, startLocation]);
 
+    /* If map and destLocation have values
+      the map pans to the destLocation and sets the directions state to null.*/
     useEffect(() => {
         if (map && destLocation) {
             map.panTo(destLocation);
@@ -109,8 +120,10 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
     }, [map, destLocation]);
 
+    // Initializes the directions state variable using the useState hook. It is initially set to undefined.
     const [directions, setDirections] = useState();
 
+    // Handles the case when the user presses Enter with an empty input field
     const handleEmptyCase = (e) => {
         if (e.key === 'Enter' && e.target.value === '') {
             if (e.target.id === 'start-input') {
@@ -123,6 +136,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
     };
 
+    // Fetches the directions using the DirectionsService
     const fetchDirections = (start, end) => {
         if (!start || !end) return;
         const service = new window.google.maps.DirectionsService();
@@ -143,6 +157,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const startInputRef = useRef(null);
     const destInputRef = useRef(null);
 
+    // Handles the dragging of markers and updates their positions and addresses
     const handleDrag = (e, marker_id) => {
         const { latLng } = e;
         const lat = latLng.lat();
@@ -153,6 +168,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             setDestLocation({ lat, lng });
         }
 
+        // Reverse geocoding to get the address from the new position
         const geocoder = new window.google.maps.Geocoder();
         geocoder.geocode({ location: { lat, lng } }, (results, status) => {
             if (status === 'OK' && results.length > 0) {
@@ -174,6 +190,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const [selectedHour, setSelectedHour] = useState('');
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+    // Sets the selected day and hour based on weather and forecast information
     useEffect(() => {
         if (weatherInfo !== {} || foreCastInfo !== {}) {
             const today = Date(weatherInfo.dt * 1000).slice(0, 10);
@@ -187,6 +204,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
     }, [weatherInfo, foreCastInfo]);
 
+    // Handles the change of selected day
     const handleDayChange = (e) => {
         const pickedDay = e.target.value;
         setSelectedDay(pickedDay);
@@ -197,6 +215,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         );
     };
 
+    // Handles the change of selected hour
     const handleHourChange = (e) => {
         const pickedHour = e.target.value;
         setSelectedHour(pickedHour);
@@ -211,6 +230,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         rate: ''
     });
 
+    // Handles the click on a car park marker and displays the info window
     const handleCarParkClick = (locationInfo) => {
         setShowInfoWindow(true);
         const lat = locationInfo.coordinates.latitude;
@@ -501,6 +521,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
 export default Map;
 
+// Circle options for different distances
 const defaultCircleOptions = {
     strokeOpacity: 1,
     strokeWeight: 2,

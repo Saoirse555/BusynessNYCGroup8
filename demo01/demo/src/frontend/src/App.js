@@ -16,11 +16,17 @@ const App = () => {
     const [foreCastData, setForeCastData] = useState({});
     const [locations, setLocations] = useState([]);
 
+    // Fetch weather data. forecast data, and all parking locations on component mount
+
+    //Fetch weather data
     const fetchWeatherData = () =>
         getWeatherData().then((data) => setWeatherData(data));
+
+    //Fetch forecast data
     const fetchForeCastData = () =>
         getWeatherForeCast().then((data) => setForeCastData(data));
 
+    //Fetch weather and forecast data every 3,600,000 milliseconds
     useEffect(() => {
         fetchForeCastData();
         fetchWeatherData();
@@ -34,10 +40,12 @@ const App = () => {
         };
     }, []);
 
+    //Fetch static location data from database
     useEffect(() => {
         getAllLocations().then((data) => setLocations(data));
     }, []);
 
+    //Render the App component
     return (
         <Container>
             <Hero />

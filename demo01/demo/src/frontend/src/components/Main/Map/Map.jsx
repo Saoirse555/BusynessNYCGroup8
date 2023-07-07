@@ -247,7 +247,26 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             zone: zone,
             rate: rate
         }));
-        console.log(showInfoWindow, infoWindowData, infoWindowPos);
+    };
+
+    const [favAddress, setFavAddress] = useState('');
+
+    const geoCoder = async (place) => {
+        const lat = place.lat;
+        const lng = place.lng;
+        const geocoder = new window.google.maps.Geocoder();
+        await geocoder.geocode(
+            { location: { lat, lng } },
+            (results, status) => {
+                if (status === 'OK' && results.length > 0) {
+                    const address = results[0].formatted_address;
+                    // console.log('address from geocoder: ', address);
+                    setFavAddress(address);
+                } else {
+                    console.error('Geocoder error:', status);
+                }
+            }
+        );
     };
 
     const [favCookie, setFavCookie] = useState([]);
@@ -260,37 +279,69 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         return [];
     };
 
-    const addFavoritePlace = (place) => {
+    const addFavoritePlace = async (place) => {
         const favorites = getFavoriteFromCookie();
-        if (
-            favorites.some(
-                (places) => places.lat === place.lat && places.lng === place.lng
-            )
-        ) {
-            console.log('Place loc: ', place);
-            console.log('Cookie before removal: ', favorites);
-            const updatedArray = favorites.filter(
-                (obj) => obj.lat !== place.lat && obj.lng !== place.lng
-            );
-            console.log('New cookie: ', updatedArray);
-            Cookies.set('favorites', JSON.stringify(updatedArray), {
-                expires: 30
-            });
-            setFavCookie(updatedArray);
-            return;
-        } else {
-            favorites.push(place);
-            Cookies.set('favorites', JSON.stringify(favorites), {
-                expires: 30
-            });
-            setFavCookie(favorites);
-            console.log('Added cookie');
-            return;
+        geoCoder(place);
+        const address = favAddress;
+        if (address !== undefined) {
+            // console.log('Address found!');
+            if (
+                favorites.some(
+                    (places) =>
+                        places.lat === place.lat && places.lng === place.lng
+                )
+            ) {
+                // console.log('Place loc: ', place);
+                // console.log('Cookie before removal: ', favorites);
+                // console.log('Address', address);
+                const updatedArray = favorites.filter(
+                    (obj) => obj.lat !== place.lat && obj.lng !== place.lng
+                );
+                // console.log('New cookie: ', updatedArray);
+                Cookies.set('favorites', JSON.stringify(updatedArray), {
+                    expires: 30
+                });
+
+                setFavCookie(updatedArray);
+
+                return;
+            } else {
+                const element = {
+                    lat: place.lat,
+                    lng: place.lng,
+                    address: address
+                };
+                favorites.push(element);
+                Cookies.set('favorites', JSON.stringify(favorites), {
+                    expires: 30
+                });
+                setFavCookie(favorites);
+                // console.log('Added cookie');
+                // console.log(favCookie);
+
+                return;
+            }
         }
     };
 
     const handleAddFavorite = (location) => {
         addFavoritePlace(location);
+    };
+
+    const [showFavorites, setShowFavorites] = useState(false);
+
+    const handleShowFavorites = () => {
+        setShowFavorites(!showFavorites);
+        // console.log(favCookie);
+    };
+
+    const handleFavClick = (location) => {
+        console.log(location);
+        const lat = location.lat;
+        const lng = location.lng;
+        map.panTo({ lat: lat, lng: lng });
+        map.setZoom(17);
+        // handleCarParkClick(location);
     };
 
     return (
@@ -385,6 +436,34 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 <EvStationIcon color={'success'} />
                             </EVCharging>
                         </AmenitiesContainer>
+                        <FavoritesContainer>
+                            <ShowFavorites onClick={handleShowFavorites}>
+                                Show Favorites
+                            </ShowFavorites>
+                            <ListOfFavorites>
+                                {showFavorites &&
+                                    favCookie.map((location, index) => (
+                                        <FavoritesDiv
+                                            key={index}
+                                            onClick={() =>
+                                                handleFavClick(location)
+                                            }
+                                        >
+                                            <img
+                                                style={{
+                                                    width: '40px',
+                                                    height: '40px',
+                                                    marginRight: '15px'
+                                                }}
+                                                src={parkingMarker}
+                                                alt="liked place"
+                                            />
+
+                                            <span>{location.address}</span>
+                                        </FavoritesDiv>
+                                    ))}
+                            </ListOfFavorites>
+                        </FavoritesContainer>
                     </Left>
 
                     <Right>
@@ -509,7 +588,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     </>
                                 </InfoWindow>
                             )}
-
                             {locationInfo.length && parkingIcons && (
                                 <MarkerClusterer>
                                     {(clusterer) =>
@@ -538,7 +616,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     }
                                 </MarkerClusterer>
                             )}
-
                             {showInfoWindow && (
                                 <InfoWindow
                                     position={infoWindowPos}
@@ -569,24 +646,26 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                     <img
                                                         style={{
                                                             width: '20px',
-                                                            height: '20px'
+                                                            height: '20px',
+                                                            marginRight: '15px'
                                                         }}
                                                         src={favoritedIcon}
                                                         alt="liked place"
                                                     />
-                                                    <span>Unfavorite</span>
+                                                    <span>Favorited</span>
                                                 </>
                                             ) : (
                                                 <>
                                                     <img
                                                         style={{
                                                             width: '20px',
-                                                            height: '20px'
+                                                            height: '20px',
+                                                            marginRight: '15px'
                                                         }}
                                                         src={notfavoritedIcon}
                                                         alt="didnt like place"
                                                     />
-                                                    <span>Favorite</span>
+                                                    <span>Not favorited</span>
                                                 </>
                                             )}
                                         </LikeButton>
@@ -603,13 +682,47 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
 export default Map;
 
+const ListOfFavorites = styled.div`
+    margin-top: 30px;
+    padding: 0px 0px;
+    max-height: 300px;
+    overflow-y: auto;
+`;
+
+const FavoritesDiv = styled.div`
+    cursor: pointer;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    font-family: Roboto;
+    font-weight: 100;
+    margin: 10px 20px;
+    padding: 15px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+`;
+
+const FavoritesContainer = styled.div`
+    padding: 40px;
+`;
+
+const ShowFavorites = styled.button`
+    cursor: pointer;
+    width: 120px;
+    height: 32px;
+    background-color: white;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+`;
+
 const LikeButton = styled.button`
     display: flex;
-    justify-content: space-around;
     align-items: center;
     background-color: transparent;
     border: none;
-    width: 100px;
+    width: 130px;
     height: 30px;
 `;
 

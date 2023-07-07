@@ -1,26 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 
+// Weather component
 const Weather = ({ weatherInfo, foreCastInfo }) => {
+    // Array of days of the week
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+    // State variables for click event and day index
     const [isClicked, setIsClicked] = useState(false);
     const [dayIndex, setDayIndex] = useState(null);
 
     useEffect(() => {
+        // Find the index of the current day
         const weekDay = daysOfWeek.findIndex(
             (day) => day === Date(weatherInfo.dt * 1000).slice(0, 3)
         );
         setDayIndex(weekDay);
     }, [foreCastInfo]);
 
+    // Handle click event
     const handleClick = () => {
         setIsClicked(!isClicked);
     };
 
+    // State variable for forecast data
     const [foreCast, setForeCast] = useState({});
 
     useEffect(() => {
+        // Filter the forecast data to get the daily forecast
         if (foreCastInfo.list) {
             setForeCast(
                 foreCastInfo.list.filter(
@@ -30,6 +37,7 @@ const Weather = ({ weatherInfo, foreCastInfo }) => {
         }
     }, [foreCastInfo]);
 
+    // Fade in animation
     const fadeInAnimation = `
     @keyframes fadeIn {
       from {
@@ -106,6 +114,7 @@ const Weather = ({ weatherInfo, foreCastInfo }) => {
 
 export default Weather;
 
+// Styled component for the WeatherContainer
 const WeatherContainer = styled.div`
     cursor: pointer;
     z-index: 11;

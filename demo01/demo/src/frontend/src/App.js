@@ -9,7 +9,9 @@ import Map from './components/Main/Map/Map';
 import './App.css';
 import { getAllLocations } from './client';
 
+// App component
 const App = () => {
+    // State variables for weather data, forecast data, and locations
     const [weatherData, setWeatherData] = useState({});
     const [foreCastData, setForeCastData] = useState({});
     const [locations, setLocations] = useState([]);
@@ -50,6 +52,7 @@ const App = () => {
 
 export default App;
 
+// Styled component for the container
 const Container = styled.div`
     margin: 0;
     padding: 0;

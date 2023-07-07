@@ -482,7 +482,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     }
                                 >
                                     <CarParkInfoWindow>
-                                        <h3>Name: </h3>
+                                        <h3>Car Park Name: </h3>
                                         {infoWindowData.name}
                                         <h4>Zone: </h4>
                                         {infoWindowData.zone}
@@ -509,7 +509,6 @@ const defaultCircleOptions = {
     editable: false,
     visible: true
 };
-
 const threeHundredMetresCircle = {
     ...defaultCircleOptions,
     zIndex: 10,

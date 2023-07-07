@@ -7,24 +7,43 @@ import styled from 'styled-components';
 import Hero from './components/Hero/Hero';
 import Map from './components/Main/Map/Map';
 import './App.css';
-import {getAllLocations} from "./client";
+import { getAllLocations } from './client';
 
 const App = () => {
     const [weatherData, setWeatherData] = useState({});
     const [foreCastData, setForeCastData] = useState({});
     const [locations, setLocations] = useState([]);
 
-    useEffect(() => {
+    const fetchWeatherData = () =>
         getWeatherData().then((data) => setWeatherData(data));
+    const fetchForeCastData = () =>
         getWeatherForeCast().then((data) => setForeCastData(data));
-        getAllLocations().then((data) => setLocations(data));
+
+    useEffect(() => {
+        fetchForeCastData();
+        fetchWeatherData();
+
+        const intervalId = setInterval(() => {
+            fetchWeatherData();
+            fetchForeCastData();
+        }, 3600000);
+        return () => {
+            clearInterval(intervalId);
+        };
     }, []);
 
+    useEffect(() => {
+        getAllLocations().then((data) => setLocations(data));
+    }, []);
 
     return (
         <Container>
             <Hero />
-            <Map weatherInfo={weatherData} foreCastInfo={foreCastData} locationInfo = {locations}/>
+            <Map
+                weatherInfo={weatherData}
+                foreCastInfo={foreCastData}
+                locationInfo={locations}
+            />
         </Container>
     );
 };
@@ -36,7 +55,7 @@ const Container = styled.div`
     padding: 0;
     height: 100vh;
     scroll-snap-type: y mandatory;
-    scroll-behaviour: smooth;
+    scroll-behavior: smooth;
     overflow-y: auto;
     scrollbar-width: none;
     &::-webkit-scrollbar {

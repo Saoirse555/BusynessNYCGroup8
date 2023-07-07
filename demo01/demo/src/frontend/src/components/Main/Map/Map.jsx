@@ -260,7 +260,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             (results, status) => {
                 if (status === 'OK' && results.length > 0) {
                     const address = results[0].formatted_address;
-                    // console.log('address from geocoder: ', address);
                     setFavAddress(address);
                 } else {
                     console.error('Geocoder error:', status);
@@ -284,20 +283,15 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         geoCoder(place);
         const address = favAddress;
         if (address !== undefined) {
-            // console.log('Address found!');
             if (
                 favorites.some(
                     (places) =>
                         places.lat === place.lat && places.lng === place.lng
                 )
             ) {
-                // console.log('Place loc: ', place);
-                // console.log('Cookie before removal: ', favorites);
-                // console.log('Address', address);
                 const updatedArray = favorites.filter(
                     (obj) => obj.lat !== place.lat && obj.lng !== place.lng
                 );
-                // console.log('New cookie: ', updatedArray);
                 Cookies.set('favorites', JSON.stringify(updatedArray), {
                     expires: 30
                 });
@@ -316,8 +310,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                     expires: 30
                 });
                 setFavCookie(favorites);
-                // console.log('Added cookie');
-                // console.log(favCookie);
 
                 return;
             }
@@ -332,7 +324,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
     const handleShowFavorites = () => {
         setShowFavorites(!showFavorites);
-        // console.log(favCookie);
     };
 
     const handleFavClick = (location) => {
@@ -341,7 +332,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         const lng = location.lng;
         map.panTo({ lat: lat, lng: lng });
         map.setZoom(17);
-        // handleCarParkClick(location);
     };
 
     return (

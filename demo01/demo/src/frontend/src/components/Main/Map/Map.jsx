@@ -18,6 +18,9 @@ import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import Weather from '../Weather/Weather';
 import parkingMarker from './parking.svg';
 import locationMarker from './marker.svg';
+import Cookies from 'js-cookie';
+import favoritedIcon from './favorited_active.svg';
+import notfavoritedIcon from './favorited_empty.svg';
 
 // Map component
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
@@ -116,7 +119,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         if (map && destLocation) {
             map.panTo(destLocation);
             setDirections(null);
-            // console.log('destination changed');
         }
     }, [map, destLocation]);
 
@@ -246,6 +248,49 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             rate: rate
         }));
         console.log(showInfoWindow, infoWindowData, infoWindowPos);
+    };
+
+    const [favCookie, setFavCookie] = useState([]);
+
+    const getFavoriteFromCookie = () => {
+        const favoritesJSON = Cookies.get('favorites');
+        if (favoritesJSON) {
+            return JSON.parse(favoritesJSON);
+        }
+        return [];
+    };
+
+    const addFavoritePlace = (place) => {
+        const favorites = getFavoriteFromCookie();
+        if (
+            favorites.some(
+                (places) => places.lat === place.lat && places.lng === place.lng
+            )
+        ) {
+            console.log('Place loc: ', place);
+            console.log('Cookie before removal: ', favorites);
+            const updatedArray = favorites.filter(
+                (obj) => obj.lat !== place.lat && obj.lng !== place.lng
+            );
+            console.log('New cookie: ', updatedArray);
+            Cookies.set('favorites', JSON.stringify(updatedArray), {
+                expires: 30
+            });
+            setFavCookie(updatedArray);
+            return;
+        } else {
+            favorites.push(place);
+            Cookies.set('favorites', JSON.stringify(favorites), {
+                expires: 30
+            });
+            setFavCookie(favorites);
+            console.log('Added cookie');
+            return;
+        }
+    };
+
+    const handleAddFavorite = (location) => {
+        addFavoritePlace(location);
     };
 
     return (
@@ -508,6 +553,43 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         {infoWindowData.zone}
                                         <h4>Rate: </h4>
                                         {infoWindowData.rate}
+                                        <LikeButton
+                                            onClick={() =>
+                                                handleAddFavorite(infoWindowPos)
+                                            }
+                                        >
+                                            {favCookie.some(
+                                                (obj) =>
+                                                    obj.lat ===
+                                                        infoWindowPos.lat &&
+                                                    obj.lng ===
+                                                        infoWindowPos.lng
+                                            ) ? (
+                                                <>
+                                                    <img
+                                                        style={{
+                                                            width: '20px',
+                                                            height: '20px'
+                                                        }}
+                                                        src={favoritedIcon}
+                                                        alt="liked place"
+                                                    />
+                                                    <span>Unfavorite</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <img
+                                                        style={{
+                                                            width: '20px',
+                                                            height: '20px'
+                                                        }}
+                                                        src={notfavoritedIcon}
+                                                        alt="didnt like place"
+                                                    />
+                                                    <span>Favorite</span>
+                                                </>
+                                            )}
+                                        </LikeButton>
                                     </CarParkInfoWindow>
                                 </InfoWindow>
                             )}
@@ -520,6 +602,16 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 };
 
 export default Map;
+
+const LikeButton = styled.button`
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    width: 100px;
+    height: 30px;
+`;
 
 // Circle options for different distances
 const defaultCircleOptions = {

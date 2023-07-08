@@ -26,9 +26,12 @@ import notfavoritedIcon from './favorited_empty.svg';
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const zoom = 11.5;
     const [map, setMap] = useState(null);
+
     const inputStartRef = useRef();
     const inputDestRef = useRef();
+
     const [libraries] = useState(['places', 'marker']);
+
     const [startLocation, setStartLocation] = useState(null);
     const [destLocation, setDestLocation] = useState(null);
     const [selectedLocation, setSelectedLocation] = useState(null);
@@ -249,23 +252,24 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }));
     };
 
-    const [favAddress, setFavAddress] = useState('');
+    // const [favAddress, setFavAddress] = useState('');
 
-    const geoCoder = async (place) => {
-        const lat = place.lat;
-        const lng = place.lng;
-        const geocoder = new window.google.maps.Geocoder();
-        await geocoder.geocode(
-            { location: { lat, lng } },
-            (results, status) => {
+    const geoCoder = (place) => {
+        return new Promise((resolve, reject) => {
+            const lat = place.lat;
+            const lng = place.lng;
+            const geocoder = new window.google.maps.Geocoder();
+
+            geocoder.geocode({ location: { lat, lng } }, (results, status) => {
                 if (status === 'OK' && results.length > 0) {
                     const address = results[0].formatted_address;
-                    setFavAddress(address);
+                    resolve(address); // Resolve the promise with the address
                 } else {
                     console.error('Geocoder error:', status);
+                    reject(status); // Reject the promise with the error status
                 }
-            }
-        );
+            });
+        });
     };
 
     const [favCookie, setFavCookie] = useState([]);
@@ -278,10 +282,16 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         return [];
     };
 
+    useEffect(() => {
+        const fav = getFavoriteFromCookie();
+        setFavCookie(fav);
+    }, []);
+
     const addFavoritePlace = async (place) => {
         const favorites = getFavoriteFromCookie();
-        geoCoder(place);
-        const address = favAddress;
+        console.log('Current cookie state:', favCookie);
+        const address = await geoCoder(place);
+        // setFavAddress(address);
         if (address !== undefined) {
             if (
                 favorites.some(
@@ -297,7 +307,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                 });
 
                 setFavCookie(updatedArray);
-
                 return;
             } else {
                 const element = {
@@ -327,7 +336,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     };
 
     const handleFavClick = (location) => {
-        console.log(location);
         const lat = location.lat;
         const lng = location.lng;
         map.panTo({ lat: lat, lng: lng });
@@ -427,7 +435,10 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                             </EVCharging>
                         </AmenitiesContainer>
                         <FavoritesContainer>
-                            <ShowFavorites onClick={handleShowFavorites}>
+                            <ShowFavorites
+                                background={showFavorites}
+                                onClick={handleShowFavorites}
+                            >
                                 Show Favorites
                             </ShowFavorites>
                             <ListOfFavorites>
@@ -441,14 +452,13 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         >
                                             <img
                                                 style={{
-                                                    width: '40px',
-                                                    height: '40px',
+                                                    width: 'auto',
+                                                    height: '100%',
                                                     marginRight: '15px'
                                                 }}
                                                 src={parkingMarker}
                                                 alt="liked place"
                                             />
-
                                             <span>{location.address}</span>
                                         </FavoritesDiv>
                                     ))}
@@ -677,11 +687,21 @@ const ListOfFavorites = styled.div`
     padding: 0px 0px;
     max-height: 300px;
     overflow-y: auto;
+    @media screen and (max-width: 900px) {
+        max-height: 200px;
+    }
+    @media screen and (max-width: 400px) {
+        max-height: 132px;
+        margin-top: 5px;
+    }
 `;
 
 const FavoritesDiv = styled.div`
     cursor: pointer;
+    height: 72px;
+    background-color: aliceblue;
     display: flex;
+    flex-direction: row;
     justify-content: left;
     align-items: center;
     font-family: Roboto;
@@ -691,20 +711,33 @@ const FavoritesDiv = styled.div`
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 10px;
+    @media screen and (max-width: 900px) {
+        padding: 5px;
+    }
+    @media screen and (max-width: 400px) {
+        height: 28px;
+        padding: 4px;
+        font-size: 0.5rem;
+    }
 `;
 
 const FavoritesContainer = styled.div`
-    padding: 40px;
+    padding: 36px;
 `;
 
 const ShowFavorites = styled.button`
+    background-color: ${(props) =>
+        props.background ? 'aliceblue' : '#ffffff'};
     cursor: pointer;
     width: 120px;
     height: 32px;
-    background-color: white;
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 10px;
+    @media screen and (max-width: 400px) {
+        height: 28px;
+        font-size: 0.75rem;
+    }
 `;
 
 const LikeButton = styled.button`
@@ -795,7 +828,6 @@ const HourSelector = styled.select`
         padding: 0;
     }
 `;
-
 const AmenitiesContainer = styled.div`
     display: flex;
     flex-direction: row;
@@ -806,7 +838,8 @@ const AmenitiesContainer = styled.div`
     padding-top: 40px;
 `;
 const CarParks = styled.button`
-    background-color: ${(props) => (props.background ? '#ff6666' : '#ffffff')};
+    background-color: ${(props) =>
+        props.background ? 'aliceblue' : '#ffffff'};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -819,7 +852,8 @@ const CarParks = styled.button`
 `;
 const PetrolStations = styled.button`
     cursor: pointer;
-    background-color: ${(props) => (props.background ? '#ff6666' : '#ffffff')};
+    background-color: ${(props) =>
+        props.background ? 'aliceblue' : '#ffffff'};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -831,7 +865,8 @@ const PetrolStations = styled.button`
 `;
 const EVCharging = styled.button`
     cursor: pointer;
-    background-color: ${(props) => (props.background ? '#ff6666' : '#ffffff')};
+    background-color: ${(props) =>
+        props.background ? 'aliceblue' : '#ffffff'};
     display: flex;
     justify-content: center;
     align-items: center;

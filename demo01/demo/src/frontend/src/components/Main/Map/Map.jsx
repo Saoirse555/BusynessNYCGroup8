@@ -21,6 +21,8 @@ import locationMarker from './marker.svg';
 import Cookies from 'js-cookie';
 import favoritedIcon from './favorited_active.svg';
 import notfavoritedIcon from './favorited_empty.svg';
+import { Alert } from 'antd';
+import Marquee from 'react-fast-marquee';
 
 // Map component
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
@@ -350,6 +352,16 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                     <TitleMarker src="../../img/marker.png" alt="red-marker" />
                 </PageTitle>
             </PageHeader>
+            <>
+                <Alert
+                    banner
+                    message={
+                    <Marquee pauseOnHover gradient={false}>
+                        This is a current traffic alert.
+                    </Marquee>
+                    }
+                />
+                </>
             <Container>
                 <LoadScript
                     googleMapsApiKey="AIzaSyDQxFVWqXZ4sTsX7_Zsf6Hio3J4nr7_wgY"

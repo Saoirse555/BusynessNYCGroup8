@@ -16,6 +16,7 @@ const App = () => {
     const [foreCastData, setForeCastData] = useState({});
     const [locations, setLocations] = useState([]);
 
+
     // Fetch weather data. forecast data, and all parking locations on component mount
 
     //Fetch weather data

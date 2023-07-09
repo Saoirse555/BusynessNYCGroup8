@@ -21,8 +21,9 @@ import locationMarker from './marker.svg';
 import Cookies from 'js-cookie';
 import favoritedIcon from './favorited_active.svg';
 import notfavoritedIcon from './favorited_empty.svg';
-import { Alert } from 'antd';
+import { Alert, Collapse } from 'antd';
 import Marquee from 'react-fast-marquee';
+
 
 // Map component
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
@@ -344,6 +345,27 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         map.setZoom(17);
     };
 
+    const text = `
+        Information of the recommended facility.
+        `;
+    const items = [
+        {
+            key: '1',
+            label: 'This is Recommendation 1',
+            children: <p>{text}</p>,
+        },
+        {
+            key: '2',
+            label: 'This is Recommendation 2',
+            children: <p>{text}</p>,
+        },
+        {
+            key: '3',
+            label: 'This is Recommendation 3',
+            children: <p>{text}</p>,
+        },
+    ];
+
     return (
         <PageContainer id="main">
             <PageHeader>
@@ -422,6 +444,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 ))}
                             </HourSelector>
                         </Selector>
+
                         <AmenitiesContainer>
                             <CarParks
                                 background={parkingIcons}
@@ -445,7 +468,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                             >
                                 <EvStationIcon color={'success'} />
                             </EVCharging>
-                        </AmenitiesContainer>
+                        </AmenitiesContainer>                     
+
                         <FavoritesContainer>
                             <ShowFavorites
                                 background={showFavorites}
@@ -476,6 +500,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     ))}
                             </ListOfFavorites>
                         </FavoritesContainer>
+                        
+                        <StyledCollapse accordion items={items} />  
+
                     </Left>
 
                     <Right>
@@ -841,6 +868,7 @@ const HourSelector = styled.select`
     }
 `;
 const AmenitiesContainer = styled.div`
+    flex: 0 0 auto;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -848,7 +876,8 @@ const AmenitiesContainer = styled.div`
     width: 100%;
     height: 40px;
     padding-top: 40px;
-`;
+    `;
+
 const CarParks = styled.button`
     background-color: ${(props) =>
         props.background ? 'aliceblue' : '#ffffff'};
@@ -978,4 +1007,38 @@ const TitleMarker = styled.img`
     width: 1.5rem;
     height: auto;
     margin-left: 10px;
+`;
+const StyledCollapse = styled(Collapse)`
+  .ant-collapse {
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    position: flex;
+    top: 20px; 
+    left: 10;
+    right: 10;
+  }
+
+  .ant-collapse-item {
+    background-color: #ffffff;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+
+  .ant-collapse-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .ant-collapse-header {
+    background-color: #f0f0f0;
+    padding: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .ant-collapse-content {
+    padding: 16px;
+  }
 `;

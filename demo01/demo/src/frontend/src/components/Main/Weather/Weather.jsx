@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styled, { keyframes, css } from 'styled-components';
+import styled from 'styled-components';
 
 // Weather component
 const Weather = ({ weatherInfo, foreCastInfo }) => {
@@ -13,7 +13,7 @@ const Weather = ({ weatherInfo, foreCastInfo }) => {
     useEffect(() => {
         // Find the index of the current day
         const weekDay = daysOfWeek.findIndex(
-            (day) => day === Date(weatherInfo.dt * 1000).slice(0, 3)
+            (day) => day === Date(weatherInfo?.dt * 1000).slice(0, 3)
         );
         setDayIndex(weekDay);
     }, [foreCastInfo]);
@@ -51,8 +51,8 @@ const Weather = ({ weatherInfo, foreCastInfo }) => {
 
     return (
         <WeatherContainer onClick={handleClick} expanded={isClicked}>
-            {Object.keys(weatherInfo).length !== 0 &&
-            Object.keys(foreCastInfo).length !== 0 ? (
+            {Object.keys(weatherInfo)?.length !== 0 &&
+            Object.keys(foreCastInfo)?.length !== 0 ? (
                 !isClicked ? (
                     <div
                         style={{

@@ -37,7 +37,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [selectedLocPosition, setSelectedLocPosition] = useState(null);
 
-    const [parkingIcons, setParkingIcons] = useState(false);
+    const [parkingIcons, setParkingIcons] = useState(true);
     const [petrolStationIcons, setPetrolStationIcons] = useState(false);
     const [evChargingIcons, setevChargingIcons] = useState(false);
 
@@ -588,7 +588,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     </>
                                 </InfoWindow>
                             )}
-                            {locationInfo.length && parkingIcons && (
+                            {locationInfo?.length && parkingIcons && (
                                 <MarkerClusterer>
                                     {(clusterer) =>
                                         locationInfo.map((carPark, index) => (

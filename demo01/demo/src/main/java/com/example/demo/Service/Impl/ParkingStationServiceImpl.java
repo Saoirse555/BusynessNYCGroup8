@@ -71,6 +71,6 @@ public class ParkingStationServiceImpl implements ParkingStationService {
         double centerX = totalX / coordinates.size();
         double centerY = totalY / coordinates.size();
 
-        return new Point(centerX, centerY);
+        return new Point(centerY, centerX);
     }
 }

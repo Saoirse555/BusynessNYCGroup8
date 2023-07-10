@@ -51,8 +51,10 @@ const Weather = ({ weatherInfo, foreCastInfo }) => {
 
     return (
         <WeatherContainer onClick={handleClick} expanded={isClicked}>
+         {/* Check if weatherInfo and foreCastInfo objects have data */}
             {Object.keys(weatherInfo)?.length !== 0 &&
             Object.keys(foreCastInfo)?.length !== 0 ? (
+                // Display current weather information if not clicked
                 !isClicked ? (
                     <div
                         style={{
@@ -61,6 +63,7 @@ const Weather = ({ weatherInfo, foreCastInfo }) => {
                             alignItems: 'center'
                         }}
                     >
+                        {/* Display date, weather icon, and temperature */}
                         {Date(weatherInfo.dt * 1000).slice(0, 3)}
                         <img
                             src={`http://openweathermap.org/img/wn/${weatherInfo.weather[0].icon}.png`}
@@ -71,6 +74,7 @@ const Weather = ({ weatherInfo, foreCastInfo }) => {
                         {Math.round(weatherInfo.main.temp - 273.15)}°C
                     </div>
                 ) : (
+                    // Display forecast information if clicked
                     <div
                         style={{
                             display: 'flex',
@@ -82,7 +86,9 @@ const Weather = ({ weatherInfo, foreCastInfo }) => {
                         }}
                     >
                         <style>{fadeInAnimation}</style>
+                        {/* Check if foreCast array exists */}
                         {foreCast ? (
+                            // Map through the forecast array and display weather details
                             foreCast.map((weather, index) => (
                                 <div key={index} style={{ padding: '10px' }}>
                                     <img
@@ -106,6 +112,7 @@ const Weather = ({ weatherInfo, foreCastInfo }) => {
                     </div>
                 )
             ) : (
+                // Display loading message if weather data is not available
                 <p>Loading...</p>
             )}
         </WeatherContainer>

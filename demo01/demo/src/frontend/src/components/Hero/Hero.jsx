@@ -14,20 +14,24 @@ const Hero = () => {
                 <Text>Your Parking Assistant</Text>
                 <Skyline src="../img/skyline.jpeg" />
             </Left>
+
             <Right>
                 <ToMap>
                     <a href="#main">MAP</a>
                 </ToMap>
                 <BigLine src="../img/line_large.svg" />
             </Right>
+
             <Ground>
                 <TextMobile>
                     Your Perfect Parking Companion! Discover hassle-free parking
                     spots on the go.
                 </TextMobile>
             </Ground>
+
             <CarShadow src="../img/shadow.svg" />
             <Car src="../img/car.png" />
+            
         </Container>
     );
 };

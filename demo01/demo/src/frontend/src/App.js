@@ -16,25 +16,29 @@ const App = () => {
     const [foreCastData, setForeCastData] = useState({});
     const [locations, setLocations] = useState([]);
 
+
     // Fetch weather data. forecast data, and all parking locations on component mount
 
     //Fetch weather data
     const fetchWeatherData = () =>
         getWeatherData().then((data) => setWeatherData(data));
 
-    //Fetch forecast data
+    //Fetch forecast weather data
     const fetchForeCastData = () =>
         getWeatherForeCast().then((data) => setForeCastData(data));
 
-    //Fetch weather and forecast data every 3,600,000 milliseconds
+    //Fetch weather and forecast data every 3,600,000 milliseconds (every hour)
     useEffect(() => {
         fetchForeCastData();
         fetchWeatherData();
 
+    // Fetch weather and forecast data at regular intervals    
         const intervalId = setInterval(() => {
             fetchWeatherData();
             fetchForeCastData();
         }, 3600000);
+
+    // Clean up the interval when the component unmounts
         return () => {
             clearInterval(intervalId);
         };

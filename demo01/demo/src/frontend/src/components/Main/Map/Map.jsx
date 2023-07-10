@@ -21,6 +21,9 @@ import locationMarker from './marker.svg';
 import Cookies from 'js-cookie';
 import favoritedIcon from './favorited_active.svg';
 import notfavoritedIcon from './favorited_empty.svg';
+import { Alert, Collapse } from 'antd';
+import Marquee from 'react-fast-marquee';
+import { getDistance } from 'geolib';
 
 // Map component
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
@@ -73,6 +76,21 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             setDestLocation({ lat, lng });
         }
     };
+
+    // useEffect(() => {
+    //     console.log({ destLocation });
+    //     if (destLocation !== null) {
+    //         const distances = locationInfo.map((carPark) => {
+    //             const distanceToCarPark = getDistance(
+    //                 {
+    //                     latitude: carPark.coordinates.latitude,
+    //                     longitude: carPark.coordinates.longitude
+    //                 },
+    //                 { latitude: destLocation.lat, longitude: destLocation.lng }
+    //             );
+    //         });
+    //     }
+    // }, [destLocation]);
 
     const onLoad = (map) => {
         // Load the map and GeoJSON data
@@ -254,6 +272,12 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             zone: zone,
             rate: rate
         }));
+
+        // const dis = getDistance(
+        //     { latitude: lat, longitude: lng },
+        //     { latitude: destLocation.lat, longitude: destLocation.lng }
+        // );
+        // console.log('Distance from destination (m): ', dis);
     };
 
     // const [favAddress, setFavAddress] = useState('');
@@ -346,10 +370,39 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         map.setZoom(17);
     };
 
-    // const handleMapClick = () => {
-    //     setShowInfoWindow(false);
-    //     console.log('Show info window: ', showInfoWindow);
+    const text = `
+        Information of the recommended facility.
+        `;
+    const items = [
+        {
+            key: '1',
+            label: 'This is Recommendation 1',
+            children: <p>{text}</p>
+        },
+        {
+            key: '2',
+            label: 'This is Recommendation 2',
+            children: <p>{text}</p>
+        },
+        {
+            key: '3',
+            label: 'This is Recommendation 3',
+            children: <p>{text}</p>
+        }
+    ];
+
+    // const distanceFinder = (coord1, coord2) => {
+    //     const distance = getDistance(coord1, coord2);
+    //     console.log(distance);
+    //     return distance;
     // };
+
+    const [sliderValue, setSliderValue] = useState(1000);
+
+    const handleSliderChange = (e) => {
+        const value = parseInt(e.target.value);
+        setSliderValue(value);
+    };
 
     return (
         <PageContainer id="main">
@@ -359,12 +412,21 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                     <TitleMarker src="../../img/marker.png" alt="red-marker" />
                 </PageTitle>
             </PageHeader>
+            <></>
             <Container>
                 <LoadScript
                     googleMapsApiKey="AIzaSyDQxFVWqXZ4sTsX7_Zsf6Hio3J4nr7_wgY"
                     libraries={libraries}
                 >
                     <Left>
+                        <Alert
+                            banner
+                            message={
+                                <Marquee pauseOnHover gradient={false}>
+                                    This is a current traffic alert.
+                                </Marquee>
+                            }
+                        />
                         <InputContainer>
                             <StandaloneSearchBox
                                 options={SearchOptions}
@@ -419,6 +481,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 ))}
                             </HourSelector>
                         </Selector>
+
                         <AmenitiesContainer>
                             <CarParks
                                 background={parkingIcons}
@@ -443,6 +506,21 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 <EvStationIcon color={'success'} />
                             </EVCharging>
                         </AmenitiesContainer>
+                        <RangeText>
+                            {destLocation
+                                ? 'Max distance between destination and car parks:'
+                                : 'Enter a valid destination to show nearby car parks.'}
+                        </RangeText>
+                        <RangeSlider
+                            type="range"
+                            min={0}
+                            max={5000}
+                            value={sliderValue}
+                            onChange={handleSliderChange}
+                            disabled={destLocation ? false : true}
+                        />
+                        <SliderValue>Value: {sliderValue}m</SliderValue>
+
                         <FavoritesContainer>
                             <ShowFavorites
                                 background={showFavorites}
@@ -473,6 +551,10 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     ))}
                             </ListOfFavorites>
                         </FavoritesContainer>
+
+                        {!showFavorites && (
+                            <StyledCollapse accordion items={items} />
+                        )}
                     </Left>
 
                     <Right>
@@ -481,6 +563,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                             foreCastInfo={foreCastInfo}
                         />
                         <GoogleMap
+                            onClick={() => setShowInfoWindow(false)}
                             center={center}
                             zoom={zoom}
                             mapContainerStyle={{
@@ -566,6 +649,12 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         radius={1000}
                                         options={kiloMetresCircle}
                                     />
+
+                                    <Circle
+                                        center={destLocation}
+                                        radius={sliderValue}
+                                        options={rangeCircle}
+                                    />
                                 </>
                             )}
                             {directions && (
@@ -597,34 +686,86 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     </>
                                 </InfoWindow>
                             )}
-                            {locationInfo?.length && parkingIcons && (
-                                <MarkerClusterer>
-                                    {(clusterer) =>
-                                        locationInfo.map((carPark, index) => (
-                                            <Marker
-                                                onClick={() =>
-                                                    handleCarParkClick(carPark)
-                                                }
-                                                clusterer={clusterer}
-                                                icon={{
-                                                    url: parkingMarker,
-                                                    scaledSize: {
-                                                        height: 64,
-                                                        width: 32
-                                                    }
-                                                }}
-                                                key={index}
-                                                position={{
-                                                    lat: carPark.coordinates
+                            {locationInfo?.length &&
+                                parkingIcons &&
+                                !destLocation && (
+                                    <MarkerClusterer>
+                                        {(clusterer) =>
+                                            locationInfo.map(
+                                                (carPark, index) => (
+                                                    <Marker
+                                                        onClick={() =>
+                                                            handleCarParkClick(
+                                                                carPark
+                                                            )
+                                                        }
+                                                        clusterer={clusterer}
+                                                        icon={{
+                                                            url: parkingMarker,
+                                                            scaledSize: {
+                                                                height: 64,
+                                                                width: 32
+                                                            }
+                                                        }}
+                                                        key={index}
+                                                        position={{
+                                                            lat: carPark
+                                                                .coordinates
+                                                                .latitude,
+                                                            lng: carPark
+                                                                .coordinates
+                                                                .longitude
+                                                        }}
+                                                    />
+                                                )
+                                            )
+                                        }
+                                    </MarkerClusterer>
+                                )}
+
+                            {locationInfo?.length &&
+                                destLocation &&
+                                locationInfo.map((carPark, index) =>
+                                    Number(
+                                        getDistance(
+                                            {
+                                                latitude: destLocation.lat,
+                                                longitude: destLocation.lng
+                                            },
+                                            {
+                                                latitude:
+                                                    carPark.coordinates
                                                         .latitude,
-                                                    lng: carPark.coordinates
+                                                longitude:
+                                                    carPark.coordinates
                                                         .longitude
-                                                }}
-                                            />
-                                        ))
-                                    }
-                                </MarkerClusterer>
-                            )}
+                                            }
+                                        )
+                                    ) < sliderValue ? (
+                                        <Marker
+                                            onClick={() =>
+                                                handleCarParkClick(carPark)
+                                            }
+                                            icon={{
+                                                url: parkingMarker,
+                                                scaledSize: {
+                                                    height: 64,
+                                                    width: 32
+                                                }
+                                            }}
+                                            key={index}
+                                            position={{
+                                                lat: carPark.coordinates
+                                                    .latitude,
+                                                lng: carPark.coordinates
+                                                    .longitude
+                                            }}
+                                        />
+                                    ) : (
+                                        ''
+                                    )
+                                )}
+
                             {showInfoWindow && (
                                 <InfoWindow
                                     position={infoWindowPos}
@@ -690,6 +831,25 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 };
 
 export default Map;
+
+const RangeSlider = styled.input`
+    margin-left: 30px;
+    margin-top: 10px;
+    width: 350px;
+`;
+
+const RangeText = styled.h4`
+    margin-top: 36px;
+    margin-left: 30px;
+    font-family: Roboto;
+    font-weight: 100;
+`;
+
+const SliderValue = styled.span`
+    margin-left: 10px;
+    font-family: Roboto;
+    font-weight: 100;
+`;
 
 const ListOfFavorites = styled.div`
     margin-top: 30px;
@@ -789,6 +949,14 @@ const kiloMetresCircle = {
     fillColor: 'transparent'
 };
 
+const rangeCircle = {
+    ...defaultCircleOptions,
+    zIndex: 8,
+    fillOpacity: 0.15,
+    strokeColor: 'white',
+    fillColor: 'transparent'
+};
+
 const CarParkInfoWindow = styled.div`
     display: flex;
     flex-direction: column;
@@ -838,6 +1006,7 @@ const HourSelector = styled.select`
     }
 `;
 const AmenitiesContainer = styled.div`
+    flex: 0 0 auto;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -846,6 +1015,7 @@ const AmenitiesContainer = styled.div`
     height: 40px;
     padding-top: 40px;
 `;
+
 const CarParks = styled.button`
     background-color: ${(props) =>
         props.background ? 'aliceblue' : '#ffffff'};
@@ -975,4 +1145,38 @@ const TitleMarker = styled.img`
     width: 1.5rem;
     height: auto;
     margin-left: 10px;
+`;
+const StyledCollapse = styled(Collapse)`
+    .ant-collapse {
+        background-color: #f5f5f5;
+        border-radius: 4px;
+        position: flex;
+        top: 20px;
+        left: 10;
+        right: 10;
+    }
+
+    .ant-collapse-item {
+        background-color: #ffffff;
+        border: none;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+
+    .ant-collapse-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .ant-collapse-header {
+        background-color: #f0f0f0;
+        padding: 16px;
+        font-weight: bold;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .ant-collapse-content {
+        padding: 16px;
+    }
 `;

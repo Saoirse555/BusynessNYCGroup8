@@ -391,12 +391,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
     ];
 
-    // const distanceFinder = (coord1, coord2) => {
-    //     const distance = getDistance(coord1, coord2);
-    //     console.log(distance);
-    //     return distance;
-    // };
-
     const [sliderValue, setSliderValue] = useState(1000);
 
     const handleSliderChange = (e) => {
@@ -634,7 +628,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         }}
                                     />
 
-                                    <Circle
+                                    {/* <Circle
                                         center={destLocation}
                                         radius={300}
                                         options={threeHundredMetresCircle}
@@ -648,7 +642,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         center={destLocation}
                                         radius={1000}
                                         options={kiloMetresCircle}
-                                    />
+                                    /> */}
 
                                     <Circle
                                         center={destLocation}
@@ -927,27 +921,27 @@ const defaultCircleOptions = {
     editable: false,
     visible: true
 };
-const threeHundredMetresCircle = {
-    ...defaultCircleOptions,
-    zIndex: 10,
-    fillOpacity: 0.5,
-    strokeColor: '#00FF00',
-    fillColor: 'transparent'
-};
-const sixHundredMetresCircle = {
-    ...defaultCircleOptions,
-    zIndex: 9,
-    fillOpacity: 0.25,
-    strokeColor: '#FFFF00',
-    fillColor: 'transparent'
-};
-const kiloMetresCircle = {
-    ...defaultCircleOptions,
-    zIndex: 8,
-    fillOpacity: 0.15,
-    strokeColor: '#FF5252',
-    fillColor: 'transparent'
-};
+// const threeHundredMetresCircle = {
+//     ...defaultCircleOptions,
+//     zIndex: 10,
+//     fillOpacity: 0.5,
+//     strokeColor: '#00FF00',
+//     fillColor: 'transparent'
+// };
+// const sixHundredMetresCircle = {
+//     ...defaultCircleOptions,
+//     zIndex: 9,
+//     fillOpacity: 0.25,
+//     strokeColor: '#FFFF00',
+//     fillColor: 'transparent'
+// };
+// const kiloMetresCircle = {
+//     ...defaultCircleOptions,
+//     zIndex: 8,
+//     fillOpacity: 0.15,
+//     strokeColor: '#FF5252',
+//     fillColor: 'transparent'
+// };
 
 const rangeCircle = {
     ...defaultCircleOptions,

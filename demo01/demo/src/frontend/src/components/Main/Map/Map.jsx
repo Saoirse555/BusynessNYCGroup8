@@ -41,6 +41,14 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const [petrolStationIcons, setPetrolStationIcons] = useState(false);
     const [evChargingIcons, setevChargingIcons] = useState(false);
 
+    const [showInfoWindow, setShowInfoWindow] = useState(false);
+    const [infoWindowPos, setInfoWindowPos] = useState();
+    const [infoWindowData, setInfoWindowData] = useState({
+        name: '',
+        zone: '',
+        rate: ''
+    });
+
     const center = useMemo(() => ({ lat: 40.7826, lng: -73.9656 }), []);
 
     const handleStartPlaceChange = async () => {
@@ -83,10 +91,12 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         console.log('GeoJSON Loaded');
         // Show info window for the clicked location
         geoJsonLayer.addListener('click', async (e) => {
+            setShowInfoWindow(false);
             setSelectedLocPosition({
                 lat: e.latLng.lat(),
                 lng: e.latLng.lng()
             });
+
             setSelectedLocation(e.feature.getProperty('location_id'));
         });
     };
@@ -227,20 +237,14 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         console.log('User chose the hour: ', pickedHour);
     };
 
-    const [showInfoWindow, setShowInfoWindow] = useState(false);
-    const [infoWindowPos, setInfoWindowPos] = useState();
-    const [infoWindowData, setInfoWindowData] = useState({
-        name: '',
-        zone: '',
-        rate: ''
-    });
-
     // Handles the click on a car park marker and displays the info window
     const handleCarParkClick = (locationInfo) => {
+        setSelectedLocation(null);
         setShowInfoWindow(true);
         const lat = locationInfo.coordinates.latitude;
         const lng = locationInfo.coordinates.longitude;
-        setInfoWindowPos({ lat: lat, lng: lng });
+        //Set the info window position on the map. Adding a tiny bit to lat displayes it just above the parking icon...
+        setInfoWindowPos({ lat: lat + 0.0004, lng: lng });
         const name = locationInfo.parkingStationName;
         const zone = locationInfo.rateZone;
         const rate = locationInfo.zoneInfo;
@@ -341,6 +345,11 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         map.panTo({ lat: lat, lng: lng });
         map.setZoom(17);
     };
+
+    // const handleMapClick = () => {
+    //     setShowInfoWindow(false);
+    //     console.log('Show info window: ', showInfoWindow);
+    // };
 
     return (
         <PageContainer id="main">

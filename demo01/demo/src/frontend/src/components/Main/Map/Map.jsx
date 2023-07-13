@@ -61,10 +61,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         if (startPlace) {
             const lat = await startPlace.geometry.location.lat();
             const lng = await startPlace.geometry.location.lng();
-            // console.log('start: ', { lat }, { lng });
             setStartLocation({ lat, lng });
         }
-        // console.log({ startPlace });
     };
 
     const handleDestPlaceChange = async () => {
@@ -77,21 +75,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             setDestLocation({ lat, lng });
         }
     };
-
-    // useEffect(() => {
-    //     console.log({ destLocation });
-    //     if (destLocation !== null) {
-    //         const distances = locationInfo.map((carPark) => {
-    //             const distanceToCarPark = getDistance(
-    //                 {
-    //                     latitude: carPark.coordinates.latitude,
-    //                     longitude: carPark.coordinates.longitude
-    //                 },
-    //                 { latitude: destLocation.lat, longitude: destLocation.lng }
-    //             );
-    //         });
-    //     }
-    // }, [destLocation]);
 
     const onLoad = (map) => {
         // Load the map and GeoJSON data
@@ -270,7 +253,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         const zone = locationInfo.rateZone;
         const rate = locationInfo.zoneInfo;
         const zoneID = locationInfo.locationId;
-        console.log({ locationInfo });
+        // console.log({ locationInfo });
         setInfoWindowData((previousLocation) => ({
             ...previousLocation,
             name: name,
@@ -278,15 +261,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             rate: rate,
             zoneID: zoneID
         }));
-
-        // const dis = getDistance(
-        //     { latitude: lat, longitude: lng },
-        //     { latitude: destLocation.lat, longitude: destLocation.lng }
-        // );
-        // console.log('Distance from destination (m): ', dis);
     };
-
-    // const [favAddress, setFavAddress] = useState('');
 
     const geoCoder = (place) => {
         return new Promise((resolve, reject) => {
@@ -323,9 +298,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
     const addFavoritePlace = async (place) => {
         const favorites = getFavoriteFromCookie();
-        console.log('Current cookie state:', favCookie);
         const address = await geoCoder(place);
-        // setFavAddress(address);
         if (address !== undefined) {
             if (
                 favorites.some(
@@ -337,7 +310,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                     (obj) => obj.lat !== place.lat && obj.lng !== place.lng
                 );
                 Cookies.set('favorites', JSON.stringify(updatedArray), {
-                    expires: 30
+                    SameSite: 'Strict',
+                    secure: true,
+                    expires: Infinity
                 });
 
                 setFavCookie(updatedArray);
@@ -366,42 +341,99 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const [showFavorites, setShowFavorites] = useState(false);
 
     const handleShowFavorites = () => {
-        setShowFavorites(!showFavorites);
+        if (!showFavorites) {
+            setShowFavorites(true);
+            setShowRecommended(false);
+        } else {
+            setShowFavorites(false);
+        }
     };
 
     const handleFavClick = (location) => {
-        const lat = location.lat;
-        const lng = location.lng;
-        map.panTo({ lat: lat, lng: lng });
-        map.setZoom(17);
+        if (location.lat) {
+            const lat = location.lat;
+            const lng = location.lng;
+            map.panTo({ lat: lat, lng: lng });
+            map.setZoom(17);
+        } else {
+            const lat = location.coordinates.latitude;
+            const lng = location.coordinates.longitude;
+            map.panTo({ lat: lat, lng: lng });
+            map.setZoom(17);
+        }
     };
 
-    const text = `
-        Information of the recommended facility.
-        `;
-    const items = [
-        {
-            key: '1',
-            label: 'This is Recommendation 1',
-            children: <p>{text}</p>
-        },
-        {
-            key: '2',
-            label: 'This is Recommendation 2',
-            children: <p>{text}</p>
-        },
-        {
-            key: '3',
-            label: 'This is Recommendation 3',
-            children: <p>{text}</p>
-        }
-    ];
-
-    const [sliderValue, setSliderValue] = useState(1000);
+    const [sliderValue, setSliderValue] = useState(100);
 
     const handleSliderChange = (e) => {
         const value = parseInt(e.target.value);
         setSliderValue(value);
+    };
+
+    const [recommendArray, setRecommendArray] = useState([]);
+    const [threeClosestParks, setThreeClosestParks] = useState([]);
+
+    useEffect(() => {
+        const recommended = [];
+        locationInfo.map((location, index) => {
+            if (destLocation) {
+                const distanceA = getDistance(
+                    {
+                        latitude: destLocation.lat,
+                        longitude: destLocation.lng
+                    },
+                    {
+                        latitude: location.coordinates.latitude,
+                        longitude: location.coordinates.longitude
+                    }
+                );
+                if (distanceA < sliderValue) {
+                    recommended.push(location);
+                }
+            }
+        });
+        setRecommendArray(recommended);
+        console.log({ recommendArray });
+    }, [sliderValue, destLocation]);
+
+    useEffect(() => {
+        const sortArray = [...recommendArray].sort((a, b) => {
+            const distA = getDistance(
+                {
+                    latitude: destLocation.lat,
+                    longitude: destLocation.lng
+                },
+                {
+                    latitude: a.coordinates.latitude,
+                    longitude: a.coordinates.longitude
+                }
+            );
+            const distB = getDistance(
+                {
+                    latitude: destLocation.lat,
+                    longitude: destLocation.lng
+                },
+                {
+                    latitude: b.coordinates.latitude,
+                    longitude: b.coordinates.longitude
+                }
+            );
+            return distA - distB;
+        });
+        console.log({ sortArray });
+        setThreeClosestParks(sortArray.slice(0, 5));
+        console.log({ threeClosestParks });
+    }, [recommendArray]);
+
+    const [showRecommended, setShowRecommended] = useState(false);
+
+    const handleShowRecommended = () => {
+        if (!showRecommended) {
+            setShowRecommended(true);
+            setShowFavorites(false);
+        } else {
+            setShowRecommended(false);
+        }
     };
 
     return (
@@ -412,7 +444,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                     <TitleMarker src="../../img/marker.png" alt="red-marker" />
                 </PageTitle>
             </PageHeader>
-            <></>
             <Container>
                 <LoadScript
                     googleMapsApiKey="AIzaSyDQxFVWqXZ4sTsX7_Zsf6Hio3J4nr7_wgY"
@@ -528,33 +559,101 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                             >
                                 Show Favorites
                             </ShowFavorites>
+                            <ShowRecommended
+                                background={showRecommended}
+                                onClick={handleShowRecommended}
+                            >
+                                Show Recommended
+                            </ShowRecommended>
                             <ListOfFavorites>
                                 {showFavorites &&
-                                    favCookie.map((location, index) => (
-                                        <FavoritesDiv
-                                            key={index}
-                                            onClick={() =>
-                                                handleFavClick(location)
-                                            }
-                                        >
-                                            <img
-                                                style={{
-                                                    width: 'auto',
-                                                    height: '100%',
-                                                    marginRight: '15px'
-                                                }}
-                                                src={parkingMarker}
-                                                alt="liked place"
-                                            />
-                                            <span>{location.address}</span>
-                                        </FavoritesDiv>
+                                    (favCookie.length > 0 ? (
+                                        favCookie.map((location, index) => (
+                                            <FavoritesDiv
+                                                key={index}
+                                                onClick={() =>
+                                                    handleFavClick(location)
+                                                }
+                                            >
+                                                <img
+                                                    style={{
+                                                        width: 'auto',
+                                                        height: '100%',
+                                                        marginRight: '15px'
+                                                    }}
+                                                    src={parkingMarker}
+                                                    alt="liked place"
+                                                />
+                                                <span>{location.address}</span>
+                                            </FavoritesDiv>
+                                        ))
+                                    ) : (
+                                        <EmptyCookieText>
+                                            No favorites to show.
+                                        </EmptyCookieText>
+                                    ))}
+                                {showRecommended &&
+                                    (threeClosestParks.length > 0 ? (
+                                        threeClosestParks.map(
+                                            (location, index) => (
+                                                <FavoritesDiv
+                                                    key={index}
+                                                    onClick={() =>
+                                                        handleFavClick(location)
+                                                    }
+                                                >
+                                                    {' '}
+                                                    {index + 1}
+                                                    {'.'}
+                                                    <img
+                                                        style={{
+                                                            width: 'auto',
+                                                            height: '100%',
+                                                            marginRight: '15px',
+                                                            paddingLeft: '20px'
+                                                        }}
+                                                        src={parkingMarker}
+                                                        alt="liked place"
+                                                    />
+                                                    <span>
+                                                        {
+                                                            location.parkingStationName
+                                                        }{' '}
+                                                        car park -{' '}
+                                                        {getDistance(
+                                                            {
+                                                                latitude:
+                                                                    destLocation.lat,
+                                                                longitude:
+                                                                    destLocation.lng
+                                                            },
+                                                            {
+                                                                latitude:
+                                                                    location
+                                                                        .coordinates
+                                                                        .latitude,
+                                                                longitude:
+                                                                    location
+                                                                        .coordinates
+                                                                        .longitude
+                                                            }
+                                                        )}{' '}
+                                                        m away
+                                                    </span>
+                                                </FavoritesDiv>
+                                            )
+                                        )
+                                    ) : (
+                                        <EmptyCookieText>
+                                            No car park within set radius
+                                        </EmptyCookieText>
                                     ))}
                             </ListOfFavorites>
                         </FavoritesContainer>
 
-                        {!showFavorites && (
-                            <StyledCollapse accordion items={items} />
-                        )}
+                        {/* {!showFavorites && (
+                            <StyledCollapse accordion items={items} />)
+                        } */}
                     </Left>
 
                     <Right>
@@ -819,6 +918,11 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
 export default Map;
 
+const EmptyCookieText = styled.p`
+    font-family: Roboto;
+    font-weight: 100;
+`;
+
 const RangeSlider = styled.input`
     margin-left: 30px;
     margin-top: 10px;
@@ -841,7 +945,7 @@ const SliderValue = styled.span`
 const ListOfFavorites = styled.div`
     margin-top: 30px;
     padding: 0px 0px;
-    max-height: 300px;
+    max-height: 200px;
     overflow-y: auto;
     @media screen and (max-width: 900px) {
         max-height: 200px;
@@ -854,7 +958,7 @@ const ListOfFavorites = styled.div`
 
 const FavoritesDiv = styled.div`
     cursor: pointer;
-    height: 72px;
+    height: 68px;
     background-color: aliceblue;
     display: flex;
     flex-direction: row;
@@ -895,6 +999,21 @@ const ShowFavorites = styled.button`
         font-size: 0.75rem;
     }
 `;
+const ShowRecommended = styled.button`
+    margin-left: 36px;
+    background-color: ${(props) =>
+        props.background ? 'aliceblue' : '#ffffff'};
+    cursor: pointer;
+    width: 160px;
+    height: 32px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+    @media screen and (max-width: 400px) {
+        height: 28px;
+        font-size: 0.75rem;
+    }
+`;
 
 const LikeButton = styled.button`
     display: flex;
@@ -914,27 +1033,6 @@ const defaultCircleOptions = {
     editable: false,
     visible: true
 };
-// const threeHundredMetresCircle = {
-//     ...defaultCircleOptions,
-//     zIndex: 10,
-//     fillOpacity: 0.5,
-//     strokeColor: '#00FF00',
-//     fillColor: 'transparent'
-// };
-// const sixHundredMetresCircle = {
-//     ...defaultCircleOptions,
-//     zIndex: 9,
-//     fillOpacity: 0.25,
-//     strokeColor: '#FFFF00',
-//     fillColor: 'transparent'
-// };
-// const kiloMetresCircle = {
-//     ...defaultCircleOptions,
-//     zIndex: 8,
-//     fillOpacity: 0.15,
-//     strokeColor: '#FF5252',
-//     fillColor: 'transparent'
-// };
 
 const rangeCircle = {
     ...defaultCircleOptions,

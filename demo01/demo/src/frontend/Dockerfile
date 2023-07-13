@@ -9,6 +9,7 @@ RUN npm install axios
 RUN npm install @mui/icons-material
 RUN npm install @emotion/styled
 RUN npm install @react-google-maps/api
+RUN npm install geolib
 #Build the app
 RUN npm run build
 

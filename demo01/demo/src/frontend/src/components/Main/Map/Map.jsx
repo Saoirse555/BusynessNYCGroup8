@@ -7,7 +7,8 @@ import {
     Marker,
     Circle,
     DirectionsRenderer,
-    MarkerClusterer
+    MarkerClusterer,
+    TrafficLayer
 } from '@react-google-maps/api';
 import geoJsonData from './manhattan.json';
 import colors from './color';
@@ -140,6 +141,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     useEffect(() => {
         if (map && startLocation) {
             map.panTo(startLocation);
+            map.setZoom(15);
             setDirections(null);
         }
     }, [map, startLocation]);
@@ -149,6 +151,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     useEffect(() => {
         if (map && destLocation) {
             map.panTo(destLocation);
+            map.setZoom(15);
             setDirections(null);
         }
     }, [map, destLocation]);
@@ -262,15 +265,18 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         const lat = locationInfo.coordinates.latitude;
         const lng = locationInfo.coordinates.longitude;
         //Set the info window position on the map. Adding a tiny bit to lat displayes it just above the parking icon...
-        setInfoWindowPos({ lat: lat + 0.0004, lng: lng });
+        setInfoWindowPos({ lat: lat, lng: lng });
         const name = locationInfo.parkingStationName;
         const zone = locationInfo.rateZone;
         const rate = locationInfo.zoneInfo;
+        const zoneID = locationInfo.locationId;
+        console.log({ locationInfo });
         setInfoWindowData((previousLocation) => ({
             ...previousLocation,
             name: name,
             zone: zone,
-            rate: rate
+            rate: rate,
+            zoneID: zoneID
         }));
 
         // const dis = getDistance(
@@ -508,7 +514,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                         <RangeSlider
                             type="range"
                             min={0}
-                            max={5000}
+                            max={1000}
                             value={sliderValue}
                             onChange={handleSliderChange}
                             disabled={destLocation ? false : true}
@@ -627,22 +633,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                             );
                                         }}
                                     />
-
-                                    {/* <Circle
-                                        center={destLocation}
-                                        radius={300}
-                                        options={threeHundredMetresCircle}
-                                    />
-                                    <Circle
-                                        center={destLocation}
-                                        radius={600}
-                                        options={sixHundredMetresCircle}
-                                    />
-                                    <Circle
-                                        center={destLocation}
-                                        radius={1000}
-                                        options={kiloMetresCircle}
-                                    /> */}
 
                                     <Circle
                                         center={destLocation}
@@ -774,6 +764,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         {infoWindowData.zone}
                                         <h4>Rate: </h4>
                                         {infoWindowData.rate}
+                                        <h4>Area Busyness: </h4>
+                                        {colors[infoWindowData.zoneID]}
                                         <LikeButton
                                             onClick={() =>
                                                 handleAddFavorite(infoWindowPos)
@@ -816,6 +808,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     </CarParkInfoWindow>
                                 </InfoWindow>
                             )}
+                            <TrafficLayer autoUpdate />
                         </GoogleMap>
                     </Right>
                 </LoadScript>

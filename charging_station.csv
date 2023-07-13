@@ -1,0 +1,36 @@
+location_id,name,coordinates,type,operator,amenity
+137,ChargePoint,"[-73.9754634, 40.7443976]",Point,ChargePoint,charging_station
+170,ChargePoint,"[-73.9803222, 40.7439708]",Point,ChargePoint,charging_station
+249,ChargePoint,"[-74.0019239, 40.7343178]",Point,ChargePoint,charging_station
+236,ChargePoint,"[-73.9572029, 40.7778714]",Point,ChargePoint,charging_station
+229,ChargePoint,"[-73.9629702, 40.7573505]",Point,ChargePoint,charging_station
+236,ChargePoint,"[-73.9563608, 40.7797068]",Point,ChargePoint,charging_station
+263,ChargePoint,"[-73.9542488, 40.7732118]",Point,ChargePoint,charging_station
+229,ChargePoint,"[-73.9673715, 40.7586349]",Point,ChargePoint,charging_station
+233,ChargePoint,"[-73.9687333, 40.7532128]",Point,ChargePoint,charging_station
+114,ChargePoint,"[-74.0007447, 40.7304709]",Point,ChargePoint,charging_station
+231,ChargePoint,"[-74.0109381, 40.7142374]",Point,ChargePoint,charging_station
+231,Blink,"[-74.0123014, 40.7167273]",Point,Blink,charging_station
+148,Blink,"[-73.9917815, 40.7170911]",Point,Blink,charging_station
+125,ChargePoint,"[-74.0073913, 40.7286497]",Point,ChargePoint,charging_station
+249,ChargePoint,"[-73.9978013, 40.7370016]",Point,ChargePoint,charging_station
+90,Blink,"[-73.9968226, 40.7419763]",Point,Blink,charging_station
+234,ChargePoint,"[-73.9878966, 40.7392802]",Point,ChargePoint,charging_station
+68,ChargePoint,"[-73.9962654, 40.7537648]",Point,ChargePoint,charging_station
+186,ChargePoint,"[-73.9913314, 40.745148]",Point,ChargePoint,charging_station
+162,ChargePoint,"[-73.9722148, 40.7585337]",Point,ChargePoint,charging_station
+239,ChargePoint,"[-73.9754149, 40.7854212]",Point,ChargePoint,charging_station
+162,ChargePoint,"[-73.9697683, 40.7619443]",Point,ChargePoint,charging_station
+142,ChargePoint,"[-73.9831589, 40.7690442]",Point,ChargePoint,charging_station
+233,Tesla Supercharger,"[-73.9717462, 40.7533969]",Point,"Tesla, Inc.",charging_station
+148,Tesla Supercharger,"[-73.9918243, 40.7171296]",Point,"Tesla, Inc.",charging_station
+239,Tesla Supercharger,"[-73.9803851, 40.7807979]",Point,"Tesla, Inc.",charging_station
+194,Unnamed,"[-73.9246464, 40.7923245]",Point,N/A,charging_station
+194,Unnamed,"[-73.9227522, 40.7930006]",Point,N/A,charging_station
+209,Unnamed,"[-74.003757, 40.71012]",Point,N/A,charging_station
+209,Unnamed,"[-74.0036991, 40.7100784]",Point,N/A,charging_station
+233,Bus Charging Station,"[-73.9695881, 40.7479016]",Point,New York City Transit Authority,charging_station
+244,Unnamed,"[-73.9388916, 40.8373668]",Point,N/A,charging_station
+262,plugNYC,"[-73.9441005, 40.7756859]",Point,N/A,charging_station
+48,Blink,"[-73.9939156, 40.7591999]",Point,Blink,charging_station
+239,FLO,"[-73.9756938, 40.7863037]",Point,FLO,charging_station

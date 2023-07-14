@@ -398,32 +398,34 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
     useEffect(() => {
         const sortArray = [...recommendArray].sort((a, b) => {
-            const distA = getDistance(
-                {
-                    latitude: destLocation.lat,
-                    longitude: destLocation.lng
-                },
-                {
-                    latitude: a.coordinates.latitude,
-                    longitude: a.coordinates.longitude
-                }
-            );
-            const distB = getDistance(
-                {
-                    latitude: destLocation.lat,
-                    longitude: destLocation.lng
-                },
-                {
-                    latitude: b.coordinates.latitude,
-                    longitude: b.coordinates.longitude
-                }
-            );
-            return distA - distB;
+            if (destLocation) {
+                const distA = getDistance(
+                    {
+                        latitude: destLocation.lat,
+                        longitude: destLocation.lng
+                    },
+                    {
+                        latitude: a.coordinates.latitude,
+                        longitude: a.coordinates.longitude
+                    }
+                );
+                const distB = getDistance(
+                    {
+                        latitude: destLocation.lat,
+                        longitude: destLocation.lng
+                    },
+                    {
+                        latitude: b.coordinates.latitude,
+                        longitude: b.coordinates.longitude
+                    }
+                );
+                return distA - distB;
+            }
         });
         console.log({ sortArray });
         setThreeClosestParks(sortArray.slice(0, 5));
         console.log({ threeClosestParks });
-    }, [recommendArray]);
+    }, [recommendArray, destLocation]);
 
     const [showRecommended, setShowRecommended] = useState(false);
 
@@ -593,7 +595,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         </EmptyCookieText>
                                     ))}
                                 {showRecommended &&
-                                    (threeClosestParks.length > 0 ? (
+                                    (destLocation &&
+                                    threeClosestParks.length > 0 ? (
                                         threeClosestParks.map(
                                             (location, index) => (
                                                 <FavoritesDiv
@@ -645,15 +648,12 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         )
                                     ) : (
                                         <EmptyCookieText>
-                                            No car park within set radius
+                                            No car park within set radius or
+                                            destination has not been set.
                                         </EmptyCookieText>
                                     ))}
                             </ListOfFavorites>
                         </FavoritesContainer>
-
-                        {/* {!showFavorites && (
-                            <StyledCollapse accordion items={items} />)
-                        } */}
                     </Left>
 
                     <Right>

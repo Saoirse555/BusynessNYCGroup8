@@ -1,0 +1,282 @@
+[
+    {
+        "location_id": 137,
+        "name": "ChargePoint",
+        "coordinates": [-73.9754634, 40.7443976],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 170,
+        "name": "ChargePoint",
+        "coordinates": [-73.9803222, 40.7439708],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 249,
+        "name": "ChargePoint",
+        "coordinates": [-74.0019239, 40.7343178],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 236,
+        "name": "ChargePoint",
+        "coordinates": [-73.9572029, 40.7778714],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 229,
+        "name": "ChargePoint",
+        "coordinates": [-73.9629702, 40.7573505],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 236,
+        "name": "ChargePoint",
+        "coordinates": [-73.9563608, 40.7797068],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 263,
+        "name": "ChargePoint",
+        "coordinates": [-73.9542488, 40.7732118],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 229,
+        "name": "ChargePoint",
+        "coordinates": [-73.9673715, 40.7586349],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 233,
+        "name": "ChargePoint",
+        "coordinates": [-73.9687333, 40.7532128],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 114,
+        "name": "ChargePoint",
+        "coordinates": [-74.0007447, 40.7304709],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 231,
+        "name": "ChargePoint",
+        "coordinates": [-74.0109381, 40.7142374],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 231,
+        "name": "Blink",
+        "coordinates": [-74.0123014, 40.7167273],
+        "type": "Point",
+        "operator": "Blink",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 148,
+        "name": "Blink",
+        "coordinates": [-73.9917815, 40.7170911],
+        "type": "Point",
+        "operator": "Blink",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 125,
+        "name": "ChargePoint",
+        "coordinates": [-74.0073913, 40.7286497],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 249,
+        "name": "ChargePoint",
+        "coordinates": [-73.9978013, 40.7370016],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 90,
+        "name": "Blink",
+        "coordinates": [-73.9968226, 40.7419763],
+        "type": "Point",
+        "operator": "Blink",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 234,
+        "name": "ChargePoint",
+        "coordinates": [-73.9878966, 40.7392802],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 68,
+        "name": "ChargePoint",
+        "coordinates": [-73.9962654, 40.7537648],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 186,
+        "name": "ChargePoint",
+        "coordinates": [-73.9913314, 40.745148],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 162,
+        "name": "ChargePoint",
+        "coordinates": [-73.9722148, 40.7585337],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 239,
+        "name": "ChargePoint",
+        "coordinates": [-73.9754149, 40.7854212],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 162,
+        "name": "ChargePoint",
+        "coordinates": [-73.9697683, 40.7619443],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 142,
+        "name": "ChargePoint",
+        "coordinates": [-73.9831589, 40.7690442],
+        "type": "Point",
+        "operator": "ChargePoint",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 233,
+        "name": "Tesla Supercharger",
+        "coordinates": [-73.9717462, 40.7533969],
+        "type": "Point",
+        "operator": "Tesla, Inc.",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 148,
+        "name": "Tesla Supercharger",
+        "coordinates": [-73.9918243, 40.7171296],
+        "type": "Point",
+        "operator": "Tesla, Inc.",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 239,
+        "name": "Tesla Supercharger",
+        "coordinates": [-73.9803851, 40.7807979],
+        "type": "Point",
+        "operator": "Tesla, Inc.",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 194,
+        "name": "Unnamed",
+        "coordinates": [-73.9246464, 40.7923245],
+        "type": "Point",
+        "operator": null,
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 194,
+        "name": "Unnamed",
+        "coordinates": [-73.9227522, 40.7930006],
+        "type": "Point",
+        "operator": null,
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 209,
+        "name": "Unnamed",
+        "coordinates": [-74.003757, 40.71012],
+        "type": "Point",
+        "operator": null,
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 209,
+        "name": "Unnamed",
+        "coordinates": [-74.0036991, 40.7100784],
+        "type": "Point",
+        "operator": null,
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 233,
+        "name": "Bus Charging Station",
+        "coordinates": [-73.9695881, 40.7479016],
+        "type": "Point",
+        "operator": "New York City Transit Authority",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 244,
+        "name": "Unnamed",
+        "coordinates": [-73.9388916, 40.8373668],
+        "type": "Point",
+        "operator": null,
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 262,
+        "name": "plugNYC",
+        "coordinates": [-73.9441005, 40.7756859],
+        "type": "Point",
+        "operator": null,
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 48,
+        "name": "Blink",
+        "coordinates": [-73.9939156, 40.7591999],
+        "type": "Point",
+        "operator": "Blink",
+        "amenity": "charging_station"
+    },
+    {
+        "location_id": 239,
+        "name": "FLO",
+        "coordinates": [-73.9756938, 40.7863037],
+        "type": "Point",
+        "operator": "FLO",
+        "amenity": "charging_station"
+    }
+]

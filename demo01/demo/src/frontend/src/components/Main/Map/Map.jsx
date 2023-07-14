@@ -19,12 +19,16 @@ import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import Weather from '../Weather/Weather';
 import parkingMarker from './parking.svg';
 import locationMarker from './marker.svg';
+import fuelmarker from './fuelmarker.svg';
+import evmarker from './evmarker.svg';
 import Cookies from 'js-cookie';
 import favoritedIcon from './favorited_active.svg';
 import notfavoritedIcon from './favorited_empty.svg';
 import { Alert, Collapse } from 'antd';
 import Marquee from 'react-fast-marquee';
 import { getDistance } from 'geolib';
+import fuel_stations from '../Data/fuel_stations.json';
+import charging_stations from '../Data/charging_stations.json';
 
 // Map component
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
@@ -50,9 +54,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const [infoWindowData, setInfoWindowData] = useState({
         name: '',
         zone: '',
-        rate: ''
+        rate: '',
+        zoneID: ''
     });
-
     const center = useMemo(() => ({ lat: 40.7826, lng: -73.9656 }), []);
 
     const handleStartPlaceChange = async () => {
@@ -253,13 +257,53 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         const zone = locationInfo.rateZone;
         const rate = locationInfo.zoneInfo;
         const zoneID = locationInfo.locationId;
-        // console.log({ locationInfo });
         setInfoWindowData((previousLocation) => ({
             ...previousLocation,
             name: name,
             zone: zone,
             rate: rate,
-            zoneID: zoneID
+            zoneID: zoneID,
+            type: 'carPark'
+        }));
+    };
+
+    const handleFuelMarkerClick = (station) => {
+        setSelectedLocation(null);
+        setShowInfoWindow(true);
+        const lat = station.coordinates[1];
+        const lng = station.coordinates[0];
+        //Set the info window position on the map. Adding a tiny bit to lat displayes it just above the parking icon...
+        setInfoWindowPos({ lat: lat, lng: lng });
+        const name = station.name;
+        const operator = station.operator;
+        const zoneID = station.location_id;
+        const type = station.amenity;
+        setInfoWindowData((previousLocation) => ({
+            ...previousLocation,
+            name: name,
+            operator: operator,
+            zoneID: zoneID,
+            type: type
+        }));
+    };
+
+    const handleEvMarkerClick = (station) => {
+        setSelectedLocation(null);
+        setShowInfoWindow(true);
+        const lat = station.coordinates[1];
+        const lng = station.coordinates[0];
+        //Set the info window position on the map. Adding a tiny bit to lat displayes it just above the parking icon...
+        setInfoWindowPos({ lat: lat, lng: lng });
+        const name = station.name;
+        const operator = station.operator;
+        const zoneID = station.location_id;
+        const type = station.amenity;
+        setInfoWindowData((previousLocation) => ({
+            ...previousLocation,
+            name: name,
+            operator: operator,
+            zoneID: zoneID,
+            type: type
         }));
     };
 
@@ -393,7 +437,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             }
         });
         setRecommendArray(recommended);
-        console.log({ recommendArray });
     }, [sliderValue, destLocation]);
 
     useEffect(() => {
@@ -422,9 +465,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                 return distA - distB;
             }
         });
-        console.log({ sortArray });
         setThreeClosestParks(sortArray.slice(0, 5));
-        console.log({ threeClosestParks });
     }, [recommendArray, destLocation]);
 
     const [showRecommended, setShowRecommended] = useState(false);
@@ -674,7 +715,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                             options={{
                                 disableDefaultUI: true,
                                 clickableIcons: false,
-                                mapId: '890875aa171abb1a',
+                                mapId: 'cbd44d8f8f1a5330',
                                 disableAutoPan: true
                             }}
                         >
@@ -856,57 +897,138 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         setShowInfoWindow(false)
                                     }
                                 >
-                                    <CarParkInfoWindow>
-                                        <h3>Car Park Name: </h3>
-                                        {infoWindowData.name}
-                                        <h4>Zone: </h4>
-                                        {infoWindowData.zone}
-                                        <h4>Rate: </h4>
-                                        {infoWindowData.rate}
-                                        <h4>Area Busyness: </h4>
-                                        {colors[infoWindowData.zoneID]}
-                                        <LikeButton
-                                            onClick={() =>
-                                                handleAddFavorite(infoWindowPos)
-                                            }
-                                        >
-                                            {favCookie.some(
-                                                (obj) =>
-                                                    obj.lat ===
-                                                        infoWindowPos.lat &&
-                                                    obj.lng ===
-                                                        infoWindowPos.lng
-                                            ) ? (
-                                                <>
-                                                    <img
-                                                        style={{
-                                                            width: '20px',
-                                                            height: '20px',
-                                                            marginRight: '15px'
-                                                        }}
-                                                        src={favoritedIcon}
-                                                        alt="liked place"
-                                                    />
-                                                    <span>Favorited</span>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <img
-                                                        style={{
-                                                            width: '20px',
-                                                            height: '20px',
-                                                            marginRight: '15px'
-                                                        }}
-                                                        src={notfavoritedIcon}
-                                                        alt="didnt like place"
-                                                    />
-                                                    <span>Not favorited</span>
-                                                </>
-                                            )}
-                                        </LikeButton>
-                                    </CarParkInfoWindow>
+                                    <>
+                                        {infoWindowData.type === 'carPark' && (
+                                            <CarParkInfoWindow>
+                                                <h3>Car Park Name: </h3>
+                                                {infoWindowData.name}
+                                                <h4>Zone: </h4>
+                                                {infoWindowData.zone}
+                                                <h4>Rate: </h4>
+                                                {infoWindowData.rate}
+                                                <h4>Area Busyness: </h4>
+                                                {colors[infoWindowData.zoneID]}
+                                                <LikeButton
+                                                    onClick={() =>
+                                                        handleAddFavorite(
+                                                            infoWindowPos
+                                                        )
+                                                    }
+                                                >
+                                                    {favCookie.some(
+                                                        (obj) =>
+                                                            obj.lat ===
+                                                                infoWindowPos.lat &&
+                                                            obj.lng ===
+                                                                infoWindowPos.lng
+                                                    ) ? (
+                                                        <>
+                                                            <img
+                                                                style={{
+                                                                    width: '20px',
+                                                                    height: '20px',
+                                                                    marginRight:
+                                                                        '15px'
+                                                                }}
+                                                                src={
+                                                                    favoritedIcon
+                                                                }
+                                                                alt="liked place"
+                                                            />
+                                                            <span>
+                                                                Favorited
+                                                            </span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <img
+                                                                style={{
+                                                                    width: '20px',
+                                                                    height: '20px',
+                                                                    marginRight:
+                                                                        '15px'
+                                                                }}
+                                                                src={
+                                                                    notfavoritedIcon
+                                                                }
+                                                                alt="didnt like place"
+                                                            />
+                                                            <span>
+                                                                Not favorited
+                                                            </span>
+                                                        </>
+                                                    )}
+                                                </LikeButton>
+                                            </CarParkInfoWindow>
+                                        )}
+                                        {infoWindowData.type === 'fuel' && (
+                                            <CarParkInfoWindow>
+                                                <h3>Petrol Station Name: </h3>
+                                                {infoWindowData.name}
+                                                <h4>Operator: </h4>
+                                                {infoWindowData.operator}
+                                                <h4>Area Busyness: </h4>
+                                                {colors[infoWindowData.zoneID]}
+                                            </CarParkInfoWindow>
+                                        )}
+                                        {infoWindowData.type ===
+                                            'charging_station' && (
+                                            <CarParkInfoWindow>
+                                                <h3>EV Station Name: </h3>
+                                                {infoWindowData.name}
+                                                <h4>Operator: </h4>
+                                                {infoWindowData.operator}
+                                                <h4>Area Busyness: </h4>
+                                                {colors[infoWindowData.zoneID]}
+                                            </CarParkInfoWindow>
+                                        )}
+                                    </>
                                 </InfoWindow>
                             )}
+
+                            {fuel_stations?.length &&
+                                petrolStationIcons &&
+                                fuel_stations.map((station, index) => (
+                                    <Marker
+                                        onClick={() =>
+                                            handleFuelMarkerClick(station)
+                                        }
+                                        icon={{
+                                            url: fuelmarker,
+                                            scaledSize: {
+                                                height: 56,
+                                                width: 28
+                                            }
+                                        }}
+                                        key={index}
+                                        position={{
+                                            lat: station.coordinates[1],
+                                            lng: station.coordinates[0]
+                                        }}
+                                    />
+                                ))}
+
+                            {charging_stations?.length &&
+                                evChargingIcons &&
+                                charging_stations.map((station, index) => (
+                                    <Marker
+                                        onClick={() =>
+                                            handleEvMarkerClick(station)
+                                        }
+                                        icon={{
+                                            url: evmarker,
+                                            scaledSize: {
+                                                height: 56,
+                                                width: 28
+                                            }
+                                        }}
+                                        key={index}
+                                        position={{
+                                            lat: station.coordinates[1],
+                                            lng: station.coordinates[0]
+                                        }}
+                                    />
+                                ))}
                             <TrafficLayer autoUpdate />
                         </GoogleMap>
                     </Right>

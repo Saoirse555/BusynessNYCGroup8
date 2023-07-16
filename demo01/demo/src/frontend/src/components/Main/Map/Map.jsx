@@ -467,7 +467,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                     recommended.push(location);
                 }
             }
-            return '';
+            // return '';
         });
         setRecommendArray(recommended);
     }, [sliderValue, destLocation, locationInfo]);
@@ -518,7 +518,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
     useEffect(() => {
         fetchDirections(startLocation, destLocation);
-    }, [wayPoint, destLocation]);
+    }, [wayPoint]);
 
     useEffect(() => {
         if (wayPoint.length) {
@@ -951,10 +951,16 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                             <CarParkInfoWindow>
                                                 <h3>Car Park Name: </h3>
                                                 {infoWindowData.name}
+                                                <br />
+                                                <br />
                                                 <h4>Zone: </h4>
                                                 {infoWindowData.zone}
+                                                <br />
+                                                <br />
                                                 <h4>Rate: </h4>
                                                 {infoWindowData.rate}
+                                                <br />
+                                                <br />
                                                 <h4>Area Busyness: </h4>
                                                 {colors[infoWindowData.zoneID]}
                                                 <LikeButton
@@ -1014,8 +1020,11 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                             <CarParkInfoWindow>
                                                 <h3>Petrol Station Name: </h3>
                                                 {infoWindowData.name}
+                                                <br />
+                                                <br />
                                                 <h4>Operator: </h4>
                                                 {infoWindowData.operator}
+                                                <br />
                                                 <h4>Area Busyness: </h4>
                                                 {colors[infoWindowData.zoneID]}
                                             </CarParkInfoWindow>
@@ -1436,37 +1445,3 @@ const TitleMarker = styled.img`
     height: auto;
     margin-left: 10px;
 `;
-// const StyledCollapse = styled(Collapse)`
-//     .ant-collapse {
-//         background-color: #f5f5f5;
-//         border-radius: 4px;
-//         position: flex;
-//         top: 20px;
-//         left: 10;
-//         right: 10;
-//     }
-
-//     .ant-collapse-item {
-//         background-color: #ffffff;
-//         border: none;
-//         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-//         border-radius: 4px;
-//         margin-bottom: 10px;
-//     }
-
-//     .ant-collapse-item:last-child {
-//         margin-bottom: 0;
-//     }
-
-//     .ant-collapse-header {
-//         background-color: #f0f0f0;
-//         padding: 16px;
-//         font-weight: bold;
-//         border-radius: 4px;
-//         cursor: pointer;
-//     }
-
-//     .ant-collapse-content {
-//         padding: 16px;
-//     }
-// `;

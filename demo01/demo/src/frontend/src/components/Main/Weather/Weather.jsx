@@ -16,7 +16,8 @@ const Weather = ({ weatherInfo, foreCastInfo }) => {
             (day) => day === Date(weatherInfo?.dt * 1000).slice(0, 3)
         );
         setDayIndex(weekDay);
-    }, [foreCastInfo]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [foreCastInfo, weatherInfo]);
 
     // Handle click event
     const handleClick = () => {
@@ -51,7 +52,7 @@ const Weather = ({ weatherInfo, foreCastInfo }) => {
 
     return (
         <WeatherContainer onClick={handleClick} expanded={isClicked}>
-         {/* Check if weatherInfo and foreCastInfo objects have data */}
+            {/* Check if weatherInfo and foreCastInfo objects have data */}
             {Object.keys(weatherInfo)?.length !== 0 &&
             Object.keys(foreCastInfo)?.length !== 0 ? (
                 // Display current weather information if not clicked
@@ -134,7 +135,7 @@ const WeatherContainer = styled.div`
     height: ${({ expanded }) => (expanded ? '150px' : '50px')};
     padding: 0 10px;
     backdrop-filter: blur(20px);
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: rgba(65, 65, 65, 0.25);
     box-shadow: 0 1px 12px rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.25);
     color: white;

@@ -24,7 +24,7 @@ import evmarker from './evmarker.svg';
 import Cookies from 'js-cookie';
 import favoritedIcon from './favorited_active.svg';
 import notfavoritedIcon from './favorited_empty.svg';
-import { Alert, Collapse } from 'antd';
+import { Alert } from 'antd';
 import Marquee from 'react-fast-marquee';
 import { getDistance } from 'geolib';
 import fuel_stations from '../Data/fuel_stations.json';
@@ -57,8 +57,11 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         rate: '',
         zoneID: ''
     });
+
+    //Set the default map location.
     const center = useMemo(() => ({ lat: 40.7826, lng: -73.9656 }), []);
 
+    //Handle when a user enters start location
     const handleStartPlaceChange = async () => {
         // Get the selected start location
         const [startPlace] = inputStartRef.current.getPlaces();
@@ -69,6 +72,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
     };
 
+    //Handle when a user enters destination location
     const handleDestPlaceChange = async () => {
         // Get the selected destination location
         const [destPlace] = inputDestRef.current.getPlaces();
@@ -80,6 +84,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
     };
 
+    //Load the geoJSON
     const onLoad = (map) => {
         // Load the map and GeoJSON data
         setMap(map);
@@ -144,11 +149,13 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     }, [map, destLocation]);
 
     // Initializes the directions state variable using the useState hook. It is initially set to undefined.
-    const [directions, setDirections] = useState();
+    const [directions, setDirections] = useState(null);
 
     // Handles the case when the user presses Enter with an empty input field
     const handleEmptyCase = (e) => {
         if (e.key === 'Enter' && e.target.value === '') {
+            setWayPoint([]);
+            setWayPointType('');
             if (e.target.id === 'start-input') {
                 setDirections(null);
                 setStartLocation(null);
@@ -167,6 +174,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             {
                 origin: start,
                 destination: end,
+                waypoints: wayPoint,
                 travelMode: window.google.maps.TravelMode.DRIVING
             },
             (result, status) => {
@@ -225,6 +233,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             setSelectedDay(today);
             setSelectedHour(time);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [weatherInfo, foreCastInfo]);
 
     // Handles the change of selected day
@@ -248,63 +257,86 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     // Handles the click on a car park marker and displays the info window
     const handleCarParkClick = (locationInfo) => {
         setSelectedLocation(null);
-        setShowInfoWindow(true);
         const lat = locationInfo.coordinates.latitude;
         const lng = locationInfo.coordinates.longitude;
-        //Set the info window position on the map. Adding a tiny bit to lat displayes it just above the parking icon...
-        setInfoWindowPos({ lat: lat, lng: lng });
-        const name = locationInfo.parkingStationName;
-        const zone = locationInfo.rateZone;
-        const rate = locationInfo.zoneInfo;
-        const zoneID = locationInfo.locationId;
-        setInfoWindowData((previousLocation) => ({
-            ...previousLocation,
-            name: name,
-            zone: zone,
-            rate: rate,
-            zoneID: zoneID,
-            type: 'carPark'
-        }));
+
+        if (directions === null) {
+            //Set the info window position on the map. Adding a tiny bit to lat displayes it just above the parking icon...
+            setShowInfoWindow(true);
+            setInfoWindowPos({ lat: lat, lng: lng });
+            const name = locationInfo.parkingStationName;
+            const zone = locationInfo.rateZone;
+            const rate = locationInfo.zoneInfo;
+            const zoneID = locationInfo.locationId;
+            setInfoWindowData((previousLocation) => ({
+                ...previousLocation,
+                name: name,
+                zone: zone,
+                rate: rate,
+                zoneID: zoneID,
+                type: 'carPark'
+            }));
+        } else {
+            setDestLocation({ lat, lng });
+        }
     };
 
     const handleFuelMarkerClick = (station) => {
         setSelectedLocation(null);
-        setShowInfoWindow(true);
         const lat = station.coordinates[1];
         const lng = station.coordinates[0];
         //Set the info window position on the map. Adding a tiny bit to lat displayes it just above the parking icon...
-        setInfoWindowPos({ lat: lat, lng: lng });
-        const name = station.name;
-        const operator = station.operator;
-        const zoneID = station.location_id;
-        const type = station.amenity;
-        setInfoWindowData((previousLocation) => ({
-            ...previousLocation,
-            name: name,
-            operator: operator,
-            zoneID: zoneID,
-            type: type
-        }));
+        if (directions === null) {
+            setShowInfoWindow(true);
+            setInfoWindowPos({ lat: lat, lng: lng });
+            const name = station.name;
+            const operator = station.operator;
+            const zoneID = station.location_id;
+            const type = station.amenity;
+            setInfoWindowData((previousLocation) => ({
+                ...previousLocation,
+                name: name,
+                operator: operator,
+                zoneID: zoneID,
+                type: type
+            }));
+        } else {
+            //Clear the old way point
+            setWayPoint([]);
+            setWayPointType('');
+            //Set the new waypoint
+            setWayPointType('fuelStation');
+            setWayPoint([{ location: { lat: lat, lng: lng } }]);
+        }
     };
 
     const handleEvMarkerClick = (station) => {
         setSelectedLocation(null);
-        setShowInfoWindow(true);
         const lat = station.coordinates[1];
         const lng = station.coordinates[0];
         //Set the info window position on the map. Adding a tiny bit to lat displayes it just above the parking icon...
-        setInfoWindowPos({ lat: lat, lng: lng });
-        const name = station.name;
-        const operator = station.operator;
-        const zoneID = station.location_id;
-        const type = station.amenity;
-        setInfoWindowData((previousLocation) => ({
-            ...previousLocation,
-            name: name,
-            operator: operator,
-            zoneID: zoneID,
-            type: type
-        }));
+        if (directions === null) {
+            setShowInfoWindow(true);
+            setInfoWindowPos({ lat: lat, lng: lng });
+            const name = station.name;
+            const operator = station.operator;
+            const zoneID = station.location_id;
+            const type = station.amenity;
+            setInfoWindowData((previousLocation) => ({
+                ...previousLocation,
+                name: name,
+                operator: operator,
+                zoneID: zoneID,
+                type: type
+            }));
+        } else {
+            //Clear the old way point
+            setWayPoint([]);
+            setWayPointType('');
+            //Set a new way point
+            setWayPointType('evStation');
+            setWayPoint([{ location: { lat: lat, lng: lng } }]);
+        }
     };
 
     const geoCoder = (place) => {
@@ -435,9 +467,10 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                     recommended.push(location);
                 }
             }
+            return '';
         });
         setRecommendArray(recommended);
-    }, [sliderValue, destLocation]);
+    }, [sliderValue, destLocation, locationInfo]);
 
     useEffect(() => {
         const sortArray = [...recommendArray].sort((a, b) => {
@@ -464,6 +497,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                 );
                 return distA - distB;
             }
+            return '';
         });
         setThreeClosestParks(sortArray.slice(0, 5));
     }, [recommendArray, destLocation]);
@@ -478,6 +512,19 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             setShowRecommended(false);
         }
     };
+
+    const [wayPoint, setWayPoint] = useState([]);
+    const [wayPointType, setWayPointType] = useState('');
+
+    useEffect(() => {
+        fetchDirections(startLocation, destLocation);
+    }, [wayPoint, destLocation]);
+
+    useEffect(() => {
+        if (wayPoint.length) {
+            console.log(wayPoint[0].location.lat);
+        }
+    }, [wayPoint]);
 
     return (
         <PageContainer id="main">
@@ -497,7 +544,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                             banner
                             message={
                                 <Marquee pauseOnHover gradient={false}>
-                                    This is a current traffic alert.
+                                    Click on Red markers to create a route.
+                                    Click on gas/charging icons to create a
+                                    waypoint.
                                 </Marquee>
                             }
                         />
@@ -988,6 +1037,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
                             {fuel_stations?.length &&
                                 petrolStationIcons &&
+                                wayPointType === '' &&
                                 fuel_stations.map((station, index) => (
                                     <Marker
                                         onClick={() =>
@@ -1010,6 +1060,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
                             {charging_stations?.length &&
                                 evChargingIcons &&
+                                wayPointType === '' &&
                                 charging_stations.map((station, index) => (
                                     <Marker
                                         onClick={() =>
@@ -1029,6 +1080,38 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         }}
                                     />
                                 ))}
+
+                            {wayPointType === 'evStation' && (
+                                <Marker
+                                    icon={{
+                                        url: evmarker,
+                                        scaledSize: {
+                                            height: 56,
+                                            width: 28
+                                        }
+                                    }}
+                                    position={{
+                                        lat: wayPoint[0].location.lat,
+                                        lng: wayPoint[0].location.lng
+                                    }}
+                                />
+                            )}
+                            {wayPointType === 'fuelStation' && (
+                                <Marker
+                                    icon={{
+                                        url: fuelmarker,
+                                        scaledSize: {
+                                            height: 56,
+                                            width: 28
+                                        }
+                                    }}
+                                    position={{
+                                        lat: wayPoint[0].location.lat,
+                                        lng: wayPoint[0].location.lng
+                                    }}
+                                />
+                            )}
+
                             <TrafficLayer autoUpdate />
                         </GoogleMap>
                     </Right>
@@ -1353,37 +1436,37 @@ const TitleMarker = styled.img`
     height: auto;
     margin-left: 10px;
 `;
-const StyledCollapse = styled(Collapse)`
-    .ant-collapse {
-        background-color: #f5f5f5;
-        border-radius: 4px;
-        position: flex;
-        top: 20px;
-        left: 10;
-        right: 10;
-    }
+// const StyledCollapse = styled(Collapse)`
+//     .ant-collapse {
+//         background-color: #f5f5f5;
+//         border-radius: 4px;
+//         position: flex;
+//         top: 20px;
+//         left: 10;
+//         right: 10;
+//     }
 
-    .ant-collapse-item {
-        background-color: #ffffff;
-        border: none;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 4px;
-        margin-bottom: 10px;
-    }
+//     .ant-collapse-item {
+//         background-color: #ffffff;
+//         border: none;
+//         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+//         border-radius: 4px;
+//         margin-bottom: 10px;
+//     }
 
-    .ant-collapse-item:last-child {
-        margin-bottom: 0;
-    }
+//     .ant-collapse-item:last-child {
+//         margin-bottom: 0;
+//     }
 
-    .ant-collapse-header {
-        background-color: #f0f0f0;
-        padding: 16px;
-        font-weight: bold;
-        border-radius: 4px;
-        cursor: pointer;
-    }
+//     .ant-collapse-header {
+//         background-color: #f0f0f0;
+//         padding: 16px;
+//         font-weight: bold;
+//         border-radius: 4px;
+//         cursor: pointer;
+//     }
 
-    .ant-collapse-content {
-        padding: 16px;
-    }
-`;
+//     .ant-collapse-content {
+//         padding: 16px;
+//     }
+// `;

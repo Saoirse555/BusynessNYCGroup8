@@ -29,6 +29,7 @@ import Marquee from 'react-fast-marquee';
 import { getDistance } from 'geolib';
 import fuel_stations from '../Data/fuel_stations.json';
 import charging_stations from '../Data/charging_stations.json';
+import axios from 'axios';
 
 // Map component
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
@@ -529,6 +530,36 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
     }, [wayPoint]);
 
+    const [alertData,setAlertData] = useState({login:'1111'});
+
+    const getAlertData = async () => {
+        try {
+        // Make an HTTP GET request to the 511ny API for current alert data
+        const {data} = await axios.get(
+        `https://511ny.org/api/getevents?key=5fcac6b5dc2c4372a0416f46929d4cc1&format=json`
+        )
+        console.log('alertdata',data)
+        // Return the retrieved alert data
+        return data
+        } catch (error) {
+        // Log any errors that occur during the API call
+        console.log(error)
+        }}
+    
+    const fetchAlertData = () =>{
+        getAlertData().then((data)=>setAlertData(data))
+        }
+    
+    useEffect(() => {
+        fetchAlertData()
+        const intervalId = setInterval(() => {
+        fetchAlertData()
+        }, 3600000);
+        return () => {
+        clearInterval(intervalId);
+        }
+        }, []);
+
     return (
         <PageContainer id="main">
             <PageHeader>
@@ -547,9 +578,12 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                             banner
                             message={
                                 <Marquee pauseOnHover gradient={false}>
-                                    Click on Red markers to create a route.
+                                    {/* Click on Red markers to create a route.
                                     Click on gas/charging icons to create a
-                                    waypoint.
+                                    waypoint. */}
+                                    {alertData.login==='1111' && <li>There are currently no emergency alerts at this time.</li>}
+                                    {alertData.login!=='1111' && alertData[0].Description}
+                                    {alertData.login!=='1111' && alertData[1].Description}
                                 </Marquee>
                             }
                         />

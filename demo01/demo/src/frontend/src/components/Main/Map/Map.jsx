@@ -259,6 +259,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         setSelectedLocation(null);
         const lat = locationInfo.coordinates.latitude;
         const lng = locationInfo.coordinates.longitude;
+        console.log({ locationInfo });
 
         if (directions === null) {
             //Set the info window position on the map. Adding a tiny bit to lat displayes it just above the parking icon...
@@ -451,24 +452,26 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
     useEffect(() => {
         const recommended = [];
-        locationInfo.map((location, index) => {
-            if (destLocation) {
-                const distanceA = getDistance(
-                    {
-                        latitude: destLocation.lat,
-                        longitude: destLocation.lng
-                    },
-                    {
-                        latitude: location.coordinates.latitude,
-                        longitude: location.coordinates.longitude
+        if (locationInfo) {
+            locationInfo.map((location, index) => {
+                if (destLocation) {
+                    const distanceA = getDistance(
+                        {
+                            latitude: destLocation.lat,
+                            longitude: destLocation.lng
+                        },
+                        {
+                            latitude: location.coordinates.latitude,
+                            longitude: location.coordinates.longitude
+                        }
+                    );
+                    if (distanceA < sliderValue) {
+                        recommended.push(location);
                     }
-                );
-                if (distanceA < sliderValue) {
-                    recommended.push(location);
                 }
-            }
-            // return '';
-        });
+                // return '';
+            });
+        }
         setRecommendArray(recommended);
     }, [sliderValue, destLocation, locationInfo]);
 
@@ -865,32 +868,36 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     <MarkerClusterer>
                                         {(clusterer) =>
                                             locationInfo.map(
-                                                (carPark, index) => (
-                                                    <Marker
-                                                        onClick={() =>
-                                                            handleCarParkClick(
-                                                                carPark
-                                                            )
-                                                        }
-                                                        clusterer={clusterer}
-                                                        icon={{
-                                                            url: parkingMarker,
-                                                            scaledSize: {
-                                                                height: 64,
-                                                                width: 32
+                                                (carPark, index) =>
+                                                    carPark.geometryType !==
+                                                        'LineString' && (
+                                                        <Marker
+                                                            onClick={() =>
+                                                                handleCarParkClick(
+                                                                    carPark
+                                                                )
                                                             }
-                                                        }}
-                                                        key={index}
-                                                        position={{
-                                                            lat: carPark
-                                                                .coordinates
-                                                                .latitude,
-                                                            lng: carPark
-                                                                .coordinates
-                                                                .longitude
-                                                        }}
-                                                    />
-                                                )
+                                                            clusterer={
+                                                                clusterer
+                                                            }
+                                                            icon={{
+                                                                url: parkingMarker,
+                                                                scaledSize: {
+                                                                    height: 64,
+                                                                    width: 32
+                                                                }
+                                                            }}
+                                                            key={index}
+                                                            position={{
+                                                                lat: carPark
+                                                                    .coordinates
+                                                                    .latitude,
+                                                                lng: carPark
+                                                                    .coordinates
+                                                                    .longitude
+                                                            }}
+                                                        />
+                                                    )
                                             )
                                         }
                                     </MarkerClusterer>

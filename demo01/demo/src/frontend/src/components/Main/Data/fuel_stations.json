@@ -1,338 +1,226 @@
 [
     {
-        "location_id": 127,
-        "name": "Getty",
-        "coordinates": [-73.922712, 40.8669392],
+        "location_id": 42,
+        "name": "Mobil",
+        "type": "MultiPolygon",
+        "operator": null,
+        "amenity": "fuel",
+        "coordinates": [-73.93821515, 40.82096865]
+    },
+    {
+        "location_id": 42,
+        "name": "Shell",
         "type": "Point",
         "operator": null,
-        "amenity": "fuel"
+        "amenity": "fuel",
+        "coordinates": [-73.9405293, 40.821979]
     },
     {
         "location_id": 50,
         "name": "Sunoco",
-        "coordinates": [-73.9963354, 40.7639724],
         "type": "Point",
         "operator": null,
-        "amenity": "fuel"
+        "amenity": "fuel",
+        "coordinates": [-73.9963354, 40.7639724]
+    },
+    {
+        "location_id": 50,
+        "name": "Mobil",
+        "type": "LineString",
+        "operator": "Bisma Mobil",
+        "amenity": "fuel",
+        "coordinates": [-73.9940084, 40.7662487]
+    },
+    {
+        "location_id": 68,
+        "name": "Mobil",
+        "type": "LineString",
+        "operator": null,
+        "amenity": "fuel",
+        "coordinates": [-73.99787575, 40.75597435]
+    },
+    {
+        "location_id": 74,
+        "name": "BP",
+        "type": "Point",
+        "operator": null,
+        "amenity": "fuel",
+        "coordinates": [-73.9336223, 40.7980465]
+    },
+    {
+        "location_id": 74,
+        "name": "BP",
+        "type": "MultiPolygon",
+        "operator": null,
+        "amenity": "fuel",
+        "coordinates": [-73.9337279, 40.80307895]
+    },
+    {
+        "location_id": 74,
+        "name": "Shell",
+        "type": "LineString",
+        "operator": null,
+        "amenity": "fuel",
+        "coordinates": [-73.9344456, 40.79677585]
+    },
+    {
+        "location_id": 75,
+        "name": "Shell",
+        "type": "LineString",
+        "operator": null,
+        "amenity": "fuel",
+        "coordinates": [-73.94804465, 40.78938675]
+    },
+    {
+        "location_id": 75,
+        "name": "Mobil",
+        "type": "LineString",
+        "operator": null,
+        "amenity": "fuel",
+        "coordinates": [-73.94052755, 40.78957105]
+    },
+    {
+        "location_id": 75,
+        "name": "Shell",
+        "type": "MultiPolygon",
+        "operator": null,
+        "amenity": "fuel",
+        "coordinates": [-73.94804465, 40.78938675]
+    },
+    {
+        "location_id": 127,
+        "name": "Getty",
+        "type": "Point",
+        "operator": null,
+        "amenity": "fuel",
+        "coordinates": [-73.922712, 40.8669392]
+    },
+    {
+        "location_id": 127,
+        "name": "BP",
+        "type": "Point",
+        "operator": null,
+        "amenity": "fuel",
+        "coordinates": [-73.9179905, 40.8663235]
     },
     {
         "location_id": 127,
         "name": "Sunoco Gas Station",
-        "coordinates": [-73.9148134, 40.8704474],
         "type": "Point",
         "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 166,
-        "name": "Shell",
-        "coordinates": [-73.9542056, 40.8107041],
-        "type": "Point",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 249,
-        "name": "Mobil",
-        "coordinates": [-74.003482, 40.7389906],
-        "type": "Point",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 244,
-        "name": "Mobil",
-        "coordinates": [-73.9453543, 40.8329495],
-        "type": "Point",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 42,
-        "name": "Speedway",
-        "coordinates": [-73.9377042, 40.8207679],
-        "type": "Point",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 224,
-        "name": "BP",
-        "coordinates": [-73.9745164, 40.73515],
-        "type": "Point",
-        "operator": "BP",
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 74,
-        "name": "BP",
-        "coordinates": [-73.9336223, 40.7980465],
-        "type": "Point",
-        "operator": null,
-        "amenity": "fuel"
+        "amenity": "fuel",
+        "coordinates": [-73.9148134, 40.8704474]
     },
     {
         "location_id": 127,
-        "name": "BP",
-        "coordinates": [-73.9179905, 40.8663235],
-        "type": "Point",
+        "name": "Unnamed",
+        "type": "MultiPolygon",
         "operator": null,
-        "amenity": "fuel"
+        "amenity": "fuel",
+        "coordinates": [-73.9202411, 40.8629938]
     },
     {
         "location_id": 152,
         "name": "Unnamed",
-        "coordinates": [-73.9565369, 40.817603],
         "type": "Point",
         "operator": null,
-        "amenity": "fuel"
+        "amenity": "fuel",
+        "coordinates": [-73.9565369, 40.817603]
     },
     {
-        "location_id": 42,
+        "location_id": 166,
         "name": "Shell",
-        "coordinates": [-73.9405293, 40.821979],
         "type": "Point",
         "operator": null,
-        "amenity": "fuel"
+        "amenity": "fuel",
+        "coordinates": [-73.9542056, 40.8107041]
+    },
+    {
+        "location_id": 224,
+        "name": "BP",
+        "type": "Point",
+        "operator": "BP",
+        "amenity": "fuel",
+        "coordinates": [-73.9745164, 40.73515]
     },
     {
         "location_id": 238,
         "name": "Mobil",
-        "coordinates": [-73.97372201, 40.79580775],
         "type": "LineString",
         "operator": "315 W 96 Service Center",
-        "amenity": "fuel"
+        "amenity": "fuel",
+        "coordinates": [-73.97372395, 40.7957745]
     },
     {
-        "location_id": 238,
-        "name": "Mobil",
-        "coordinates": [-73.97373763, 40.79578656],
-        "type": "MultiPolygon",
-        "operator": "315 W 96 Service Center",
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 127,
+        "location_id": 243,
         "name": "Unnamed",
-        "coordinates": [-73.9202282167, 40.8630043333],
-        "type": "LineString",
+        "type": "MultiPolygon",
         "operator": null,
-        "amenity": "fuel"
+        "amenity": "fuel",
+        "coordinates": [-73.9343867, 40.85357705]
     },
     {
-        "location_id": 127,
+        "location_id": 243,
         "name": "Unnamed",
-        "coordinates": [-73.92023975, 40.8630051],
-        "type": "MultiPolygon",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 68,
-        "name": "Mobil",
-        "coordinates": [-73.9978737333, 40.7559828267],
         "type": "LineString",
         "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 68,
-        "name": "Mobil",
-        "coordinates": [-73.9978842, 40.7559681267],
-        "type": "MultiPolygon",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 74,
-        "name": "Shell",
-        "coordinates": [-73.93445388, 40.79682008],
-        "type": "LineString",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 263,
-        "name": "Shell",
-        "coordinates": [-73.94519908, 40.78305562],
-        "type": "LineString",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 75,
-        "name": "Mobil",
-        "coordinates": [-73.94055038, 40.78960068],
-        "type": "LineString",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 74,
-        "name": "Shell",
-        "coordinates": [-73.93449772, 40.79676056],
-        "type": "MultiPolygon",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 263,
-        "name": "Shell",
-        "coordinates": [-73.9452514, 40.7830776],
-        "type": "MultiPolygon",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 75,
-        "name": "Mobil",
-        "coordinates": [-73.94057138, 40.78957088],
-        "type": "MultiPolygon",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 244,
-        "name": "Shell",
-        "coordinates": [-73.93852134, 40.84521758],
-        "type": "LineString",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 75,
-        "name": "Shell",
-        "coordinates": [-73.948022325, 40.78938715],
-        "type": "LineString",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 50,
-        "name": "Mobil",
-        "coordinates": [-73.9940406154, 40.7662072231],
-        "type": "LineString",
-        "operator": "Bisma Mobil",
-        "amenity": "fuel"
+        "amenity": "fuel",
+        "coordinates": [-73.9343867, 40.85357705]
     },
     {
         "location_id": 243,
         "name": "BP",
-        "coordinates": [-73.9283959, 40.8661225889],
-        "type": "LineString",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 244,
-        "name": "Shell",
-        "coordinates": [-73.93853384, 40.84516896],
         "type": "MultiPolygon",
         "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 75,
-        "name": "Shell",
-        "coordinates": [-73.948022325, 40.78938715],
-        "type": "MultiPolygon",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 50,
-        "name": "Mobil",
-        "coordinates": [-73.9940510231, 40.7662115692],
-        "type": "MultiPolygon",
-        "operator": "Bisma Mobil",
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 243,
-        "name": "BP",
-        "coordinates": [-73.9283959, 40.8661225889],
-        "type": "MultiPolygon",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 243,
-        "name": "Unnamed",
-        "coordinates": [-73.93444058, 40.85355126],
-        "type": "LineString",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 243,
-        "name": "Unnamed",
-        "coordinates": [-73.93444058, 40.85355126],
-        "type": "MultiPolygon",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 42,
-        "name": "Unnamed",
-        "coordinates": [-73.93771308, 40.82078778],
-        "type": "LineString",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 42,
-        "name": "Mobil",
-        "coordinates": [-73.93825284, 40.82101806],
-        "type": "LineString",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 74,
-        "name": "BP",
-        "coordinates": [-73.9337161, 40.8030688636],
-        "type": "LineString",
-        "operator": null,
-        "amenity": "fuel"
+        "amenity": "fuel",
+        "coordinates": [-73.92838955, 40.8661102]
     },
     {
         "location_id": 243,
         "name": "Exxon",
-        "coordinates": [-73.93559174, 40.85097602],
-        "type": "LineString",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 42,
-        "name": "Unnamed",
-        "coordinates": [-73.93774688, 40.82073826],
         "type": "MultiPolygon",
         "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 42,
-        "name": "Mobil",
-        "coordinates": [-73.93828914, 40.82096822],
-        "type": "MultiPolygon",
-        "operator": null,
-        "amenity": "fuel"
-    },
-    {
-        "location_id": 74,
-        "name": "BP",
-        "coordinates": [-73.9337391, 40.8030786],
-        "type": "MultiPolygon",
-        "operator": null,
-        "amenity": "fuel"
+        "amenity": "fuel",
+        "coordinates": [-73.9355929, 40.8509558]
     },
     {
         "location_id": 243,
-        "name": "Exxon",
-        "coordinates": [-73.93560972, 40.85094004],
+        "name": "BP",
+        "type": "LineString",
+        "operator": null,
+        "amenity": "fuel",
+        "coordinates": [-73.92838955, 40.8661102]
+    },
+    {
+        "location_id": 244,
+        "name": "Mobil",
+        "type": "Point",
+        "operator": null,
+        "amenity": "fuel",
+        "coordinates": [-73.9453543, 40.8329495]
+    },
+    {
+        "location_id": 244,
+        "name": "Shell",
         "type": "MultiPolygon",
         "operator": null,
-        "amenity": "fuel"
+        "amenity": "fuel",
+        "coordinates": [-73.93851925, 40.8451964]
+    },
+    {
+        "location_id": 249,
+        "name": "Mobil",
+        "type": "Point",
+        "operator": null,
+        "amenity": "fuel",
+        "coordinates": [-74.003482, 40.7389906]
+    },
+    {
+        "location_id": 263,
+        "name": "Shell",
+        "type": "LineString",
+        "operator": null,
+        "amenity": "fuel",
+        "coordinates": [-73.9452035, 40.78309625]
     }
 ]

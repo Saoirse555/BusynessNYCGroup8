@@ -24,17 +24,21 @@ import evmarker from './evmarker.svg';
 import Cookies from 'js-cookie';
 import favoritedIcon from './favorited_active.svg';
 import notfavoritedIcon from './favorited_empty.svg';
-import { Alert } from 'antd';
+import { Alert, Rate } from 'antd';
 import Marquee from 'react-fast-marquee';
 import { getDistance } from 'geolib';
 import fuel_stations from '../Data/fuel_stations.json';
 import charging_stations from '../Data/charging_stations.json';
 import axios from 'axios';
 
+const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
+
 // Map component
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const zoom = 11.5;
     const [map, setMap] = useState(null);
+
+    const [value, setValue] = useState(3);
 
     const inputStartRef = useRef();
     const inputDestRef = useRef();
@@ -530,6 +534,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
     }, [wayPoint]);
 
+//section for getting traffic alert data from 511NY
     const [alertData,setAlertData] = useState({login:'1111'});
 
     const getAlertData = async () => {
@@ -559,6 +564,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         clearInterval(intervalId);
         }
         }, []);
+    
+      
 
     return (
         <PageContainer id="main">
@@ -781,6 +788,11 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     ))}
                             </ListOfFavorites>
                         </FavoritesContainer>
+                        <Rating>
+                            <p>Please rate our website:</p>
+                            <Rate tooltips={desc} onChange={setValue} value={value} />
+                            {/* {value ? <span className="ant-rate-text">{desc[value - 1]}</span> : ''} */}
+                        </Rating>
                     </Left>
 
                     <Right>
@@ -1319,6 +1331,7 @@ const Selector = styled.div`
     @media screen and (max-width: 400px) {
     }
 `;
+
 const DaySelector = styled.select`
     display: flex;
     flex: 1;
@@ -1485,4 +1498,16 @@ const TitleMarker = styled.img`
     width: 1.5rem;
     height: auto;
     margin-left: 10px;
+`;
+
+const Rating = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 20px;
+    margin-left: 40px;
+    margin-right: 40px;
+    @media screen and (max-width: 400px) {
+    }
 `;

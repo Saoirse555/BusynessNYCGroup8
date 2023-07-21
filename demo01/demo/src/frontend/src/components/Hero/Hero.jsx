@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 // Hero component
 const Hero = () => {
@@ -39,6 +39,40 @@ const Hero = () => {
 export default Hero;
 
 // Styled components
+const waveAnimation = keyframes`
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;  
+
+const slideInFromTop = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const slideInFromRight = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
 const Container = styled.div`
     position: relative;
     display: flex;
@@ -47,24 +81,28 @@ const Container = styled.div`
     background-color: white;
     scroll-snap-align: center;
 
-    @keyframes slideInFromRight {
+    @keyframes slideInFromTop {
         0% {
-            transform: translateX(100%);
+            opacity: 0;
+            transform: translateY(-30px);
         }
         100% {
-            transform: translateX(0);
+            opacity: 1;
+            transform: translateY(0);
         }
     }
 
-    @keyframes slideInFromTop {
+    @keyframes slideInFromRight {
         0% {
-            transform: translateY(-200%);
+            opacity: 0;
+            transform: translateX(30px);
         }
         40% {
             transform: translateY(-200%);
         }
         100% {
-            transform: translateY(0);
+            opacity: 1;
+            transform: translateX(0);
         }
     }
 `;
@@ -128,7 +166,7 @@ const Title = styled.div`
     line-height: 170%;
     letter-spacing: 8px;
     padding-left: 8%;
-    animation: slideInFromTop 1.5s ease-in-out;
+    animation: ${slideInFromTop} 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     @media screen and (max-width: 900px) {
         font-size: 3rem;
     }
@@ -166,7 +204,7 @@ const Text = styled.div`
     letter-spacing: 8px;
     padding-left: 8%;
     z-index: 10;
-    animation: slideInFromRight 1.5s ease-in-out;
+    animation: ${slideInFromRight} 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     @media screen and (max-width: 900px) {
         white-space: normal;
         font-size: 3rem;
@@ -213,6 +251,7 @@ const ToMap = styled.div`
     line-height: 171.688%;
     letter-spacing: 4.5px;
     cursor: pointer;
+    animation: ${waveAnimation} 2s linear infinite;
 
     @media screen and (max-width: 760px) {
         font-size: 0.75rem;

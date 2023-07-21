@@ -24,14 +24,12 @@ import evmarker from './evmarker.svg';
 import Cookies from 'js-cookie';
 import favoritedIcon from './favorited_active.svg';
 import notfavoritedIcon from './favorited_empty.svg';
-import { Alert, Rate } from 'antd';
+import { Alert, Rate, Button, Modal } from 'antd';
 import Marquee from 'react-fast-marquee';
 import { getDistance } from 'geolib';
 import fuel_stations from '../Data/fuel_stations.json';
 import charging_stations from '../Data/charging_stations.json';
 import axios from 'axios';
-
-const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
 
 // Map component
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
@@ -565,7 +563,65 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
         }, []);
     
-      
+const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];      
+    
+    const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [userInput, setUserInput] = useState('');
+
+    const showModal = () => {
+        setOpen(true);
+      };
+    
+    const handleOk = () => {
+    setLoading(true);
+    setTimeout(() => {
+        setLoading(false);
+        setOpen(false);
+        // Here, you can call a function to handle sending the context to the specific email address.
+        handleSendEmail();
+    }, 3000);
+    };
+
+    const handleCancel = () => {
+    setOpen(false);
+    };
+
+    const handleInputChange = (e) => {
+    setUserInput(e.target.value);
+    };
+
+    const handleSendEmail = () => {
+        const mailgunApiKey = '4454556312468e6c00c5234a95a61cd5-c30053db-0fa9a89e'; // Replace with your Mailgun API key
+        const mailgunDomain = 'sandbox7b69b7bc15324e7fa342f96a33bd6b03.mailgun.org'; // Replace with your Mailgun domain
+        const recipientEmail = 'fay0091200@gmail.com'; // Replace with the recipient email address
+        const emailSubject = 'Feedback from the user'; // Replace with the email subject
+    
+        // Prepare the data to be sent in the request body.
+        const data = {
+          from: 'Your Name <your-email@example.com>', // Replace with your name and email
+          to: recipientEmail,
+          subject: emailSubject,
+          text: userInput, // Use the user input from the state
+        };
+    
+        // Make a POST request to the Mailgun API endpoint to send the email.
+        axios.post(`https://api.mailgun.net/v3/${mailgunDomain}/messages`, data, {
+          auth: {
+            username: 'api',
+            password: mailgunApiKey,
+          },
+        })
+        .then((response) => {
+          console.log('Email sent successfully:', response.data);
+          // Handle any success scenarios here.
+        })
+        .catch((error) => {
+          console.error('Failed to send email:', error);
+          // Handle any error scenarios here.
+        });
+      };
+
 
     return (
         <PageContainer id="main">
@@ -788,11 +844,46 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     ))}
                             </ListOfFavorites>
                         </FavoritesContainer>
-                        <Rating>
-                            <p>Please rate our website:</p>
-                            <Rate tooltips={desc} onChange={setValue} value={value} />
-                            {/* {value ? <span className="ant-rate-text">{desc[value - 1]}</span> : ''} */}
-                        </Rating>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <Rating>
+                                <p>Please rate our website:</p>
+                                <Rate tooltips={desc} onChange={setValue} value={value} />
+                                {/* {value ? <span className="ant-rate-text">{desc[value - 1]}</span> : ''} */}
+                            </Rating>
+
+                            <div style={{ marginTop: '20px', marginLeft: '40px', marginRight: '40px' }}>
+                                <Button type="primary" onClick={showModal}>
+                                    Discover an error?
+                                </Button>
+                                <Modal
+                                    visible={open}
+                                    title="Whoopsie! Spotted a tiny web blooper, huh?"
+                                    onOk={handleOk}
+                                    onCancel={handleCancel}
+                                    footer={[
+                                    <Button key="back" onClick={handleCancel}>
+                                        Return
+                                    </Button>,
+                                    <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
+                                        Submit
+                                    </Button>,
+                                    ]}
+                                >
+                                    <CustomParagraph>Feel free to drop us an email at AutoMate_support@gmail.com</CustomParagraph>
+                                    <CustomParagraph>Or simply jot down your thoughts below</CustomParagraph>
+                                    <CustomParagraph>Thanks a ton for your valuable feedback!</CustomParagraph>
+                                    
+                                    <p>
+                                    <FeedbackInput
+                                        type="text"
+                                        value={userInput}
+                                        onChange={handleInputChange}
+                                        placeholder="Enter your feedback"
+                                    />
+                                    </p>
+                                </Modal>
+                            </div>
+                        </div>
                     </Left>
 
                     <Right>
@@ -1510,4 +1601,13 @@ const Rating = styled.div`
     margin-right: 40px;
     @media screen and (max-width: 400px) {
     }
+`;
+
+const CustomParagraph = styled.p`
+  margin-bottom: 10px; 
+`;
+
+const FeedbackInput = styled.input`
+  height: 60px; 
+  width: 450px; 
 `;

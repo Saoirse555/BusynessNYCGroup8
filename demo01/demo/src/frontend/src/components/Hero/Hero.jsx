@@ -128,6 +128,7 @@ const Title = styled.div`
     line-height: 170%;
     letter-spacing: 8px;
     padding-left: 8%;
+    animation: slideInFromTop 1.5s ease-in-out;
     @media screen and (max-width: 900px) {
         font-size: 3rem;
     }
@@ -165,6 +166,7 @@ const Text = styled.div`
     letter-spacing: 8px;
     padding-left: 8%;
     z-index: 10;
+    animation: slideInFromRight 1.5s ease-in-out;
     @media screen and (max-width: 900px) {
         white-space: normal;
         font-size: 3rem;

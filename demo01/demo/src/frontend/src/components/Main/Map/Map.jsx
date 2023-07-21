@@ -219,9 +219,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         });
     };
 
-    const [selectedDay, setSelectedDay] = useState('');
-    const [selectedDayIndex, setSelectedDayIndex] = useState('');
-    const [selectedHour, setSelectedHour] = useState('');
+    const [selectedDay, setSelectedDay] = useState(0);
+    const [selectedDayIndex, setSelectedDayIndex] = useState();
+    const [selectedHour, setSelectedHour] = useState();
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     // Sets the selected day and hour based on weather and forecast information
@@ -232,9 +232,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             const index = daysOfWeek.findIndex(
                 (day) => day === today.slice(0, 3)
             );
-            setSelectedDayIndex(index);
-            setSelectedDay(today);
-            setSelectedHour(time);
+            setSelectedDayIndex(parseInt(index));
+            setSelectedDay(0);
+            setSelectedHour(parseInt(time));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [weatherInfo, foreCastInfo]);
@@ -243,19 +243,44 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const handleDayChange = (e) => {
         const pickedDay = e.target.value;
         setSelectedDay(pickedDay);
-        console.log(
-            'User chose the day: ',
-            pickedDay,
-            foreCastInfo.list[pickedDay * 8].dt //actual argument we need to pass to the backend
-        );
     };
 
     // Handles the change of selected hour
     const handleHourChange = (e) => {
         const pickedHour = e.target.value;
         setSelectedHour(pickedHour);
-        console.log('User chose the hour: ', pickedHour);
     };
+
+    const getModelInput = () => {
+        if (foreCastInfo && selectedDay && selectedHour) {
+            const timeStamp = foreCastInfo.list[selectedDay * 8].dt;
+            const weather = foreCastInfo.list[selectedDay * 8];
+            const hour = parseInt(selectedHour); //0 to 23
+            const date = new Date(timeStamp * 1000);
+            const month = date.getMonth() + 1; //1 to 12
+            const day = date.getDate(); //1 to 31
+            const day_of_week = date.getDay(); //Sunday is 0!
+            const vis = weather.visibility / 1000; //in km
+            const wind_spd = weather.wind.speed; // in m/s
+            const temp = parseFloat((weather.main.temp - 273.15).toFixed(2)); //in deg C
+            const modelInput = {
+                hour: hour,
+                month: month,
+                day: day,
+                day_of_week: day_of_week,
+                wind_spd: wind_spd,
+                vis: vis,
+                temp: temp
+            };
+
+            console.log(JSON.stringify(modelInput));
+            return JSON.stringify(modelInput);
+        }
+    };
+
+    useEffect(() => {
+        getModelInput();
+    }, [selectedDay, selectedHour, foreCastInfo]);
 
     // Handles the click on a car park marker and displays the info window
     const handleCarParkClick = (locationInfo) => {
@@ -532,96 +557,103 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
     }, [wayPoint]);
 
-//section for getting traffic alert data from 511NY
-    const [alertData,setAlertData] = useState({login:'1111'});
+    //section for getting traffic alert data from 511NY
+    const [alertData, setAlertData] = useState({ login: '1111' });
 
     const getAlertData = async () => {
         try {
-        // Make an HTTP GET request to the 511ny API for current alert data
-        const {data} = await axios.get(
-        `https://511ny.org/api/getevents?key=5fcac6b5dc2c4372a0416f46929d4cc1&format=json`
-        )
-        console.log('alertdata',data)
-        // Return the retrieved alert data
-        return data
+            // Make an HTTP GET request to the 511ny API for current alert data
+            const { data } = await axios.get(
+                `https://511ny.org/api/getevents?key=5fcac6b5dc2c4372a0416f46929d4cc1&format=json`
+            );
+            console.log('alertdata', data);
+            // Return the retrieved alert data
+            return data;
         } catch (error) {
-        // Log any errors that occur during the API call
-        console.log(error)
-        }}
-    
-    const fetchAlertData = () =>{
-        getAlertData().then((data)=>setAlertData(data))
+            // Log any errors that occur during the API call
+            console.log('Error occured while fetching live info: ', error);
         }
-    
+    };
+
+    const fetchAlertData = () => {
+        getAlertData().then((data) => setAlertData(data));
+    };
+
     useEffect(() => {
-        fetchAlertData()
+        fetchAlertData();
         const intervalId = setInterval(() => {
-        fetchAlertData()
+            fetchAlertData();
         }, 3600000);
         return () => {
-        clearInterval(intervalId);
-        }
-        }, []);
-    
-const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];      
-    
+            clearInterval(intervalId);
+        };
+    }, []);
+
+    const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
+
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [userInput, setUserInput] = useState('');
 
     const showModal = () => {
         setOpen(true);
-      };
-    
+    };
+
     const handleOk = () => {
-    setLoading(true);
-    setTimeout(() => {
-        setLoading(false);
-        setOpen(false);
-        // Here, you can call a function to handle sending the context to the specific email address.
-        handleSendEmail();
-    }, 3000);
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            setOpen(false);
+            // Here, you can call a function to handle sending the context to the specific email address.
+            handleSendEmail();
+        }, 3000);
     };
 
     const handleCancel = () => {
-    setOpen(false);
+        setOpen(false);
     };
 
     const handleInputChange = (e) => {
-    setUserInput(e.target.value);
+        setUserInput(e.target.value);
     };
 
     const handleSendEmail = () => {
-        const mailgunApiKey = '4454556312468e6c00c5234a95a61cd5-c30053db-0fa9a89e'; // Replace with your Mailgun API key
-        const mailgunDomain = 'sandbox7b69b7bc15324e7fa342f96a33bd6b03.mailgun.org'; // Replace with your Mailgun domain
+        const mailgunApiKey =
+            '4454556312468e6c00c5234a95a61cd5-c30053db-0fa9a89e'; // Replace with your Mailgun API key
+        const mailgunDomain =
+            'sandbox7b69b7bc15324e7fa342f96a33bd6b03.mailgun.org'; // Replace with your Mailgun domain
         const recipientEmail = 'fay0091200@gmail.com'; // Replace with the recipient email address
         const emailSubject = 'Feedback from the user'; // Replace with the email subject
-    
+
         // Prepare the data to be sent in the request body.
         const data = {
-          from: 'Your Name <your-email@example.com>', // Replace with your name and email
-          to: recipientEmail,
-          subject: emailSubject,
-          text: userInput, // Use the user input from the state
+            from: 'Your Name <your-email@example.com>', // Replace with your name and email
+            to: recipientEmail,
+            subject: emailSubject,
+            text: userInput // Use the user input from the state
         };
-    
-        // Make a POST request to the Mailgun API endpoint to send the email.
-        axios.post(`https://api.mailgun.net/v3/${mailgunDomain}/messages`, data, {
-          auth: {
-            username: 'api',
-            password: mailgunApiKey,
-          },
-        })
-        .then((response) => {
-          console.log('Email sent successfully:', response.data);
-          // Handle any success scenarios here.
-        })
-        .catch((error) => {
-          console.error('Failed to send email:', error);
-          // Handle any error scenarios here.
-        });
-      };
 
+        // Make a POST request to the Mailgun API endpoint to send the email.
+        axios
+            .post(
+                `https://api.mailgun.net/v3/${mailgunDomain}/messages`,
+                data,
+                {
+                    auth: {
+                        username: 'api',
+                        password: mailgunApiKey
+                    }
+                }
+            )
+            .then((response) => {
+                console.log('Email sent successfully:', response.data);
+                // Handle any success scenarios here.
+            })
+            .catch((error) => {
+                console.error('Failed to send email:', error);
+                // Handle any error scenarios here.
+            });
+    };
 
     return (
         <PageContainer id="main">
@@ -644,9 +676,17 @@ const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
                                     {/* Click on Red markers to create a route.
                                     Click on gas/charging icons to create a
                                     waypoint. */}
-                                    {alertData.login==='1111' && <li>There are currently no emergency alerts at this time.</li>}
-                                    {alertData.login!=='1111' && alertData[0].Description}
-                                    {alertData.login!=='1111' && alertData[1].Description}
+                                    {alertData === undefined && (
+                                        <li>
+                                            There are currently no emergency
+                                            alerts at this time.
+                                        </li>
+                                    )}
+                                    {alertData !== undefined && alertData.length
+                                        ? alertData[0].Description +
+                                          {} +
+                                          alertData[1].Description
+                                        : ''}
                                 </Marquee>
                             }
                         />
@@ -844,46 +884,88 @@ const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
                                     ))}
                             </ListOfFavorites>
                         </FavoritesContainer>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <Rating>
-                                <p>Please rate our website:</p>
-                                <Rate tooltips={desc} onChange={setValue} value={value} />
-                                {/* {value ? <span className="ant-rate-text">{desc[value - 1]}</span> : ''} */}
-                            </Rating>
-
-                            <div style={{ marginTop: '20px', marginLeft: '40px', marginRight: '40px' }}>
-                                <Button type="primary" onClick={showModal}>
-                                    Discover an error?
-                                </Button>
-                                <Modal
-                                    visible={open}
-                                    title="Whoopsie! Spotted a tiny web blooper, huh?"
-                                    onOk={handleOk}
-                                    onCancel={handleCancel}
-                                    footer={[
-                                    <Button key="back" onClick={handleCancel}>
-                                        Return
-                                    </Button>,
-                                    <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
-                                        Submit
-                                    </Button>,
-                                    ]}
-                                >
-                                    <CustomParagraph>Feel free to drop us an email at AutoMate_support@gmail.com</CustomParagraph>
-                                    <CustomParagraph>Or simply jot down your thoughts below</CustomParagraph>
-                                    <CustomParagraph>Thanks a ton for your valuable feedback!</CustomParagraph>
-                                    
-                                    <p>
-                                    <FeedbackInput
-                                        type="text"
-                                        value={userInput}
-                                        onChange={handleInputChange}
-                                        placeholder="Enter your feedback"
-                                    />
+                        {!showFavorites && !showRecommended && (
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center'
+                                }}
+                            >
+                                <Rating>
+                                    <p
+                                        style={{
+                                            fontFamily: 'Roboto',
+                                            fontWeight: '100'
+                                        }}
+                                    >
+                                        Please rate our website:
                                     </p>
-                                </Modal>
+                                    <Rate
+                                        tooltips={desc}
+                                        onChange={setValue}
+                                        value={value}
+                                    />
+                                    {/* {value ? <span className="ant-rate-text">{desc[value - 1]}</span> : ''} */}
+                                </Rating>
+
+                                <div
+                                    style={{
+                                        marginTop: '20px',
+                                        marginLeft: '40px',
+                                        marginRight: '40px'
+                                    }}
+                                >
+                                    <Button type="primary" onClick={showModal}>
+                                        Discover an error?
+                                    </Button>
+                                    <Modal
+                                        visible={open}
+                                        title="Whoopsie! Spotted a tiny web blooper, huh?"
+                                        onOk={handleOk}
+                                        onCancel={handleCancel}
+                                        footer={[
+                                            <Button
+                                                key="back"
+                                                onClick={handleCancel}
+                                            >
+                                                Return
+                                            </Button>,
+                                            <Button
+                                                key="submit"
+                                                type="primary"
+                                                loading={loading}
+                                                onClick={handleOk}
+                                            >
+                                                Submit
+                                            </Button>
+                                        ]}
+                                    >
+                                        <CustomParagraph>
+                                            Feel free to drop us an email at
+                                            AutoMate_support@gmail.com
+                                        </CustomParagraph>
+                                        <CustomParagraph>
+                                            Or simply jot down your thoughts
+                                            below
+                                        </CustomParagraph>
+                                        <CustomParagraph>
+                                            Thanks a ton for your valuable
+                                            feedback!
+                                        </CustomParagraph>
+
+                                        <p>
+                                            <FeedbackInput
+                                                type="text"
+                                                value={userInput}
+                                                onChange={handleInputChange}
+                                                placeholder="Enter your feedback"
+                                            />
+                                        </p>
+                                    </Modal>
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </Left>
 
                     <Right>
@@ -1604,10 +1686,11 @@ const Rating = styled.div`
 `;
 
 const CustomParagraph = styled.p`
-  margin-bottom: 10px; 
+    margin-bottom: 10px;
 `;
 
 const FeedbackInput = styled.input`
-  height: 60px; 
-  width: 450px; 
+    height: 60px;
+    width: 450px;
+    padding-left: 20px;
 `;

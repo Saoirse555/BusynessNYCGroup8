@@ -4,31 +4,44 @@ import styled, { keyframes } from 'styled-components';
 // Hero component
 const Hero = () => {
     return (
+        // The component returns JSX elements wrapped inside a 'Container' element with an 'id' attribute set to "hero".
         <Container id="hero">
+
+            {/* The 'Left' component represents the left section of the hero section */}
             <Left>
+                {/* The 'SmallLine' component displays a small line, using an SVG image*/}
                 <SmallLine src="../img/line_small.svg"></SmallLine>
+                {/* The 'Title' component displays the main title "Auto Mate" and an inline marker image*/}
                 <Title>
                     Auto Mate
                     <Marker src="../img/marker.png" />
                 </Title>
+                {/* The 'Text' component displays the text "Your Parking Assistant" */}
                 <Text>Your Parking Assistant</Text>
+                {/* The 'Skyline' component displays an image of a skyline*/}
                 <Skyline src="../img/skyline.jpeg" />
             </Left>
 
+            {/* The 'Right' component represents the right section of the container */}
             <Right>
+                {/* The 'ToMap' component is a button that allows users to navigate to the Map section */}
                 <ToMap>
                     <a href="#main">MAP</a>
                 </ToMap>
+                {/* The 'BigLine' component displays a large line, using an SVG image*/}
                 <BigLine src="../img/line_large.svg" />
             </Right>
 
+            {/* The 'Ground' component represents a section of the container closer to the bottom */}
             <Ground>
+                {/* The 'TextMobile' component displays text*/}
                 <TextMobile>
                     Your Perfect Parking Companion! Discover hassle-free parking
                     spots on the go.
                 </TextMobile>
             </Ground>
 
+            {/* The 'CarShadow' component displays a shadow image of a car*/}
             <CarShadow src="../img/shadow.svg" />
             <Car src="../img/car.png" />
             
@@ -39,6 +52,7 @@ const Hero = () => {
 export default Hero;
 
 // Styled components
+// This defines a wave-like vertical translation animation for an element.
 const waveAnimation = keyframes`
   0% {
     transform: translateY(0);
@@ -51,6 +65,7 @@ const waveAnimation = keyframes`
   }
 `;  
 
+// This defines an animation that slides an element in from the top while fading in.
 const slideInFromTop = keyframes`
   0% {
     opacity: 0;
@@ -62,6 +77,7 @@ const slideInFromTop = keyframes`
   }
 `;
 
+// This defines an animation that slides an element in from the right while fading in.
 const slideInFromRight = keyframes`
   0% {
     opacity: 0;
@@ -117,7 +133,7 @@ const TextMobile = styled.p`
     line-height: 170%;
     letter-spacing: 4px;
     padding-left: 8%;
-
+    
     @media screen and (max-width: 400px) {
         display: block;
     }

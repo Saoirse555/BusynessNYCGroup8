@@ -4,31 +4,44 @@ import styled, { keyframes } from 'styled-components';
 // Hero component
 const Hero = () => {
     return (
+        // The component returns JSX elements wrapped inside a 'Container' element with an 'id' attribute set to "hero".
         <Container id="hero">
+
+            {/* The 'Left' component represents the left section of the hero section */}
             <Left>
+                {/* The 'SmallLine' component displays a small line, using an SVG image*/}
                 <SmallLine src="../img/line_small.svg"></SmallLine>
+                {/* The 'Title' component displays the main title "Auto Mate" and an inline marker image*/}
                 <Title>
                     Auto Mate
                     <Marker src="../img/marker.png" />
                 </Title>
+                {/* The 'Text' component displays the text "Your Parking Assistant" */}
                 <Text>Your Parking Assistant</Text>
+                {/* The 'Skyline' component displays an image of a skyline*/}
                 <Skyline src="../img/skyline.jpeg" />
             </Left>
 
+            {/* The 'Right' component represents the right section of the container */}
             <Right>
+                {/* The 'ToMap' component is a button that allows users to navigate to the Map section */}
                 <ToMap>
                     <a href="#main">MAP</a>
                 </ToMap>
+                {/* The 'BigLine' component displays a large line, using an SVG image*/}
                 <BigLine src="../img/line_large.svg" />
             </Right>
 
+            {/* The 'Ground' component represents a section of the container closer to the bottom */}
             <Ground>
+                {/* The 'TextMobile' component displays text*/}
                 <TextMobile>
                     Your Perfect Parking Companion! Discover hassle-free parking
                     spots on the go.
                 </TextMobile>
             </Ground>
 
+            {/* The 'CarShadow' component displays a shadow image of a car*/}
             <CarShadow src="../img/shadow.svg" />
             <Car src="../img/car.png" />
             
@@ -39,6 +52,7 @@ const Hero = () => {
 export default Hero;
 
 // Styled components
+// This defines a wave-like vertical translation animation for an element.
 const waveAnimation = keyframes`
   0% {
     transform: translateY(0);
@@ -51,6 +65,7 @@ const waveAnimation = keyframes`
   }
 `;  
 
+// This defines an animation that slides an element in from the top while fading in.
 const slideInFromTop = keyframes`
   0% {
     opacity: 0;
@@ -62,6 +77,7 @@ const slideInFromTop = keyframes`
   }
 `;
 
+// This defines an animation that slides an element in from the right while fading in.
 const slideInFromRight = keyframes`
   0% {
     opacity: 0;
@@ -71,6 +87,15 @@ const slideInFromRight = keyframes`
     opacity: 1;
     transform: translateX(0);
   }
+`;
+
+const rotate3DAnimation = keyframes`
+    0% {
+        transform: rotateY(0);
+    }
+    100% {
+        transform: rotateY(360deg);
+    }
 `;
 
 const Container = styled.div`
@@ -117,7 +142,7 @@ const TextMobile = styled.p`
     line-height: 170%;
     letter-spacing: 4px;
     padding-left: 8%;
-
+    
     @media screen and (max-width: 400px) {
         display: block;
     }
@@ -146,20 +171,21 @@ const Right = styled.div`
 const SmallLine = styled.img`
     margin-top: 72px;
     margin-left: 8%;
-    width: 5%;
+    width: 15%;
 `;
 
 const BigLine = styled.img`
     position: absolute;
     top: 116px;
     right: 0;
-    width: 60%;
+    width: 70%;
+    color: #ffa500;
 `;
 
 const Title = styled.div`
     display: flex;
     color: #000;
-    font-size: 4rem;
+    font-size: 5rem;
     font-family: Roboto;
     font-style: italic;
     font-weight: 500;
@@ -181,7 +207,7 @@ const Marker = styled.img`
     height: 81.6px;
     padding-left: 2%;
     padding-top: 2%;
-    animation: slideInFromTop 1.5s ease-in-out;
+    animation: slideInFromTop 1.5s ease-in-out, ${rotate3DAnimation} 3s linear infinite;
 
     @media screen and (max-width: 900px) {
         width: 3rem;
@@ -199,11 +225,12 @@ const Text = styled.div`
     color: #000;
     font-size: 3.5rem;
     font-family: Roboto;
+    font-style: bold;
     font-weight: 100;
     line-height: 170%;
     letter-spacing: 8px;
     padding-left: 8%;
-    z-index: 10;
+    z-index: 100;
     animation: ${slideInFromRight} 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     @media screen and (max-width: 900px) {
         white-space: normal;
@@ -217,10 +244,11 @@ const Text = styled.div`
 
 const Skyline = styled.img`
     position: absolute;
-    opacity: 0.3;
+    opacity: 0.25;
     width: 50vw;
     height: auto;
     bottom: 24%;
+    padding-left: 8%;
 
     @media screen and (max-width: 900px) {
         width: 100vw;
@@ -236,7 +264,7 @@ const Skyline = styled.img`
 `;
 
 const ToMap = styled.div`
-    margin-top: 32px;
+    margin-top: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -298,7 +326,7 @@ const CarShadow = styled.img`
 const Ground = styled.div`
     position: absolute;
     width: 100%;
-    background-color: #222222;
+    background-color: #ffa600;
     height: 24%;
     z-index: 11;
     top: 76%;

@@ -924,7 +924,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     </Button>
                                     <Modal
                                         open={open}
-                                        title="Whoopsie! Spotted a tiny web blooper, huh?"
+                                        title="Whoops! Spotted a web blooper? 😅"
                                         onOk={handleOk}
                                         onCancel={handleCancel}
                                         footer={[
@@ -953,8 +953,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                             below
                                         </CustomParagraph>
                                         <CustomParagraph>
-                                            Thanks a ton for your valuable
-                                            feedback!
+                                            Thanks a ton for your feedback!
                                         </CustomParagraph>
 
                                         <p>

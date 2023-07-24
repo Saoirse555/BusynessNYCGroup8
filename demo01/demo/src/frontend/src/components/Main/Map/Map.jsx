@@ -173,6 +173,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const fetchDirections = (start, end) => {
         if (!start || !end) return;
         const service = new window.google.maps.DirectionsService();
+
         service.route(
             {
                 origin: start,
@@ -551,12 +552,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         fetchDirections(startLocation, destLocation);
     }, [wayPoint]);
 
-    useEffect(() => {
-        if (wayPoint.length) {
-            console.log(wayPoint[0].location.lat);
-        }
-    }, [wayPoint]);
-
     //section for getting traffic alert data from 511NY
     const [alertData, setAlertData] = useState({ login: '1111' });
 
@@ -717,6 +712,14 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     ref={destInputRef}
                                 />
                             </StandaloneSearchBox>
+                            <Button
+                                type="primary"
+                                onClick={() =>
+                                    fetchDirections(startLocation, destLocation)
+                                }
+                            >
+                                Route
+                            </Button>
                         </InputContainer>
                         <Selector>
                             <DaySelector
@@ -920,7 +923,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         Discover an error?
                                     </Button>
                                     <Modal
-                                        visible={open}
+                                        open={open}
                                         title="Whoopsie! Spotted a tiny web blooper, huh?"
                                         onOk={handleOk}
                                         onCancel={handleCancel}

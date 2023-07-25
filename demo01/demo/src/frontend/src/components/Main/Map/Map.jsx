@@ -585,7 +585,20 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     }, []);
 
     const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
+    const [rate, setRate] = useState(3); 
+    const [showPopup, setShowPopup] = useState(false);
 
+    const handleRatingChange = (newValue) => {
+        setRate(newValue);
+        setShowPopup(true);
+    };
+    
+    const alertStyles = {
+        width: 'auto',
+        padding: '8px 15px', // Smaller padding
+        fontSize: '14px', // Smaller font size
+      };
+    
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [userInput, setUserInput] = useState('');
@@ -906,10 +919,21 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     </p>
                                     <Rate
                                         tooltips={desc}
-                                        onChange={setValue}
-                                        value={value}
+                                        onChange={handleRatingChange}
+                                        value={rate}
                                     />
                                     {/* {value ? <span className="ant-rate-text">{desc[value - 1]}</span> : ''} */}
+
+                                    {showPopup && (
+                                        <Modal
+                                            visible={showPopup}
+                                            onCancel={() => setShowPopup(false)}
+                                            footer={null}
+                                            centered
+                                        >
+                                            <Alert message="Thank you very much for your feedback!" type="success" style={alertStyles}/>
+                                        </Modal>
+                                    )}
                                 </Rating>
 
                                 <div

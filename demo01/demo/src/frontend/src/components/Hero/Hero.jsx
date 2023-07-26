@@ -310,7 +310,7 @@ const Car = styled.img`
     right: -2%;
     bottom: 4%;
     z-index: 12;
-    animation: slideInFromRight 1s ease-in-out;
+    animation: ${slideInFromRight} 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 
     @media screen and (max-width: 900px) {
         width: 65%;
@@ -328,7 +328,7 @@ const CarShadow = styled.img`
     right: -2%;
     bottom: 4%;
     z-index: 12;
-    animation: slideInFromRight 1s ease-in-out;
+    animation: ${slideInFromRight} 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 
     @media screen and (max-width: 900px) {
         width: 65%;
@@ -356,7 +356,7 @@ const Ground = styled.div`
 `;
 
 const Cursor = styled.div`
-  width: 80px;
+  width: 90px;
   height: 40px;
 //   background-color: #00ffff;
   background-image: url(${cursorImage});

@@ -37,14 +37,14 @@ public class ParkingStationServiceImpl implements ParkingStationService {
                 case "LineString": {
                     LineString lineString = CoordinatesUtils.StringToLineString(station.getCoordinates());
                     List<Point> coordinates = lineString.getCoordinates();
-                    Point center = ParkingStationServiceImpl.calculateCenter(coordinates);
+                    Point center = CoordinatesUtils.calculateCenter(coordinates);
                     parkingStationVO.setCoordinates(center);
                     break;
                 }
                 case "MultiPolygon": {
                     Polygon polygon = CoordinatesUtils.StringToPolygon(station.getCoordinates());
                     List<Point> coordinates = polygon.getCoordinates();
-                    Point center = ParkingStationServiceImpl.calculateCenter(coordinates);
+                    Point center = CoordinatesUtils.calculateCenter(coordinates);
                     parkingStationVO.setCoordinates(center);
                     break;
                 }
@@ -59,18 +59,5 @@ public class ParkingStationServiceImpl implements ParkingStationService {
         return parkingStationVOList;
     }
 
-    private static Point calculateCenter(List<Point> coordinates){
-        double totalX = 0;
-        double totalY = 0;
 
-        for (Point point : coordinates) {
-            totalX += point.getLatitude();
-            totalY += point.getLongitude();
-        }
-
-        double centerX = totalX / coordinates.size();
-        double centerY = totalY / coordinates.size();
-
-        return new Point(centerY, centerX);
-    }
 }

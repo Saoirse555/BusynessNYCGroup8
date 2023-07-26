@@ -5,5 +5,5 @@ import com.example.demo.Entity.Location;
 import java.util.List;
 
 public interface LocationService {
-    public List<Location> getAllLocations();
+    List<Location> getAllLocations();
 }

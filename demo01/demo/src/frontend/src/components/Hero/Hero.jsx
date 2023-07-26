@@ -1,12 +1,21 @@
 import React from 'react';
+import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
+import cursorImage from './cursorcar.png';
 
 // Hero component
 const Hero = () => {
+    const [cursorX, setCursorX] = useState()
+    const [cursorY, setCursorY] = useState()
+
+    window.addEventListener('mousemove',(e)=>{
+        setCursorX(e.pageX)
+        setCursorY(e.pageY)
+    })
+
     return (
         // The component returns JSX elements wrapped inside a 'Container' element with an 'id' attribute set to "hero".
         <Container id="hero">
-
             {/* The 'Left' component represents the left section of the hero section */}
             <Left>
                 {/* The 'SmallLine' component displays a small line, using an SVG image*/}
@@ -44,10 +53,16 @@ const Hero = () => {
             {/* The 'CarShadow' component displays a shadow image of a car*/}
             <CarShadow src="../img/shadow.svg" />
             <Car src="../img/car.png" />
-            
+            <Cursor
+                style={{
+                    left:cursorX+'px',
+                    top:cursorY+'px'
+
+                }}/>
         </Container>
     );
 };
+
 
 export default Hero;
 
@@ -105,6 +120,7 @@ const Container = styled.div`
     height: 100vh;
     background-color: white;
     scroll-snap-align: center;
+    cursor:none;
 
     @keyframes slideInFromTop {
         0% {
@@ -337,4 +353,16 @@ const Ground = styled.div`
         top: 50%;
         height: 50%;
     }
+`;
+
+const Cursor = styled.div`
+  width: 80px;
+  height: 40px;
+//   background-color: #00ffff;
+  background-image: url(${cursorImage});
+  background-size: 100% 100%;
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999;
 `;

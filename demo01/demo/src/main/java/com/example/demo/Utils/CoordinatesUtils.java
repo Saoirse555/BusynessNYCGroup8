@@ -8,7 +8,7 @@ import com.example.demo.Entity.Polygon;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoordinatesUtils {
+public final class CoordinatesUtils {
     public static Point StringToPoint(String coordinatesString) {
         ArrayList<Double> co = (ArrayList<Double>) JSONObject.parseArray(coordinatesString, Double.class);
         return new Point(co.get(0), co.get(1));
@@ -37,6 +37,21 @@ public class CoordinatesUtils {
             points.add(newPoint);
         }
         return new Polygon(points);
+    }
+
+    public static Point calculateCenter(List<Point> coordinates){
+        double totalX = 0;
+        double totalY = 0;
+
+        for (Point point : coordinates) {
+            totalX += point.getLatitude();
+            totalY += point.getLongitude();
+        }
+
+        double centerX = totalX / coordinates.size();
+        double centerY = totalY / coordinates.size();
+
+        return new Point(centerY, centerX);
     }
 }
 

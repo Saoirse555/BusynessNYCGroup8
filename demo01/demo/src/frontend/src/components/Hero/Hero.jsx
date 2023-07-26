@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import cursorImage from './cursorcar.png';
+import { HiChevronDoubleDown } from 'react-icons/hi';
 
 // Hero component
 const Hero = () => {
@@ -26,7 +27,7 @@ const Hero = () => {
                     <Marker src="../img/marker.png" />
                 </Title>
                 {/* The 'Text' component displays the text "Your Parking Assistant" */}
-                <Text>Your Parking Assistant</Text>
+                <Text>Your Driving Assistant</Text>
                 {/* The 'Skyline' component displays an image of a skyline*/}
                 <Skyline src="../img/skyline.jpeg" />
             </Left>
@@ -43,11 +44,12 @@ const Hero = () => {
 
             {/* The 'Ground' component represents a section of the container closer to the bottom */}
             <Ground>
-                {/* The 'TextMobile' component displays text*/}
+                {/* The 'TextMobile' component displays text
                 <TextMobile>
                     Your Perfect Parking Companion! Discover hassle-free parking
                     spots on the go.
-                </TextMobile>
+                </TextMobile> */}
+                <AnimatedHiChevronDoubleDown />
             </Ground>
 
             {/* The 'CarShadow' component displays a shadow image of a car*/}
@@ -104,6 +106,18 @@ const slideInFromRight = keyframes`
   }
 `;
 
+const moveDown = keyframes`
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;
+
 const rotate3DAnimation = keyframes`
     0% {
         transform: rotateY(0);
@@ -148,21 +162,20 @@ const Container = styled.div`
     }
 `;
 
-const TextMobile = styled.p`
-    display: none;
-    color: white;
-    font-size: 1.5rem;
-    font-family: Roboto;
-    font-style: italic;
-    font-weight: 100;
-    line-height: 170%;
-    letter-spacing: 4px;
-    padding-left: 8%;
-    
-    @media screen and (max-width: 400px) {
-        display: block;
-    }
-`;
+// const TextMobile = styled.p`
+//     display: none;
+//     color: white;
+//     font-size: 1.5rem;
+//     font-family: Roboto;
+//     font-style: italic;
+//     font-weight: 100;
+//     line-height: 170%;
+//     letter-spacing: 4px;
+//     padding-left: 8%;
+//     @media screen and (max-width: 400px) {
+//         display: block;
+//     }
+// `;
 
 const Left = styled.div`
     position: relative;
@@ -365,4 +378,13 @@ const Cursor = styled.div`
   border-radius: 50%;
   pointer-events: none;
   z-index: 999;
+`;
+
+const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
+  animation: ${moveDown} 2s infinite;
+  position: absolute;
+  left: 45%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  zoom: 1.5; 
 `;

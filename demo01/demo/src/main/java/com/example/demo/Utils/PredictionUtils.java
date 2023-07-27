@@ -150,9 +150,8 @@ public final class PredictionUtils {
      * @param modelInput model input
      * @return result
      */
-    public static double makePrediction(ModelInput modelInput) {
+    public static double makePrediction(int locationID, ModelInput modelInput) {
         //load model
-        int locationID = modelInput.getLocationID();
         loadPMML(locationID);
 
         //make prediction

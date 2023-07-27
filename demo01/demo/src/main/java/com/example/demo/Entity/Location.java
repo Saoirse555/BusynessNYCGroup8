@@ -13,18 +13,5 @@ import javax.persistence.*;
 @Table(name = "location")
 public class Location {
     @Id
-    @SequenceGenerator(
-            name = "location_sequence",
-            sequenceName = "location_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            generator = "location_sequence",
-            strategy = GenerationType.SEQUENCE)
     private int locationId;
-    private String locationName;
-
-    public Location(String locationName) {
-        this.locationName = locationName;
-    }
 }

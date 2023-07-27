@@ -281,19 +281,27 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                 precip: precip,
                 temp: temp
             };
-            console.log(JSON.stringify(modelInput));
             const model_output = getBusyness(JSON.stringify(modelInput)).then(
-                (data) => console.log(data)
+                (data) => data
             );
             return model_output;
         }
     };
 
-    const [busyness, setBusyness] = useState({});
+    const [color, setColor] = useState(colors);
 
     useEffect(() => {
-        getModelInput(4);
+        const updatedColor = {};
+
+        for (const key in color) {
+            updatedColor[key] = getModelInput(key);
+        }
+        setColor(updatedColor);
     }, [selectedDay, selectedHour]);
+
+    useEffect(() => {
+        console.log(color);
+    }, [color]);
 
     // Handles the click on a car park marker and displays the info window
     const handleCarParkClick = (locationInfo) => {

@@ -134,7 +134,6 @@ const Container = styled.div`
     height: 100vh;
     background-color: white;
     scroll-snap-align: center;
-    cursor:none;
 
     @keyframes slideInFromTop {
         0% {

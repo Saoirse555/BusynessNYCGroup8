@@ -8,7 +8,7 @@ import lombok.*;
 @Setter
 @ToString
 public class ModelInput {
-    //{"hour":15,"month":7,"day":22,"day_of_week":6,"wind_spd":3.76,"vis":10,"temp":26.1}
+    //{"locationID":4,"hour":15,"month":7,"day":22,"day_of_week":6,"wind_spd":3.76,"vis":10,"precip":0.0,"temp":26.1}
     private int locationID;
     private int hour;
     private int month;
@@ -16,6 +16,6 @@ public class ModelInput {
     private int dayOfWeek;
     private double windSpd;
     private int vis;
-    private int precip;
+    private double precip;
     private double temp;
 }

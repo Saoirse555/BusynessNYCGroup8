@@ -6,6 +6,7 @@ import {
 import styled from 'styled-components';
 import Hero from './components/Hero/Hero';
 import Map from './components/Main/Map/Map';
+import Add from './components/Add';
 import './App.css';
 import { getAllLocations } from './client';
 
@@ -52,6 +53,7 @@ const App = () => {
     return (
         <Container>
             <Hero />
+            <Add />
             <Map
                 weatherInfo={weatherData}
                 foreCastInfo={foreCastData}

@@ -21,6 +21,7 @@
         "react-cookie": "^4.1.1",
         "react-dom": "^18.2.0",
         "react-fast-marquee": "^1.6.0",
+        "react-icons": "^4.10.1",
         "react-scripts": "^5.0.1",
         "styled-components": "^6.0.2",
         "twit": "^2.2.11",

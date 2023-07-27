@@ -30,6 +30,7 @@ import { getDistance } from 'geolib';
 import fuel_stations from '../Data/fuel_stations.json';
 import charging_stations from '../Data/charging_stations.json';
 import axios from 'axios';
+import { getBusyness } from '../Data/busynessGetter';
 
 // Map component
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
@@ -252,7 +253,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         setSelectedHour(pickedHour);
     };
 
-    const getModelInput = () => {
+    const getModelInput = async (location_id) => {
         if (foreCastInfo && selectedDay && selectedHour) {
             const timeStamp = foreCastInfo.list[selectedDay * 8].dt;
             const weather = foreCastInfo.list[selectedDay * 8];
@@ -264,24 +265,34 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             const vis = weather.visibility / 1000; //in km
             const wind_spd = weather.wind.speed; // in m/s
             const temp = parseFloat((weather.main.temp - 273.15).toFixed(2)); //in deg C
+            let precip = 0;
+            if (weather.rain) {
+                precip = weather.rain['1h'];
+            }
+
             const modelInput = {
+                locationID: location_id,
                 hour: hour,
                 month: month,
                 day: day,
                 day_of_week: day_of_week,
                 wind_spd: wind_spd,
                 vis: vis,
+                precip: precip,
                 temp: temp
             };
-
-            console.log(JSON.stringify(modelInput));
-            return JSON.stringify(modelInput);
+            const model_output = getBusyness(JSON.stringify(modelInput)).then(
+                (data) => console.log(data)
+            );
+            return model_output;
         }
     };
 
+    const [busyness, setBusyness] = useState({});
+
     useEffect(() => {
-        getModelInput();
-    }, [selectedDay, selectedHour, foreCastInfo]);
+        getModelInput(4);
+    }, [selectedDay, selectedHour]);
 
     // Handles the click on a car park marker and displays the info window
     const handleCarParkClick = (locationInfo) => {
@@ -558,9 +569,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const getAlertData = async () => {
         try {
             // Make an HTTP GET request to the 511ny API for current alert data
-            const { data } = await axios.get(
-                `/api/getevents?key=5fcac6b5dc2c4372a0416f46929d4cc1&format=json`
-            );
+            const { data } = await axios.get(``);
             console.log('alertdata', data);
             // Return the retrieved alert data
             return data;
@@ -585,20 +594,20 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     }, []);
 
     const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
-    const [rate, setRate] = useState(3); 
+    const [rate, setRate] = useState(3);
     const [showPopup, setShowPopup] = useState(false);
 
     const handleRatingChange = (newValue) => {
         setRate(newValue);
         setShowPopup(true);
     };
-    
+
     const alertStyles = {
         width: 'auto',
         padding: '8px 15px', // Smaller padding
-        fontSize: '14px', // Smaller font size
-      };
-    
+        fontSize: '14px' // Smaller font size
+    };
+
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [userInput, setUserInput] = useState('');
@@ -931,7 +940,11 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                             footer={null}
                                             centered
                                         >
-                                            <Alert message="Thank you very much for your feedback!" type="success" style={alertStyles}/>
+                                            <Alert
+                                                message="Thank you very much for your feedback!"
+                                                type="success"
+                                                style={alertStyles}
+                                            />
                                         </Modal>
                                     )}
                                 </Rating>
@@ -1674,7 +1687,7 @@ const PageContainer = styled.div`
     height: 100vh;
     flex-direction: column;
     z-index: 10;
-    cursor:none;
+    cursor: none;
 `;
 const PageHeader = styled.div`
     display: flex;

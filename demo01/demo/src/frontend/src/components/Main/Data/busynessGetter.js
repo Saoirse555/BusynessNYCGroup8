@@ -14,9 +14,17 @@ import axios from 'axios';
 // };
 
 export const getBusyness = async (info) => {
+    const headers = {
+        'Content-Type': 'application/json'
+    };
+
     try {
         // Make an HTTP GET request to retrieve parking station data
-        const { data } = await axios.post('api/v1/prediction', info);
+        const { data } = await axios.post(
+            'http://localhost:8080/api/v1/prediction',
+            info,
+            { headers }
+        );
 
         // Log a message indicating that the station data is being retrieved
         console.log('Getting busyness data.');

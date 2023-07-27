@@ -281,6 +281,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                 precip: precip,
                 temp: temp
             };
+            console.log(JSON.stringify(modelInput));
             const model_output = getBusyness(JSON.stringify(modelInput)).then(
                 (data) => console.log(data)
             );
@@ -569,7 +570,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const getAlertData = async () => {
         try {
             // Make an HTTP GET request to the 511ny API for current alert data
-            const { data } = await axios.get(``);
+            const { data } = await axios.get(
+                `/api/getevents?key=5fcac6b5dc2c4372a0416f46929d4cc1&format=json`
+            );
             console.log('alertdata', data);
             // Return the retrieved alert data
             return data;

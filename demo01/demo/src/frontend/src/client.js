@@ -4,7 +4,9 @@ import axios from 'axios';
 export const getAllLocations = async () => {
     try {
         // Make an HTTP GET request to retrieve parking station data
-        const { data } = await axios.get('api/v1/parkingstations');
+        const { data } = await axios.get(
+            'http://localhost:8080/api/v1/parkingstations'
+        );
 
         // Log a message indicating that the station data is being retrieved
         console.log('Getting stations data.');

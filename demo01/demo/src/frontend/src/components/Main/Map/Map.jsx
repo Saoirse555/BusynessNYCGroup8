@@ -1690,7 +1690,6 @@ const PageContainer = styled.div`
     height: 100vh;
     flex-direction: column;
     z-index: 10;
-    cursor: none;
 `;
 const PageHeader = styled.div`
     display: flex;

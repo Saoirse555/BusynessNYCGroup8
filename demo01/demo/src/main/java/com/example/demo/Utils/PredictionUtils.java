@@ -13,9 +13,9 @@ import java.io.InputStream;
 import java.util.*;
 
 public final class PredictionUtils {
-    private static Evaluator modelEvaluator;
+    static Evaluator modelEvaluator;
 
-    private static void loadPMML(int locationId) {
+    static void loadPMML(int locationId) {
         String modelPath = "xgboost_models_forEach/model_" + locationId + ".pmml";
         PMML pmml;
         try {
@@ -74,8 +74,8 @@ public final class PredictionUtils {
      * @param temp
      * @return
      */
-    private Map<String, Object> getRawMap(Object timeslot, Object hour, Object month, Object day, Object day_of_week,
-                                          Object wind_spd, Object vis, Object precip, Object temp) {
+    Map<String, Object> getRawMap(Object timeslot, Object hour, Object month, Object day, Object day_of_week,
+                                  Object wind_spd, Object vis, Object precip, Object temp) {
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("timeslot", timeslot);
         data.put("x1", hour);
@@ -139,7 +139,7 @@ public final class PredictionUtils {
      * @param data
      * @return
      */
-    private Map<String, Object> predict(Evaluator evaluator, Map<String, Object> data) {
+    Map<String, Object> predict(Evaluator evaluator, Map<String, Object> data) {
         Map<FieldName, FieldValue> input = getFieldMap(evaluator, data);
         return evaluate(evaluator, input);
     }
@@ -175,70 +175,5 @@ public final class PredictionUtils {
         //get result
         Object result = output.get("y");
         return (double) result;
-    }
-
-    public static void main(String[] args) {
-        loadPMML(261);
-        List<String> featureNames = getFeatureNames();
-        String targetName = getTargetName();
-        System.out.println("Feature names: " + featureNames);
-        System.out.println("target name:" + targetName);
-
-        PredictionUtils predictionUtils = new PredictionUtils();
-        Map<String, Object> input = predictionUtils.getRawMap("Late Night", 0, 1, 1, 5,
-                1.6, 10, 0.0, 10.6);
-        Map<String, Object> output = predictionUtils.predict(modelEvaluator, input);
-
-        System.out.println(output.get("y"));
-
-
-        List<Map<String, Object>> inputs = new ArrayList<>();
-        List<Integer> locationIDs = new ArrayList<>();
-        locationIDs.add(4);
-        locationIDs.add(127);
-        locationIDs.add(12);
-        locationIDs.add(13);
-        locationIDs.add(243);
-
-        //4
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 1, 5, 1.6, 10, 0.0, 10.6));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 2, 6, 2.9, 9, 1.5, 11.4));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 7, 4, 3.1, 10, 2.5, 0.6));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 8, 5, 4.3, 10, 0.0, -3.9));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 9, 6, 3.1, 10, 0.0, -1.4));
-        //127
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 1, 5, 1.6, 10, 0.0, 10.6));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 2, 6, 2.9, 9, 1.5, 11.4));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 7, 4, 3.1, 10, 2.5, 0.6));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 8, 5, 4.3, 10, 0.0, -3.9));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 9, 6, 3.1, 10, 0.0, -1.4));
-        //12
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 1, 5, 1.6, 10, 0.0, 10.6));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 7, 4, 3.1, 10, 2.5, 0.6));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 22, 5, 4.6, 10, 0.0, -7.8));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 23, 6, 3.8, 10, 0.0, -3.0));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 29, 5, 4.7, 1, 0.3, -1.9));
-        //13
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 1, 5, 1.6, 10, 0.0, 10.6));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 2, 6, 2.9, 9, 1.5, 11.4));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 7, 4, 3.1, 10, 2.5, 0.6));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 8, 5, 4.3, 10, 0.0, -3.9));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 9, 6, 3.1, 10, 0.0, -1.4));
-        //243
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 1, 5, 1.6, 10, 0.0, 10.6));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 2, 6, 2.9, 9, 1.5, 11.4));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 7, 4, 3.1, 10, 2.5, 0.6));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 8, 5, 4.3, 10, 0.0, -3.9));
-        inputs.add(predictionUtils.getRawMap("Late Night", 0, 1, 9, 6, 3.1, 10, 0.0, -1.4));
-
-        for (int i = 0; i < locationIDs.size(); i++) {
-            int id = locationIDs.get(i);
-            loadPMML(id);
-            System.out.println("Model: " + id);
-            for (int j = i * 5; j < i * 5 + 5; j++) {
-                Map<String, Object> outputTest = predictionUtils.predict(modelEvaluator, inputs.get(j));
-                System.out.println("X=" + inputs.get(j) + " -> y=" + outputTest.get("y"));
-            }
-        }
     }
 }

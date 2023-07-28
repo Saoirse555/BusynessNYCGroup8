@@ -9,6 +9,7 @@ import Map from './components/Main/Map/Map';
 import Add from './components/Add';
 import './App.css';
 import { getAllLocations } from './client';
+import Contact from './components/Contact';
 
 // App component
 const App = () => {
@@ -59,6 +60,7 @@ const App = () => {
                 foreCastInfo={foreCastData}
                 locationInfo={locations}
             />
+            <Contact/>
         </Container>
     );
 };

@@ -897,7 +897,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     alignItems: 'center'
                                 }}
                             >
-                                <Rating>
+                            </div>
+                        )}
+                        <Rating>
                                     <p
                                         style={{
                                             fontFamily: 'Roboto',
@@ -911,7 +913,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         onChange={handleRatingChange}
                                         value={rate}
                                     />
-                                    {/* {value ? <span className="ant-rate-text">{desc[value - 1]}</span> : ''} */}
 
                                     {showPopup && (
                                         <Modal
@@ -929,7 +930,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     )}
                                 </Rating>
 
-                                <div
+                                {/* <div
                                     style={{
                                         marginTop: '20px',
                                         marginLeft: '40px',
@@ -975,20 +976,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         </CustomParagraph>
 
                                         <form ref={formRef}>
-                                            {/* <p>
-                                                <FeedbackInput
-                                                type="text"
-                                                name="user_name"
-                                                placeholder="Enter your name"
-                                                />
-                                            </p>
-                                            <p>
-                                                <FeedbackInput
-                                                type="email"
-                                                name="user_email"
-                                                placeholder="Enter your email"
-                                                />
-                                            </p> */}
                                             <p>
                                                 <textarea
                                                 name="message"
@@ -997,9 +984,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                             </p>
                                         </form>
                                     </Modal>
-                                </div>
-                            </div>
-                        )}
+                                </div> */}
                     </Left>
 
                     <Right>
@@ -1682,6 +1667,7 @@ const PageContainer = styled.div`
     height: 100vh;
     flex-direction: column;
     z-index: 10;
+    scroll-snap-align: center;
 `;
 const PageHeader = styled.div`
     display: flex;

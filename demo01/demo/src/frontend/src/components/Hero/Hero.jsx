@@ -14,7 +14,7 @@ const Hero = () => {
           y: e.pageY,
           id: Date.now(),
         };
-        setCursorStars((prevStars) => [...prevStars.slice(-10), newStar]);
+        setCursorStars((prevStars) => [...prevStars.slice(-7), newStar]);
       };
     
     useEffect(() => {
@@ -410,7 +410,7 @@ const fadeOutAnimation = keyframes`
 const StarCursor = styled.div`
   width: 20px;
   height: 20px;
-  background: linear-gradient(135deg, #ff9f62, #ff6384);
+  background-color:#00ffff;
   clip-path: polygon(
     50% 0%,
     61.8% 38.2%,
@@ -428,20 +428,6 @@ const StarCursor = styled.div`
   z-index: 999;
   animation: ${sparkleAnimation} 1.5s infinite; ${fadeOutAnimation} 1s forwards;
   `;
-
-// const Cursor = styled.div`
-//   width: 90px;
-//   height: 40px;
-// //   background-color: #00ffff;
-//   background-image: url(${cursorImage});
-//   background-size: 100% 100%;
-//   position: fixed;
-//   border-radius: 50%;
-//   pointer-events: none;
-//   z-index: 999;
-// `;
-
-
 
 const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
   animation: ${moveDown} 2s infinite;

@@ -22,6 +22,7 @@ const Links = styled.div`
 `
 const Logo = styled.img`
    height: 50px;
+   margin-left: 40px;
 `
 const Icons = styled.div`
     display: flex;
@@ -34,7 +35,7 @@ const List = styled.ul`
     list-style:none;
     align-items: center; 
     padding: 20px; 
-    margin-left: 150px;
+    margin-left: 250px;
 `
 const ListItem = styled.li`
     cursor: pointer;
@@ -75,6 +76,7 @@ const Button = styled.button`
     align-items: center;
     justify-content: center;
     font-weight:bold;
+    margin-right: 40px;
 `
 
 const Navbar = () =>{

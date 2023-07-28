@@ -10,6 +10,7 @@ import Add from './components/Add';
 import './App.css';
 import { getAllLocations } from './client';
 import Contact from './components/Contact';
+import Test from './components/Test';
 
 // App component
 const App = () => {
@@ -61,6 +62,7 @@ const App = () => {
                 locationInfo={locations}
             />
             <Contact/>
+            <Test/>
         </Container>
     );
 };

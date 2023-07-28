@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState,  useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 // import cursorImage from './cursorcar.png';
 import { HiChevronDoubleDown } from 'react-icons/hi';
@@ -10,13 +10,13 @@ const Hero = () => {
 
     const updateCursorPosition = (e) => {
         const newStar = {
-          x: e.pageX,
-          y: e.pageY,
-          id: Date.now(),
+            x: e.pageX,
+            y: e.pageY,
+            id: Date.now()
         };
         setCursorStars((prevStars) => [...prevStars.slice(-7), newStar]);
-      };
-    
+    };
+
     useEffect(() => {
         window.addEventListener('mousemove', updateCursorPosition);
 
@@ -24,7 +24,7 @@ const Hero = () => {
             window.removeEventListener('mousemove', updateCursorPosition);
         };
     }, []);
-    
+
     return (
         // The component returns JSX elements wrapped inside a 'Container' element with an 'id' attribute set to "hero".
         <Container id="hero">
@@ -72,19 +72,19 @@ const Hero = () => {
                     top:cursorY+'px'
 
                 }}/> */}
-            {cursorStars.map((star,index) => (
-                <StarCursor 
-                    key={star.id} 
-                    style={{ 
-                        left: star.x + 'px', 
-                        top: star.y + 'px', 
-                        animationDelay: `0s` }}
+            {cursorStars.map((star, index) => (
+                <StarCursor
+                    key={star.id}
+                    style={{
+                        left: star.x + 'px',
+                        top: star.y + 'px',
+                        animationDelay: `0s`
+                    }}
                 />
             ))}
         </Container>
     );
 };
-
 
 export default Hero;
 
@@ -100,7 +100,7 @@ const waveAnimation = keyframes`
   100% {
     transform: translateY(0);
   }
-`;  
+`;
 
 // This defines an animation that slides an element in from the top while fading in.
 const slideInFromTop = keyframes`
@@ -255,7 +255,8 @@ const Marker = styled.img`
     height: 81.6px;
     padding-left: 2%;
     padding-top: 2%;
-    animation: slideInFromTop 1.5s ease-in-out, ${rotate3DAnimation} 3s linear infinite;
+    animation: slideInFromTop 1.5s ease-in-out,
+        ${rotate3DAnimation} 3s linear infinite;
 
     @media screen and (max-width: 900px) {
         width: 3rem;
@@ -279,7 +280,8 @@ const Text = styled.div`
     letter-spacing: 8px;
     padding-left: 8%;
     z-index: 100;
-    animation: ${slideInFromRight} 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation: ${slideInFromRight} 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+        both;
     @media screen and (max-width: 900px) {
         white-space: normal;
         font-size: 3rem;
@@ -342,7 +344,8 @@ const Car = styled.img`
     right: -2%;
     bottom: 4%;
     z-index: 12;
-    animation: ${slideInFromRight} 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation: ${slideInFromRight} 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+        both;
 
     @media screen and (max-width: 900px) {
         width: 65%;
@@ -360,7 +363,8 @@ const CarShadow = styled.img`
     right: -2%;
     bottom: 4%;
     z-index: 12;
-    animation: ${slideInFromRight} 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation: ${slideInFromRight} 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+        both;
 
     @media screen and (max-width: 900px) {
         width: 65%;
@@ -408,32 +412,33 @@ const fadeOutAnimation = keyframes`
 `;
 
 const StarCursor = styled.div`
-  width: 20px;
-  height: 20px;
-  background-color:#00ffff;
-  clip-path: polygon(
-    50% 0%,
-    61.8% 38.2%,
-    100% 35.4%,
-    68.2% 57.3%,
-    79.4% 91.6%,
-    50% 70.9%,
-    20.6% 91.6%,
-    31.8% 57.3%,
-    0% 35.4%,
-    38.2% 38.2%
-  );
-  position: fixed;
-  pointer-events: none;
-  z-index: 999;
-  animation: ${sparkleAnimation} 1.5s infinite; ${fadeOutAnimation} 1s forwards;
-  `;
+    width: 20px;
+    height: 20px;
+    background-color: #00ffff;
+    clip-path: polygon(
+        50% 0%,
+        61.8% 38.2%,
+        100% 35.4%,
+        68.2% 57.3%,
+        79.4% 91.6%,
+        50% 70.9%,
+        20.6% 91.6%,
+        31.8% 57.3%,
+        0% 35.4%,
+        38.2% 38.2%
+    );
+    position: fixed;
+    pointer-events: none;
+    z-index: 999;
+    animation: ${sparkleAnimation} 1.5s infinite,
+        ${fadeOutAnimation} 1s forwards;
+`;
 
 const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
-  animation: ${moveDown} 2s infinite;
-  position: absolute;
-  left: 45%;
-  bottom: 30px;
-  transform: translateX(-50%);
-  zoom: 1.5; 
+    animation: ${moveDown} 2s infinite;
+    position: absolute;
+    left: 45%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    zoom: 1.5;
 `;

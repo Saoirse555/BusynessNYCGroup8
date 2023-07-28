@@ -61,7 +61,7 @@ const ListItem = styled.li`
     &:hover::after {
         transform: scaleX(1);
     }
-`;
+`
 
 const Button = styled.button`
     height: 40px;

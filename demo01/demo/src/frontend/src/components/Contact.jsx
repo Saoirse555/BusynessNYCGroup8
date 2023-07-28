@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import emailjs from 'emailjs-com';
 import styled from "styled-components";
-// import Map from "./Map";
 
 const Section = styled.div`
   height: 100vh;
@@ -80,6 +79,9 @@ const Right = styled.div`
   }
 `;
 
+const Img = styled.img`
+`;
+
 const Contact = () => {
   const ref = useRef();
   const [success, setSuccess] = useState(null);
@@ -125,7 +127,7 @@ const Contact = () => {
           </Form>
         </Left>
         <Right>
-          {/* <Map /> */}
+          <Img src="./img/statue.png"/>
         </Right>
       </Container>
     </Section>

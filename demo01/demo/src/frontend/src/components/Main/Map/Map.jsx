@@ -37,7 +37,7 @@ import emailjs from 'emailjs-com';
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const zoom = 11.5;
     const [map, setMap] = useState(null);
-
+    const [color, setColor] = useState(colors);
     const [value, setValue] = useState(3);
 
     const inputStartRef = useRef();
@@ -98,7 +98,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         geoJsonLayer.setStyle((feature) => {
             const locationId = feature.getProperty('location_id');
             return {
-                fillColor: colors[locationId],
+                fillColor: color[locationId],
                 strokeWeight: 0.25,
                 fillOpacity: 0.25
             };
@@ -116,6 +116,12 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             setSelectedLocation(e.feature.getProperty('location_id'));
         });
     };
+
+    useEffect(() => {
+        if (map) {
+            onLoad(map);
+        }
+    }, [map]);
 
     // Defines the boundaries for the search options
     const defaultBounds = {
@@ -254,7 +260,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         setSelectedHour(pickedHour);
     };
 
-    const getModelInput = async (location_id) => {
+    const getModelInput = async () => {
         if (foreCastInfo && selectedDay && selectedHour) {
             const timeStamp = foreCastInfo.list[selectedDay * 8].dt;
             const weather = foreCastInfo.list[selectedDay * 8];
@@ -272,7 +278,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             }
 
             const modelInput = {
-                locationID: location_id,
                 hour: hour,
                 month: month,
                 day: day,
@@ -289,27 +294,16 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
     };
 
-    const [color, setColor] = useState(colors);
-
     useEffect(() => {
-        const updatedColor = {};
-
-        for (const key in color) {
-            updatedColor[key] = getModelInput(key);
-        }
+        const updatedColor = getModelInput();
         setColor(updatedColor);
     }, [selectedDay, selectedHour]);
-
-    useEffect(() => {
-        console.log(color);
-    }, [color]);
 
     // Handles the click on a car park marker and displays the info window
     const handleCarParkClick = (locationInfo) => {
         setSelectedLocation(null);
-        const lat = locationInfo.coordinates.latitude;
-        const lng = locationInfo.coordinates.longitude;
-        console.log({ locationInfo });
+        const lat = locationInfo.coordinate.latitude;
+        const lng = locationInfo.coordinate.longitude;
 
         if (directions === null) {
             //Set the info window position on the map. Adding a tiny bit to lat displayes it just above the parking icon...
@@ -483,8 +477,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             map.panTo({ lat: lat, lng: lng });
             map.setZoom(17);
         } else {
-            const lat = location.coordinates.latitude;
-            const lng = location.coordinates.longitude;
+            const lat = location.coordinate.latitude;
+            const lng = location.coordinate.longitude;
             map.panTo({ lat: lat, lng: lng });
             map.setZoom(17);
         }
@@ -511,8 +505,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                             longitude: destLocation.lng
                         },
                         {
-                            latitude: location.coordinates.latitude,
-                            longitude: location.coordinates.longitude
+                            latitude: location.coordinate.latitude,
+                            longitude: location.coordinate.longitude
                         }
                     );
                     if (distanceA < sliderValue) {
@@ -534,8 +528,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                         longitude: destLocation.lng
                     },
                     {
-                        latitude: a.coordinates.latitude,
-                        longitude: a.coordinates.longitude
+                        latitude: a.coordinate.latitude,
+                        longitude: a.coordinate.longitude
                     }
                 );
                 const distB = getDistance(
@@ -544,8 +538,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                         longitude: destLocation.lng
                     },
                     {
-                        latitude: b.coordinates.latitude,
-                        longitude: b.coordinates.longitude
+                        latitude: b.coordinate.latitude,
+                        longitude: b.coordinate.longitude
                     }
                 );
                 return distA - distB;
@@ -643,14 +637,17 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     };
 
     const sendEmail = (form) => {
-        
-        emailjs.sendForm('emailpls', 'template_uzkjpaa', form, 'hEzNolfyTe3J3GvE4')
-          .then((result) => {
-              console.log(result.text);
-          }, (error) => {
-              console.log(error.text);
-          });
-      };
+        emailjs
+            .sendForm('emailpls', 'template_uzkjpaa', form, 'hEzNolfyTe3J3GvE4')
+            .then(
+                (result) => {
+                    console.log(result.text);
+                },
+                (error) => {
+                    console.log(error.text);
+                }
+            );
+    };
 
     return (
         <PageContainer id="main">
@@ -868,11 +865,11 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                             {
                                                                 latitude:
                                                                     location
-                                                                        .coordinates
+                                                                        .coordinate
                                                                         .latitude,
                                                                 longitude:
                                                                     location
-                                                                        .coordinates
+                                                                        .coordinate
                                                                         .longitude
                                                             }
                                                         )}{' '}
@@ -896,41 +893,40 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     flexDirection: 'column',
                                     alignItems: 'center'
                                 }}
-                            >
-                            </div>
+                            ></div>
                         )}
                         <Rating>
-                                    <p
-                                        style={{
-                                            fontFamily: 'Roboto',
-                                            fontWeight: '100'
-                                        }}
-                                    >
-                                        Please rate our website:
-                                    </p>
-                                    <Rate
-                                        tooltips={desc}
-                                        onChange={handleRatingChange}
-                                        value={rate}
+                            <p
+                                style={{
+                                    fontFamily: 'Roboto',
+                                    fontWeight: '100'
+                                }}
+                            >
+                                Please rate our website:
+                            </p>
+                            <Rate
+                                tooltips={desc}
+                                onChange={handleRatingChange}
+                                value={rate}
+                            />
+
+                            {showPopup && (
+                                <Modal
+                                    visible={showPopup}
+                                    onCancel={() => setShowPopup(false)}
+                                    footer={null}
+                                    centered
+                                >
+                                    <Alert
+                                        message="Thank you very much for your feedback!"
+                                        type="success"
+                                        style={alertStyles}
                                     />
+                                </Modal>
+                            )}
+                        </Rating>
 
-                                    {showPopup && (
-                                        <Modal
-                                            visible={showPopup}
-                                            onCancel={() => setShowPopup(false)}
-                                            footer={null}
-                                            centered
-                                        >
-                                            <Alert
-                                                message="Thank you very much for your feedback!"
-                                                type="success"
-                                                style={alertStyles}
-                                            />
-                                        </Modal>
-                                    )}
-                                </Rating>
-
-                                {/* <div
+                        {/* <div
                                     style={{
                                         marginTop: '20px',
                                         marginLeft: '40px',
@@ -1001,7 +997,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 width: '100%',
                                 zIndex: 1
                             }}
-                            onLoad={onLoad}
+                            onLoad={setMap}
                             options={{
                                 disableDefaultUI: true,
                                 clickableIcons: false,
@@ -1106,36 +1102,32 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     <MarkerClusterer>
                                         {(clusterer) =>
                                             locationInfo.map(
-                                                (carPark, index) =>
-                                                    carPark.geometryType !==
-                                                        'LineString' && (
-                                                        <Marker
-                                                            onClick={() =>
-                                                                handleCarParkClick(
-                                                                    carPark
-                                                                )
+                                                (carPark, index) => (
+                                                    <Marker
+                                                        onClick={() =>
+                                                            handleCarParkClick(
+                                                                carPark
+                                                            )
+                                                        }
+                                                        clusterer={clusterer}
+                                                        icon={{
+                                                            url: parkingMarker,
+                                                            scaledSize: {
+                                                                height: 64,
+                                                                width: 32
                                                             }
-                                                            clusterer={
-                                                                clusterer
-                                                            }
-                                                            icon={{
-                                                                url: parkingMarker,
-                                                                scaledSize: {
-                                                                    height: 64,
-                                                                    width: 32
-                                                                }
-                                                            }}
-                                                            key={index}
-                                                            position={{
-                                                                lat: carPark
-                                                                    .coordinates
-                                                                    .latitude,
-                                                                lng: carPark
-                                                                    .coordinates
-                                                                    .longitude
-                                                            }}
-                                                        />
-                                                    )
+                                                        }}
+                                                        key={index}
+                                                        position={{
+                                                            lat: carPark
+                                                                .coordinate
+                                                                .latitude,
+                                                            lng: carPark
+                                                                .coordinate
+                                                                .longitude
+                                                        }}
+                                                    />
+                                                )
                                             )
                                         }
                                     </MarkerClusterer>
@@ -1152,11 +1144,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                             },
                                             {
                                                 latitude:
-                                                    carPark.coordinates
-                                                        .latitude,
+                                                    carPark.coordinate.latitude,
                                                 longitude:
-                                                    carPark.coordinates
-                                                        .longitude
+                                                    carPark.coordinate.longitude
                                             }
                                         )
                                     ) < sliderValue ? (
@@ -1173,9 +1163,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                             }}
                                             key={index}
                                             position={{
-                                                lat: carPark.coordinates
+                                                lat: carPark.coordinate
                                                     .latitude,
-                                                lng: carPark.coordinates
+                                                lng: carPark.coordinate
                                                     .longitude
                                             }}
                                         />

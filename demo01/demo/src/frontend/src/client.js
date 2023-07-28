@@ -5,7 +5,8 @@ export const getAllLocations = async () => {
     try {
         // Make an HTTP GET request to retrieve parking station data
         const { data } = await axios.get(
-            'http://localhost:8080/api/v1/parkingstations'
+            // 'http://localhost:8080/api/v1/parkingstations'
+            'http://localhost:8080/api/v1/parking_stations_new'
         );
 
         // Log a message indicating that the station data is being retrieved

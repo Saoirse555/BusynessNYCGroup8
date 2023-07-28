@@ -2,12 +2,13 @@ package com.example.demo.Controller.Impl;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.example.demo.Controller.PredictionController;
+import com.example.demo.Entity.BusynessBO;
 import com.example.demo.Entity.ModelInput;
 import com.example.demo.Service.Impl.PredictionServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -18,8 +19,8 @@ public class PredictionControllerImpl implements PredictionController {
 
     @Override
     @PostMapping
-    public JSONObject makePrediction(@RequestBody ModelInput modelInput) {
-        Map<String,String> prediction = predictionService.makePrediction(modelInput);
-        return new JSONObject(prediction);
+    public List<BusynessBO> makePrediction(@RequestBody ModelInput modelInput) {
+        List<BusynessBO> prediction = predictionService.makePrediction(modelInput);
+        return prediction;
     }
 }

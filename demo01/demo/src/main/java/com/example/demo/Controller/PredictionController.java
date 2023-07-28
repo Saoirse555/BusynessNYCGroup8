@@ -1,8 +1,10 @@
 package com.example.demo.Controller;
 
-import com.alibaba.fastjson2.JSONObject;
+import com.example.demo.Entity.BusynessBO;
 import com.example.demo.Entity.ModelInput;
 
+import java.util.List;
+
 public interface PredictionController {
-    JSONObject makePrediction(ModelInput modelInput);
+    List<BusynessBO> makePrediction(ModelInput modelInput);
 }

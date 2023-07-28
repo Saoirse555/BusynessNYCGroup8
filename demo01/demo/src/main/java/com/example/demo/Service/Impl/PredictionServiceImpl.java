@@ -1,5 +1,6 @@
 package com.example.demo.Service.Impl;
 
+import com.example.demo.Entity.BusynessBO;
 import com.example.demo.Entity.Location;
 import com.example.demo.Entity.ModelInput;
 import com.example.demo.Repository.LocationRepository;
@@ -8,8 +9,8 @@ import com.example.demo.Utils.PredictionUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.swing.*;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +19,9 @@ import java.util.Map;
 public class PredictionServiceImpl implements PredictionService {
     private final LocationRepository locationRepository;
 
+    //0-9.0: low; 9-93.0: medium; 93.0+: high
     @Override
-    public Map<String, String> makePrediction(ModelInput modelInput) {
+    public List<BusynessBO> makePrediction(ModelInput modelInput) {
         //get location IDs
         List<Location> locations = locationRepository.findAll();
         List<Integer> locationIDs = new ArrayList<>();
@@ -27,13 +29,25 @@ public class PredictionServiceImpl implements PredictionService {
         ) {
             locationIDs.add(location.getLocationId());
         }
+        List<BusynessBO> predictionResults = new ArrayList<>();
 
         //make prediction for each location
-        Map<String, String> predictionResults = new LinkedHashMap<>();
         for (int locationID : locationIDs
         ) {
             double result = PredictionUtils.makePrediction(locationID, modelInput);
-            predictionResults.put(locationID + "", result + "");
+            //classify busyness level
+            String level;
+            if (result<9.0){
+                level = "LOW";
+            }else if (result<93){
+                level = "MEDIUM";
+            }else {
+                level = "HIGH";
+            }
+
+            //create BO entity
+            BusynessBO busynessBO = new BusynessBO(locationID,result,level);
+            predictionResults.add(busynessBO);
         }
 
 

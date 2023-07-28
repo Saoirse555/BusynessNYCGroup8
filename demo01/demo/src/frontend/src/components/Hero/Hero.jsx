@@ -1,19 +1,30 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState,  useEffect } from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import cursorImage from './cursorcar.png';
+// import cursorImage from './cursorcar.png';
 import { HiChevronDoubleDown } from 'react-icons/hi';
 
 // Hero component
 const Hero = () => {
-    const [cursorX, setCursorX] = useState()
-    const [cursorY, setCursorY] = useState()
+    const [cursorStars, setCursorStars] = useState([]);
 
-    window.addEventListener('mousemove',(e)=>{
-        setCursorX(e.pageX)
-        setCursorY(e.pageY)
-    })
+    const updateCursorPosition = (e) => {
+        const newStar = {
+          x: e.pageX,
+          y: e.pageY,
+          id: Date.now(),
+        };
+        setCursorStars((prevStars) => [...prevStars.slice(-7), newStar]);
+      };
+    
+    useEffect(() => {
+        window.addEventListener('mousemove', updateCursorPosition);
 
+        return () => {
+            window.removeEventListener('mousemove', updateCursorPosition);
+        };
+    }, []);
+    
     return (
         // The component returns JSX elements wrapped inside a 'Container' element with an 'id' attribute set to "hero".
         <Container id="hero">
@@ -55,12 +66,21 @@ const Hero = () => {
             {/* The 'CarShadow' component displays a shadow image of a car*/}
             <CarShadow src="../img/shadow.svg" />
             <Car src="../img/car.png" />
-            <Cursor
+            {/* <StarCursor
                 style={{
                     left:cursorX+'px',
                     top:cursorY+'px'
 
-                }}/>
+                }}/> */}
+            {cursorStars.map((star,index) => (
+                <StarCursor 
+                    key={star.id} 
+                    style={{ 
+                        left: star.x + 'px', 
+                        top: star.y + 'px', 
+                        animationDelay: `0s` }}
+                />
+            ))}
         </Container>
     );
 };
@@ -367,17 +387,47 @@ const Ground = styled.div`
     }
 `;
 
-const Cursor = styled.div`
-  width: 90px;
-  height: 40px;
-//   background-color: #00ffff;
-  background-image: url(${cursorImage});
-  background-size: 100% 100%;
+const sparkleAnimation = keyframes`
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+`;
+
+const fadeOutAnimation = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
+
+const StarCursor = styled.div`
+  width: 20px;
+  height: 20px;
+  background-color:#00ffff;
+  clip-path: polygon(
+    50% 0%,
+    61.8% 38.2%,
+    100% 35.4%,
+    68.2% 57.3%,
+    79.4% 91.6%,
+    50% 70.9%,
+    20.6% 91.6%,
+    31.8% 57.3%,
+    0% 35.4%,
+    38.2% 38.2%
+  );
   position: fixed;
-  border-radius: 50%;
   pointer-events: none;
   z-index: 999;
-`;
+  animation: ${sparkleAnimation} 1.5s infinite; ${fadeOutAnimation} 1s forwards;
+  `;
 
 const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
   animation: ${moveDown} 2s infinite;

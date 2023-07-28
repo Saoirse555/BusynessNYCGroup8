@@ -31,6 +31,7 @@ import fuel_stations from '../Data/fuel_stations.json';
 import charging_stations from '../Data/charging_stations.json';
 import axios from 'axios';
 import { getBusyness } from '../Data/busynessGetter';
+import emailjs from 'emailjs-com';
 
 // Map component
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
@@ -621,7 +622,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
-    const [userInput, setUserInput] = useState('');
+    const formRef = useRef();
 
     const showModal = () => {
         setOpen(true);
@@ -632,8 +633,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         setTimeout(() => {
             setLoading(false);
             setOpen(false);
-            // Here, you can call a function to handle sending the context to the specific email address.
-            handleSendEmail();
+            // Call a function to handle sending the context to the specific email address.
+            sendEmail(formRef.current);
         }, 3000);
     };
 
@@ -641,47 +642,15 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         setOpen(false);
     };
 
-    const handleInputChange = (e) => {
-        setUserInput(e.target.value);
-    };
-
-    const handleSendEmail = () => {
-        const mailgunApiKey =
-            '4454556312468e6c00c5234a95a61cd5-c30053db-0fa9a89e'; // Replace with your Mailgun API key
-        const mailgunDomain =
-            'sandbox7b69b7bc15324e7fa342f96a33bd6b03.mailgun.org'; // Replace with your Mailgun domain
-        const recipientEmail = 'fay0091200@gmail.com'; // Replace with the recipient email address
-        const emailSubject = 'Feedback from the user'; // Replace with the email subject
-
-        // Prepare the data to be sent in the request body.
-        const data = {
-            from: 'Your Name <your-email@example.com>', // Replace with your name and email
-            to: recipientEmail,
-            subject: emailSubject,
-            text: userInput // Use the user input from the state
-        };
-
-        // Make a POST request to the Mailgun API endpoint to send the email.
-        axios
-            .post(
-                `https://api.mailgun.net/v3/${mailgunDomain}/messages`,
-                data,
-                {
-                    auth: {
-                        username: 'api',
-                        password: mailgunApiKey
-                    }
-                }
-            )
-            .then((response) => {
-                console.log('Email sent successfully:', response.data);
-                // Handle any success scenarios here.
-            })
-            .catch((error) => {
-                console.error('Failed to send email:', error);
-                // Handle any error scenarios here.
-            });
-    };
+    const sendEmail = (form) => {
+        
+        emailjs.sendForm('emailpls', 'template_uzkjpaa', form, 'hEzNolfyTe3J3GvE4')
+          .then((result) => {
+              console.log(result.text);
+          }, (error) => {
+              console.log(error.text);
+          });
+      };
 
     return (
         <PageContainer id="main">
@@ -928,7 +897,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     alignItems: 'center'
                                 }}
                             >
-                                <Rating>
+                            </div>
+                        )}
+                        <Rating>
                                     <p
                                         style={{
                                             fontFamily: 'Roboto',
@@ -942,7 +913,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         onChange={handleRatingChange}
                                         value={rate}
                                     />
-                                    {/* {value ? <span className="ant-rate-text">{desc[value - 1]}</span> : ''} */}
 
                                     {showPopup && (
                                         <Modal
@@ -960,7 +930,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     )}
                                 </Rating>
 
-                                <div
+                                {/* <div
                                     style={{
                                         marginTop: '20px',
                                         marginLeft: '40px',
@@ -970,6 +940,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     <Button type="primary" onClick={showModal}>
                                         Discover an error?
                                     </Button>
+
                                     <Modal
                                         open={open}
                                         title="Whoops! Spotted a web blooper? 😅"
@@ -1004,18 +975,16 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                             Thanks a ton for your feedback!
                                         </CustomParagraph>
 
-                                        <p>
-                                            <FeedbackInput
-                                                type="text"
-                                                value={userInput}
-                                                onChange={handleInputChange}
+                                        <form ref={formRef}>
+                                            <p>
+                                                <textarea
+                                                name="message"
                                                 placeholder="Enter your feedback"
-                                            />
-                                        </p>
+                                                />
+                                            </p>
+                                        </form>
                                     </Modal>
-                                </div>
-                            </div>
-                        )}
+                                </div> */}
                     </Left>
 
                     <Right>
@@ -1698,6 +1667,7 @@ const PageContainer = styled.div`
     height: 100vh;
     flex-direction: column;
     z-index: 10;
+    scroll-snap-align: center;
 `;
 const PageHeader = styled.div`
     display: flex;

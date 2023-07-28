@@ -1,9 +1,10 @@
 package com.example.demo.Service;
 
+import com.example.demo.Entity.BusynessBO;
 import com.example.demo.Entity.ModelInput;
 
-import java.util.Map;
+import java.util.List;
 
 public interface PredictionService {
-    Map<String, String> makePrediction(ModelInput modelInput);
+    List<BusynessBO> makePrediction(ModelInput modelInput);
 }

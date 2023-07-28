@@ -8,11 +8,13 @@
       <jdbc-url>jdbc:postgresql://10.147.18.243:5432/BusynessNYC</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="BusynessNYC@137.43.49.42" uuid="f9c91501-7245-4a21-96f5-f2024c59361b">
+    <data-source source="LOCAL" name="demo/Hibernate" uuid="217183b8-6402-46ae-9af7-931e55bc922d">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate</remarks>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://137.43.49.42:5432/BusynessNYC</jdbc-url>
+      <jdbc-url>jdbc:postgresql://10.147.18.243:5432/BusynessNYC</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

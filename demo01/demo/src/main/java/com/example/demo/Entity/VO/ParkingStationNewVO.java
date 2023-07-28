@@ -21,5 +21,4 @@ public class ParkingStationNewVO {
     private String rateZone;
     private String zoneInfo;
     private Point coordinate;
-    private String centerPointRad;
 }

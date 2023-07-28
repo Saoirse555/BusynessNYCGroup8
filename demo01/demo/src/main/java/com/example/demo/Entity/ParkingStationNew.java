@@ -35,5 +35,4 @@ public class ParkingStationNew {
     private String rateZone;
     private String zoneInfo;
     private String centerpoint;
-    private String centerpointRad;
 }

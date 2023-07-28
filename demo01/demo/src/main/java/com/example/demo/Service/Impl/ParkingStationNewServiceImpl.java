@@ -39,7 +39,6 @@ public class ParkingStationNewServiceImpl implements ParkingStationNewService {
 
             Point coordinate = CoordinatesUtils.StringToPoint(station.getCenterpoint());
             parkingStationNewVO.setCoordinate(coordinate);
-            parkingStationNewVO.setCenterPointRad(station.getCenterpointRad());
 
             stationNewVOS.add(parkingStationNewVO);
         }

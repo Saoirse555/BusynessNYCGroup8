@@ -15,6 +15,13 @@ const Section = styled.div`
     flex-direction:column;
     align-items:center; 
     justify-content:space-between;
+
+    @media only screen and (max-width: 768px) {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
 `
 
 const Container = styled.div`
@@ -23,13 +30,6 @@ const Container = styled.div`
   width: 1400px;
   display: flex;
   justify-content: space-between;
-
-  @media only screen and (max-width: 768px) {
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
 `;
 
 const Left = styled.div`
@@ -46,24 +46,25 @@ const Left = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 74px;
+  font-family:Helvetica;
+  font-size: 85px;
   margin-left: 70px;
-
+  color: #ffff4d;
   @media only screen and (max-width: 768px) {
     text-align: center;
   }
 `;
 
 const Subtitle = styled.h2`
-  color: ivory;
+  color: #ffff99;
   margin-left: 70px;
-  margin-top: 50px;
+  margin-top: 55px;
   font-weight:bold;
 `;
 
 const Desc = styled.p`
   font-size: 24px;
-  color: ivory;
+  color: #ffff99;
   font-weight:bold;
   margin-left: 70px;
   margin-top: 50px;
@@ -109,7 +110,6 @@ const Img = styled.img`
 //   }
 // `;
 
-
 const moveDown = keyframes`
   0% {
     transform: translateY(0);
@@ -124,12 +124,13 @@ const moveDown = keyframes`
 
 const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
   animation: ${moveDown} 2s infinite;
-  position: absolute;
+  position: sticky;
   left: 45%;
   bottom: 30px;
   transform: translateX(-50%);
   zoom: 1.5; 
   color: white;
+  z-index:999;
 `;
 
 const Add = () =>{
@@ -142,7 +143,7 @@ const Add = () =>{
                         Auto Mate
                     </Title>
                     <Subtitle>
-                        Parking. Routing. More.
+                        Parking. Routing. Living.
                     </Subtitle>
                     <Desc>
                         Your Best Driving Assistant in NYC
@@ -154,7 +155,7 @@ const Add = () =>{
                         <OrbitControls enableZoom={false} />
                         <ambientLight intensity={1} />
                         <directionalLight position={[3, 2, 1]} />
-                        <Sphere args={[1, 100, 200]} scale={2.4}>
+                        <Sphere args={[1, 100, 200]} scale={2}>
                             <MeshDistortMaterial
                             color="#00ffff"
                             attach="material"

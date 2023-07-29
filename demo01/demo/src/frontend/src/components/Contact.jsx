@@ -1,12 +1,22 @@
 import React, { useRef, useState } from "react";
 import emailjs from 'emailjs-com';
 import styled from "styled-components";
+import { OrbitControls, Stage } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
+import Statue from './Statue';
 
 const Section = styled.div`
   height: 100vh;
   scroll-snap-align: center;
   background:url("./img/contactbg.jpg");
   background-size: cover;
+
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const Container = styled.div`
@@ -58,7 +68,7 @@ const TextArea = styled.textarea`
 `;
 
 const Button = styled.button`
-  background-color: #da4ea2;
+  background-color: #6495ed;
   color: white;
   border: none;
   font-weight: bold;
@@ -79,8 +89,10 @@ const Right = styled.div`
   }
 `;
 
-const Img = styled.img`
-`;
+// const Img = styled.img`
+//   margin-top: 50px;
+// `;
+
 
 const Contact = () => {
   const ref = useRef();
@@ -127,7 +139,13 @@ const Contact = () => {
           </Form>
         </Left>
         <Right>
-          <Img src="./img/statue.png"/>
+          {/* <Img src="./img/statue.png"/> */}
+          <Canvas>
+            <Stage enviroment="city" intensity={0.6}>
+            <Statue rotation={[0, Math.PI* 1.5, 0]}/>
+            </Stage>
+            <OrbitControls enableZoom={false} />
+          </Canvas>
         </Right>
       </Container>
     </Section>

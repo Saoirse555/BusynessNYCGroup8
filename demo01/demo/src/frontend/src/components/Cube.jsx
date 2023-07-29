@@ -10,7 +10,7 @@ const Cube = () =>{
 
     return(
         <mesh>
-                    <boxGeometry args={[3,3,3]}/>
+                    <boxGeometry args={[2,2,2]}/>
                     <meshStandardMaterial>
                       <RenderTexture attach="map">
                         <perspectiveCamera

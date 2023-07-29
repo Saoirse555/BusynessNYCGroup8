@@ -6,24 +6,25 @@ import { HiChevronDoubleDown } from 'react-icons/hi';
 
 // Hero component
 const Hero = () => {
-    const [cursorStars, setCursorStars] = useState([]);
+    // Cursor star effect part
+    // const [cursorStars, setCursorStars] = useState([]);
 
-    const updateCursorPosition = (e) => {
-        const newStar = {
-            x: e.pageX,
-            y: e.pageY,
-            id: Date.now()
-        };
-        setCursorStars((prevStars) => [...prevStars.slice(-7), newStar]);
-    };
+    // const updateCursorPosition = (e) => {
+    //     const newStar = {
+    //         x: e.pageX,
+    //         y: e.pageY,
+    //         id: Date.now()
+    //     };
+    //     setCursorStars((prevStars) => [...prevStars.slice(-7), newStar]);
+    // };
 
-    useEffect(() => {
-        window.addEventListener('mousemove', updateCursorPosition);
+    // useEffect(() => {
+    //     window.addEventListener('mousemove', updateCursorPosition);
 
-        return () => {
-            window.removeEventListener('mousemove', updateCursorPosition);
-        };
-    }, []);
+    //     return () => {
+    //         window.removeEventListener('mousemove', updateCursorPosition);
+    //     };
+    // }, []);
 
     return (
         // The component returns JSX elements wrapped inside a 'Container' element with an 'id' attribute set to "hero".
@@ -60,19 +61,15 @@ const Hero = () => {
                     Your Perfect Parking Companion! Discover hassle-free parking
                     spots on the go.
                 </TextMobile> */}
-                <AnimatedHiChevronDoubleDown />
+                {/* <AnimatedHiChevronDoubleDown /> */}
             </Ground>
 
             {/* The 'CarShadow' component displays a shadow image of a car*/}
             <CarShadow src="../img/shadow.svg" />
             <Car src="../img/car.png" />
-            {/* <StarCursor
-                style={{
-                    left:cursorX+'px',
-                    top:cursorY+'px'
 
-                }}/> */}
-            {cursorStars.map((star, index) => (
+            {/* Cursor effect component     */}
+            {/* {cursorStars.map((star, index) => (
                 <StarCursor
                     key={star.id}
                     style={{
@@ -81,7 +78,7 @@ const Hero = () => {
                         animationDelay: `0s`
                     }}
                 />
-            ))}
+            ))} */}
         </Container>
     );
 };
@@ -123,18 +120,6 @@ const slideInFromRight = keyframes`
   100% {
     opacity: 1;
     transform: translateX(0);
-  }
-`;
-
-const moveDown = keyframes`
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(20px);
-  }
-  100% {
-    transform: translateY(0);
   }
 `;
 
@@ -391,54 +376,66 @@ const Ground = styled.div`
     }
 `;
 
-const sparkleAnimation = keyframes`
-  0%, 100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.5);
-  }
-`;
+// const sparkleAnimation = keyframes`
+//   0%, 100% {
+//     opacity: 0.5;
+//     transform: scale(1);
+//   }
+//   50% {
+//     opacity: 1;
+//     transform: scale(1.5);
+//   }
+// `;
 
-const fadeOutAnimation = keyframes`
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-`;
+// const fadeOutAnimation = keyframes`
+//   from {
+//     opacity: 1;
+//   }
+//   to {
+//     opacity: 0;
+//   }
+// `;
 
-const StarCursor = styled.div`
-    width: 20px;
-    height: 20px;
-    background-color: #00ffff;
-    clip-path: polygon(
-        50% 0%,
-        61.8% 38.2%,
-        100% 35.4%,
-        68.2% 57.3%,
-        79.4% 91.6%,
-        50% 70.9%,
-        20.6% 91.6%,
-        31.8% 57.3%,
-        0% 35.4%,
-        38.2% 38.2%
-    );
-    position: fixed;
-    pointer-events: none;
-    z-index: 999;
-    animation: ${sparkleAnimation} 1.5s infinite,
-        ${fadeOutAnimation} 1s forwards;
-`;
+// const StarCursor = styled.div`
+//     width: 20px;
+//     height: 20px;
+//     background-color: #00ffff;
+//     clip-path: polygon(
+//         50% 0%,
+//         61.8% 38.2%,
+//         100% 35.4%,
+//         68.2% 57.3%,
+//         79.4% 91.6%,
+//         50% 70.9%,
+//         20.6% 91.6%,
+//         31.8% 57.3%,
+//         0% 35.4%,
+//         38.2% 38.2%
+//     );
+//     position: fixed;
+//     pointer-events: none;
+//     z-index: 999;
+//     animation: ${sparkleAnimation} 1.5s infinite,
+//         ${fadeOutAnimation} 1s forwards;
+// `;
 
-const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
-    animation: ${moveDown} 2s infinite;
-    position: absolute;
-    left: 45%;
-    bottom: 30px;
-    transform: translateX(-50%);
-    zoom: 1.5;
-`;
+// const moveDown = keyframes`
+//   0% {
+//     transform: translateY(0);
+//   }
+//   50% {
+//     transform: translateY(20px);
+//   }
+//   100% {
+//     transform: translateY(0);
+//   }
+// `;
+
+// const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
+//     animation: ${moveDown} 2s infinite;
+//     position: absolute;
+//     left: 45%;
+//     bottom: 30px;
+//     transform: translateX(-50%);
+//     zoom: 1.5;
+// `;

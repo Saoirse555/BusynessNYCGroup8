@@ -6,8 +6,8 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei';
 
 const Section = styled.div`
-    height:100vh;
-    background-color: green;
+    height:100%;
+
     scroll-snap-align: center;
     color:black;
     background:url("./img/blue.jpg");
@@ -124,9 +124,9 @@ const moveDown = keyframes`
 
 const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
   animation: ${moveDown} 2s infinite;
-  position: sticky;
+  position: fixed;
   left: 45%;
-  bottom: 30px;
+  bottom: 25px;
   transform: translateX(-50%);
   zoom: 1.5; 
   color: white;
@@ -134,6 +134,7 @@ const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
 `;
 
 const Add = () =>{
+
     return(
         <Section>
             <Navbar/>

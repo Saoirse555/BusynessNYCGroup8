@@ -56,12 +56,12 @@ const App = () => {
         <Container>
             <Hero />
             <Add />
+            <Contact/>
             <Map
                 weatherInfo={weatherData}
                 foreCastInfo={foreCastData}
                 locationInfo={locations}
             />
-            <Contact/>
             <Test/>
         </Container>
     );

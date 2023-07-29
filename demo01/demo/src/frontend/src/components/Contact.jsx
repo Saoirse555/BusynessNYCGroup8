@@ -120,7 +120,7 @@ const Contact = () => {
       );
   };
   return (
-    <Section>
+    <Section id="contact">
       <Container>
         <Left>
           <Form ref={ref} onSubmit={handleSubmit}>
@@ -142,7 +142,7 @@ const Contact = () => {
           {/* <Img src="./img/statue.png"/> */}
           <Canvas>
             <Stage enviroment="city" intensity={0.6}>
-            <Statue rotation={[0, Math.PI* 1.5, 0]}/>
+            <Statue rotation={[0, Math.PI* 1.3, 0]}/>
             </Stage>
             <OrbitControls enableZoom={false} />
           </Canvas>

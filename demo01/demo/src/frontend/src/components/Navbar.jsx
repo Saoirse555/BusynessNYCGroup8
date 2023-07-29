@@ -81,6 +81,11 @@ const Button = styled.button`
 `
 
 const Navbar = () =>{
+    const scrollToContact = () => {
+        const contactSection = document.getElementById('contact');
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      };
+
     return(
         <Section>
             <Container>
@@ -88,12 +93,12 @@ const Navbar = () =>{
                 <Logo src="./img/icon.png"/>
                 <List>
                     <ListItem>Intro</ListItem>
-                    <ListItem>Map</ListItem>
+                    <ListItem><a href="#main">Map</a></ListItem>
                     <ListItem>More</ListItem>
                 </List>
                 </Links>
                 <Icons>
-                <Button>Contact</Button>
+                <Button onClick={scrollToContact}>Contact</Button>
                 </Icons>
             </Container>
         </Section>

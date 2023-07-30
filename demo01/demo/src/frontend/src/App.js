@@ -34,13 +34,13 @@ const App = () => {
         fetchForeCastData();
         fetchWeatherData();
 
-    // Fetch weather and forecast data at regular intervals    
+        // Fetch weather and forecast data at regular intervals
         const intervalId = setInterval(() => {
             fetchWeatherData();
             fetchForeCastData();
         }, 3600000);
 
-    // Clean up the interval when the component unmounts
+        // Clean up the interval when the component unmounts
         return () => {
             clearInterval(intervalId);
         };
@@ -55,14 +55,14 @@ const App = () => {
     return (
         <Container>
             <Hero />
-            <Add />
-            <Contact/>
+            {/* <Add /> */}
+            {/* <Contact/> */}
             <Map
                 weatherInfo={weatherData}
                 foreCastInfo={foreCastData}
                 locationInfo={locations}
             />
-            <Test/>
+            {/* <Test/> */}
         </Container>
     );
 };

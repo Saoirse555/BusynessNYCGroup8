@@ -143,6 +143,12 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
     }, [map]);
 
+    useEffect(() => {
+        if (map) {
+            onLoad(map);
+        }
+    }, [color]);
+
     // Defines the boundaries for the search options
     const defaultBounds = {
         north: center.lat + 0.1,

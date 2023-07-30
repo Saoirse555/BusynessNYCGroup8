@@ -1273,7 +1273,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                       ] === '#FF0000'
                                                         ? 'Heavy'
                                                         : color[
-                                                              selectedLocation
+                                                              infoWindowData
+                                                                  .zoneID
                                                           ] === '#FFFF00'
                                                         ? 'Moderate'
                                                         : 'Light'
@@ -1349,7 +1350,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                       ] === '#FF0000'
                                                         ? 'Heavy'
                                                         : color[
-                                                              selectedLocation
+                                                              infoWindowData
+                                                                  .zoneID
                                                           ] === '#FFFF00'
                                                         ? 'Moderate'
                                                         : 'Light'
@@ -1364,7 +1366,18 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                 <h4>Operator: </h4>
                                                 {infoWindowData.operator}
                                                 <h4>Area Busyness: </h4>
-                                                {colors[infoWindowData.zoneID]}
+                                                {color
+                                                    ? color[
+                                                          infoWindowData.zoneID
+                                                      ] === '#FF0000'
+                                                        ? 'Heavy'
+                                                        : color[
+                                                              infoWindowData
+                                                                  .zoneID
+                                                          ] === '#FFFF00'
+                                                        ? 'Moderate'
+                                                        : 'Light'
+                                                    : ''}
                                             </CarParkInfoWindow>
                                         )}
                                     </>

@@ -10,7 +10,7 @@ import Add from './components/Add';
 import './App.css';
 import { getAllLocations } from './client';
 import Contact from './components/Contact';
-import Test from './components/Test';
+import About from './components/About';
 
 // App component
 const App = () => {
@@ -56,13 +56,13 @@ const App = () => {
         <Container>
             <Hero />
             <Add />
+            <About/>
             <Map
                 weatherInfo={weatherData}
                 foreCastInfo={foreCastData}
                 locationInfo={locations}
             />
             <Contact />
-            <Test />
         </Container>
     );
 };

@@ -40,6 +40,7 @@ const List = styled.ul`
     align-items: center; 
     padding: 20px; 
     margin-left: 250px;
+    padding-left: 40px;
 `
 
 const ListItem = styled.li`
@@ -98,7 +99,7 @@ const Navbar = () =>{
                 <List>
                     <ListItem><a href="#home">Home</a></ListItem>
                     <ListItem><a href="#main">Map</a></ListItem>
-                    <ListItem>About Us</ListItem>
+                    <ListItem><a href="#about">About Us</a></ListItem>
                 </List>
                 </Links>
                 <Icons>

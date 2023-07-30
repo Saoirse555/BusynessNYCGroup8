@@ -61,7 +61,7 @@ const Hero = () => {
                     Your Perfect Parking Companion! Discover hassle-free parking
                     spots on the go.
                 </TextMobile> */}
-                {/* <AnimatedHiChevronDoubleDown /> */}
+                <AnimatedHiChevronDoubleDown />
             </Ground>
 
             {/* The 'CarShadow' component displays a shadow image of a car*/}
@@ -419,23 +419,23 @@ const Ground = styled.div`
 //         ${fadeOutAnimation} 1s forwards;
 // `;
 
-// const moveDown = keyframes`
-//   0% {
-//     transform: translateY(0);
-//   }
-//   50% {
-//     transform: translateY(20px);
-//   }
-//   100% {
-//     transform: translateY(0);
-//   }
-// `;
+const moveDown = keyframes`
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;
 
-// const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
-//     animation: ${moveDown} 2s infinite;
-//     position: absolute;
-//     left: 45%;
-//     bottom: 30px;
-//     transform: translateX(-50%);
-//     zoom: 1.5;
-// `;
+const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
+    animation: ${moveDown} 2s infinite;
+    position: absolute;
+    left: 45%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    zoom: 1.5;
+`;

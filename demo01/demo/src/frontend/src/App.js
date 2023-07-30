@@ -55,14 +55,14 @@ const App = () => {
     return (
         <Container>
             <Hero />
-            {/* <Add /> */}
-            {/* <Contact/> */}
+            <Add />
             <Map
                 weatherInfo={weatherData}
                 foreCastInfo={foreCastData}
                 locationInfo={locations}
             />
-            {/* <Test/> */}
+            <Contact />
+            <Test />
         </Container>
     );
 };

@@ -5,7 +5,7 @@ const Section = styled.div`
     display: flex;
     justify-content:center;
     align-items: center;
-
+    height:15vh;
 `
 
 const Container = styled.div`
@@ -21,15 +21,18 @@ const Links = styled.div`
     align-items: center;
     gap: 40px;
 `
+
 const Logo = styled.img`
    height: 50px;
    margin-left: 40px;
 `
+
 const Icons = styled.div`
     display: flex;
     align-items: center;
     gap: 20px;
 `
+
 const List = styled.ul`
     display: flex;
     gap:30px;
@@ -38,6 +41,7 @@ const List = styled.ul`
     padding: 20px; 
     margin-left: 250px;
 `
+
 const ListItem = styled.li`
     cursor: pointer;
     font-weight:bold;
@@ -92,9 +96,9 @@ const Navbar = () =>{
                 <Links> 
                 <Logo src="./img/icon.png"/>
                 <List>
-                    <ListItem>Intro</ListItem>
+                    <ListItem><a href="#home">Home</a></ListItem>
                     <ListItem><a href="#main">Map</a></ListItem>
-                    <ListItem>More</ListItem>
+                    <ListItem>About Us</ListItem>
                 </List>
                 </Links>
                 <Icons>

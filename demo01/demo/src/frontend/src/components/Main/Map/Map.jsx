@@ -1724,6 +1724,7 @@ const PageContainer = styled.div`
     flex-direction: column;
     z-index: 10;
     scroll-snap-align: center;
+    overflow: hidden; 
 `;
 const PageHeader = styled.div`
     display: flex;

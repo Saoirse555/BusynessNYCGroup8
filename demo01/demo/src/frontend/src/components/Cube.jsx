@@ -9,8 +9,8 @@ const Cube = () =>{
         )
 
     return(
-        <mesh>
-                    <boxGeometry args={[2.5,2.5,2]}/>
+        <mesh rotation={[Math.PI* 1, Math.PI* 1.2, Math.PI* 1.1]}>
+                    <boxGeometry args={[2.5,2.5,2.5]}/>
                     <meshStandardMaterial>
                       <RenderTexture attach="map">
                         <perspectiveCamera
@@ -18,7 +18,7 @@ const Cube = () =>{
                           position={[0,0,2]}
                         />
                         <color attach="background" args={["cyan"]}/>
-                        <Text ref={textRef} fontSize={3} color='white'>
+                        <Text ref={textRef} fontSize={2.4} color='white'>
                             Auto Mate
                         </Text>
                       </RenderTexture>

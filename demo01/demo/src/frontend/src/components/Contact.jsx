@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { OrbitControls, Stage } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import Statue from './Statue';
+import Navbar from './Navbar';
 
 const Section = styled.div`
   height: 100vh;
@@ -13,6 +14,7 @@ const Section = styled.div`
   flex-direction:column;
   align-items:center; 
   justify-content:space-between;
+  overflow: hidden;
 
   @media only screen and (max-width: 768px) {
     width: 100%;
@@ -24,7 +26,7 @@ const Section = styled.div`
 
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 85vh;
   display: flex;
   justify-content: space-between;
   gap: 50px;
@@ -35,13 +37,14 @@ const Left = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-bottom: 30px;
   @media only screen and (max-width: 768px) {
     justify-content: center;
   }
 `;
 
-const Title = styled.h1`
-  font-weight: 200;
+const Title = styled.h2`
+  font-weight: 150;
   font-weight: bold;
 `;
 
@@ -86,6 +89,7 @@ const SuccessMessage = styled.p`
 
 const Right = styled.div`
   flex: 1;
+  margin-bottom: 30px;
 
   @media only screen and (max-width: 768px) {
     display: none;
@@ -124,6 +128,7 @@ const Contact = () => {
   };
   return (
       <Section id="contact">
+        <Navbar/>
         <Container>
           <Left>
             <Form ref={ref} onSubmit={handleSubmit}>

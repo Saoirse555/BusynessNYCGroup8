@@ -6,8 +6,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei';
 
 const Section = styled.div`
-    height:100%;
-
+    height:100vh;
     scroll-snap-align: center;
     color:black;
     background:url("./img/blue.jpg");
@@ -15,6 +14,7 @@ const Section = styled.div`
     flex-direction:column;
     align-items:center; 
     justify-content:space-between;
+    overflow: hidden;
 
     @media only screen and (max-width: 768px) {
         width: 100%;
@@ -25,11 +25,20 @@ const Section = styled.div`
 `
 
 const Container = styled.div`
-  height: 100%;
+  height: 82vh;
   scroll-snap-align: center;
   width: 1400px;
   display: flex;
   justify-content: space-between;
+
+  @media screen and (max-width: 900px) {
+    white-space: normal;
+    font-size: 3rem;
+    }  
+
+   @media screen and (max-width: 760px) {
+        font-size: 1.5rem;
+    }
 `;
 
 const Left = styled.div`
@@ -60,6 +69,15 @@ const Subtitle = styled.h2`
   margin-left: 70px;
   margin-top: 55px;
   font-weight:bold;
+
+  @media screen and (max-width: 900px) {
+    white-space: normal;
+    font-size: 3rem;
+    }  
+
+   @media screen and (max-width: 760px) {
+        font-size: 1.5rem;
+    }
 `;
 
 const Desc = styled.p`
@@ -68,7 +86,7 @@ const Desc = styled.p`
   font-weight:bold;
   margin-left: 70px;
   margin-top: 50px;
-  margin-bottom: 250px;
+  margin-bottom: 45px;
   @media only screen and (max-width: 768px) {
     padding: 20px;
     text-align: center;
@@ -83,6 +101,11 @@ const Right = styled.div`
     flex: 1;
     width: 100%;
   }
+
+  @media only screen and (max-width: 768px) {
+    flex: 1;
+    align-items: center;
+  }  
 `;
 
 const Img = styled.img`
@@ -95,7 +118,8 @@ const Img = styled.img`
   left: 0;
   right: 0;
   margin: auto;
-  margin-left: 50px;
+  margin-left: 90px;
+  margin-bottom:45px;
 //   animation: animate 2s infinite ease alternate;
 
   @media only screen and (max-width: 768px) {
@@ -123,54 +147,66 @@ const moveDown = keyframes`
 `;
 
 const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
+  height: 3vh;
   animation: ${moveDown} 2s infinite;
-  position: fixed;
-  left: 45%;
-  bottom: 25px;
+  position: relative;
+  left: 50%;
   transform: translateX(-50%);
   zoom: 1.5; 
   color: white;
   z-index:999;
+  bottom:25px;
+
+
+  @media screen and (max-width: 900px) {
+    white-space: normal;
+    font-size: 3rem;
+    }  
+
+   @media screen and (max-width: 760px) {
+        font-size: 1.5rem;
+    }
 `;
 
 const Add = () =>{
 
     return(
-        <Section>
-            <Navbar/>
-            <Container>
-                <Left>
-                    <Title>
-                        Auto Mate
-                    </Title>
-                    <Subtitle>
-                        Parking. Routing. Living.
-                    </Subtitle>
-                    <Desc>
-                        Your Best Driving Assistant in NYC
-                    </Desc>
-                </Left>
-                <Right>
-                    <Canvas>
-                        <Suspense fallback={null}>
-                        <OrbitControls enableZoom={false} />
-                        <ambientLight intensity={1} />
-                        <directionalLight position={[3, 2, 1]} />
-                        <Sphere args={[1, 100, 200]} scale={2}>
-                            <MeshDistortMaterial
-                            color="#00ffff"
-                            attach="material"
-                            distort={0.5}
-                            speed={1.5}
-                            />
-                        </Sphere>
-                        </Suspense>
-                    </Canvas>
-                    <Img src="./img/WhiteAudi.png" />
-                </Right>
-            </Container>
-            <AnimatedHiChevronDoubleDown />
-        </Section>
+            <Section id="home">
+                <Navbar/>
+                <Container>
+                    <Left>
+                        <Title>
+                            Auto Mate
+                        </Title>
+                        <Subtitle>
+                            Parking. Routing. Living.
+                        </Subtitle>
+                        <Desc>
+                            Your Best Driving Assistant in NYC
+                        </Desc>
+                    </Left>
+                    <Right>
+                        <Canvas>
+                            <Suspense fallback={null}>
+                            <OrbitControls enableZoom={false} />
+                            <ambientLight intensity={1} />
+                            <directionalLight position={[3, 2, 1]} />
+                            <Sphere args={[1, 100, 200]} scale={2.6}>
+                                <MeshDistortMaterial
+                                color="#00ffff"
+                                attach="material"
+                                distort={0.5}
+                                speed={1.5}
+                                />
+                            </Sphere>
+                            </Suspense>
+                        </Canvas>
+                        <Img src="./img/WhiteAudi.png" />
+                    </Right>
+                </Container>
+                <AnimatedHiChevronDoubleDown />
+            </Section>
+        
     )
 }
 

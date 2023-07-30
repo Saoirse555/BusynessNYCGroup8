@@ -10,6 +10,9 @@ const Section = styled.div`
   scroll-snap-align: center;
   background:url("./img/contactbg.jpg");
   background-size: cover;
+  flex-direction:column;
+  align-items:center; 
+  justify-content:space-between;
 
   @media only screen and (max-width: 768px) {
     width: 100%;
@@ -21,7 +24,7 @@ const Section = styled.div`
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   justify-content: space-between;
   gap: 50px;
@@ -120,35 +123,35 @@ const Contact = () => {
       );
   };
   return (
-    <Section id="contact">
-      <Container>
-        <Left>
-          <Form ref={ref} onSubmit={handleSubmit}>
-            <Title>Contact Us</Title>
-            <Input placeholder="Name" name="name" />
-            <Input placeholder="Email" name="email" />
-            <TextArea
-              placeholder="Write your message here"
-              name="message"
-              rows={10}
-            />
-            <Button type="submit">Send</Button>
-            {success && <SuccessMessage>
-                {'Your message has been sent. We will get back to you soon :)'}
-                </SuccessMessage>}
-          </Form>
-        </Left>
-        <Right>
-          {/* <Img src="./img/statue.png"/> */}
-          <Canvas>
-            <Stage enviroment="city" intensity={0.6}>
-            <Statue rotation={[0, Math.PI* 1.3, 0]}/>
-            </Stage>
-            <OrbitControls enableZoom={false} />
-          </Canvas>
-        </Right>
-      </Container>
-    </Section>
+      <Section id="contact">
+        <Container>
+          <Left>
+            <Form ref={ref} onSubmit={handleSubmit}>
+              <Title>Contact Us</Title>
+              <Input placeholder="Name" name="name" />
+              <Input placeholder="Email" name="email" />
+              <TextArea
+                placeholder="Write your message here"
+                name="message"
+                rows={10}
+              />
+              <Button type="submit">Send</Button>
+              {success && <SuccessMessage>
+                  {'Your message has been sent. We will get back to you soon :)'}
+                  </SuccessMessage>}
+            </Form>
+          </Left>
+          <Right>
+            {/* <Img src="./img/statue.png"/> */}
+            <Canvas>
+              <Stage enviroment="city" intensity={0.6}>
+              <Statue rotation={[0, Math.PI* 1.3, 0]}/>
+              </Stage>
+              <OrbitControls enableZoom={false} />
+            </Canvas>
+          </Right>
+        </Container>
+      </Section>
   );
 };
 

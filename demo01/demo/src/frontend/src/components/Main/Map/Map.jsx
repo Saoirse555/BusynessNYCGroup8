@@ -89,32 +89,52 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
     };
 
-    //Load the geoJSON
-    const onLoad = (map) => {
-        // Load the map and GeoJSON data
-        setMap(map);
-        const geoJsonLayer = new window.google.maps.Data();
-        geoJsonLayer.addGeoJson(geoJsonData);
-        geoJsonLayer.setStyle((feature) => {
-            const locationId = feature.getProperty('location_id');
-            return {
-                fillColor: color[locationId],
-                strokeWeight: 0.25,
-                fillOpacity: 0.25
-            };
-        });
-        geoJsonLayer.setMap(map);
-        console.log('GeoJSON Loaded');
-        // Show info window for the clicked location
-        geoJsonLayer.addListener('click', async (e) => {
-            setShowInfoWindow(false);
-            setSelectedLocPosition({
-                lat: e.latLng.lat(),
-                lng: e.latLng.lng()
-            });
+    const [geoJsonLayer, setGeoJsonLayer] = useState(null);
 
-            setSelectedLocation(e.feature.getProperty('location_id'));
-        });
+    const onLoad = (map) => {
+        // Remove the old GeoJSON layer if it exists
+        if (geoJsonLayer) {
+            geoJsonLayer.setMap(null);
+        }
+
+        if (map) {
+            const newGeoJsonLayer = new window.google.maps.Data();
+            newGeoJsonLayer.addGeoJson(geoJsonData);
+            newGeoJsonLayer.setStyle((feature) => {
+                const locationId = feature.getProperty('location_id');
+
+                if (color) {
+                    return {
+                        fillColor: color[locationId],
+                        strokeWeight: 0.25,
+                        fillOpacity: 0.25
+                    };
+                } else {
+                    return {
+                        fillColor: colors[locationId],
+                        strokeWeight: 0.25,
+                        fillOpacity: 0.25
+                    };
+                }
+            });
+            newGeoJsonLayer.setMap(map);
+
+            // Set the newGeoJsonLayer in the state for future reference
+            setGeoJsonLayer(newGeoJsonLayer);
+
+            console.log('GeoJSON Loaded');
+
+            // Show info window for the clicked location
+            newGeoJsonLayer.addListener('click', async (e) => {
+                setShowInfoWindow(false);
+                setSelectedLocPosition({
+                    lat: e.latLng.lat(),
+                    lng: e.latLng.lng()
+                });
+
+                setSelectedLocation(e.feature.getProperty('location_id'));
+            });
+        }
     };
 
     useEffect(() => {
@@ -294,10 +314,40 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
     };
 
+    const fetchBusyness = async () => {
+        try {
+            const updatedColor = await getModelInput();
+            setColor(processColorData(updatedColor));
+            onLoad(map);
+        } catch (error) {
+            console.error('Error fetching busyness data:', error);
+        }
+    };
+
     useEffect(() => {
-        const updatedColor = getModelInput();
-        setColor(updatedColor);
+        fetchBusyness();
     }, [selectedDay, selectedHour]);
+
+    useEffect(() => {
+        fetchBusyness();
+    }, []);
+
+    const processColorData = (array) => {
+        const colorPicker = {
+            LOW: '#00FF00',
+            MEDIUM: '#FFFF00',
+            HIGH: '#FF0000'
+        };
+
+        if (!array) return;
+        const busynessArray = {};
+        for (const busynessPerLocation of array) {
+            busynessArray[busynessPerLocation.location] =
+                colorPicker[busynessPerLocation.level];
+        }
+        console.log({ busynessArray });
+        return busynessArray;
+    };
 
     // Handles the click on a car park marker and displays the info window
     const handleCarParkClick = (locationInfo) => {
@@ -997,6 +1047,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 width: '100%',
                                 zIndex: 1
                             }}
+                            // onLoad={setMap}
                             onLoad={setMap}
                             options={{
                                 disableDefaultUI: true,
@@ -1091,7 +1142,16 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     <>
                                         <h3>Location ID: {selectedLocation}</h3>
                                         <h4>
-                                            Busyness: {colors[selectedLocation]}
+                                            {color
+                                                ? color[selectedLocation] ===
+                                                  '#FF0000'
+                                                    ? 'Heavy'
+                                                    : color[
+                                                          selectedLocation
+                                                      ] === '#FFFF00'
+                                                    ? 'Moderate'
+                                                    : 'Light'
+                                                : ''}
                                         </h4>
                                     </>
                                 </InfoWindow>

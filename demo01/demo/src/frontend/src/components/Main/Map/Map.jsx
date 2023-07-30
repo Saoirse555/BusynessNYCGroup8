@@ -121,7 +121,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
             // Set the newGeoJsonLayer in the state for future reference
             setGeoJsonLayer(newGeoJsonLayer);
-
+            console.log({ color });
             console.log('GeoJSON Loaded');
 
             // Show info window for the clicked location
@@ -144,9 +144,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     }, [map]);
 
     useEffect(() => {
-        if (map) {
-            onLoad(map);
-        }
+        onLoad(map);
     }, [color]);
 
     // Defines the boundaries for the search options
@@ -255,8 +253,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     };
 
     const [selectedDay, setSelectedDay] = useState(0);
-    const [selectedDayIndex, setSelectedDayIndex] = useState();
-    const [selectedHour, setSelectedHour] = useState();
+    const [selectedDayIndex, setSelectedDayIndex] = useState(0);
+    const [selectedHour, setSelectedHour] = useState(0);
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     // Sets the selected day and hour based on weather and forecast information
@@ -268,7 +266,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                 (day) => day === today.slice(0, 3)
             );
             setSelectedDayIndex(parseInt(index));
-            setSelectedDay(0);
+            setSelectedDay(index);
             setSelectedHour(parseInt(time));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -287,14 +285,15 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     };
 
     const getModelInput = async () => {
-        if (foreCastInfo && selectedDay && selectedHour) {
+        console.log(selectedDay, selectedHour);
+        if (foreCastInfo && selectedHour) {
             const timeStamp = foreCastInfo.list[selectedDay * 8].dt;
             const weather = foreCastInfo.list[selectedDay * 8];
             const hour = parseInt(selectedHour); //0 to 23
             const date = new Date(timeStamp * 1000);
             const month = date.getMonth() + 1; //1 to 12
             const day = date.getDate(); //1 to 31
-            const day_of_week = date.getDay(); //Sunday is 0!
+            const day_of_week = (date.getDay() + 6) % 7; //Sunday is 0!
             const vis = weather.visibility / 1000; //in km
             const wind_spd = weather.wind.speed; // in m/s
             const temp = parseFloat((weather.main.temp - 273.15).toFixed(2)); //in deg C
@@ -313,6 +312,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                 precip: precip,
                 temp: temp
             };
+
+            console.log({ modelInput });
+
             const model_output = getBusyness(JSON.stringify(modelInput)).then(
                 (data) => data
             );
@@ -324,13 +326,14 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         try {
             const updatedColor = await getModelInput();
             setColor(processColorData(updatedColor));
-            onLoad(map);
+            // onLoad(map);
         } catch (error) {
             console.error('Error fetching busyness data:', error);
         }
     };
 
     useEffect(() => {
+        console.log('day or hour is changed');
         fetchBusyness();
     }, [selectedDay, selectedHour]);
 
@@ -1263,7 +1266,19 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                 <br />
                                                 <br />
                                                 <h4>Area Busyness: </h4>
-                                                {colors[infoWindowData.zoneID]}
+
+                                                {color
+                                                    ? color[
+                                                          infoWindowData.zoneID
+                                                      ] === '#FF0000'
+                                                        ? 'Heavy'
+                                                        : color[
+                                                              selectedLocation
+                                                          ] === '#FFFF00'
+                                                        ? 'Moderate'
+                                                        : 'Light'
+                                                    : ''}
+
                                                 <LikeButton
                                                     onClick={() =>
                                                         handleAddFavorite(
@@ -1327,7 +1342,18 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                 {infoWindowData.operator}
                                                 <br />
                                                 <h4>Area Busyness: </h4>
-                                                {colors[infoWindowData.zoneID]}
+
+                                                {color
+                                                    ? color[
+                                                          infoWindowData.zoneID
+                                                      ] === '#FF0000'
+                                                        ? 'Heavy'
+                                                        : color[
+                                                              selectedLocation
+                                                          ] === '#FFFF00'
+                                                        ? 'Moderate'
+                                                        : 'Light'
+                                                    : ''}
                                             </CarParkInfoWindow>
                                         )}
                                         {infoWindowData.type ===
@@ -1553,7 +1579,7 @@ const rangeCircle = {
     ...defaultCircleOptions,
     zIndex: 8,
     fillOpacity: 0.15,
-    strokeColor: 'white',
+    strokeColor: 'black',
     fillColor: 'transparent'
 };
 
@@ -1724,7 +1750,7 @@ const PageContainer = styled.div`
     flex-direction: column;
     z-index: 10;
     scroll-snap-align: center;
-    overflow: hidden; 
+    overflow: hidden;
 `;
 const PageHeader = styled.div`
     display: flex;

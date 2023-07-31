@@ -658,55 +658,56 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         };
     }, []);
 
-    const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
-    const [rate, setRate] = useState(3);
-    const [showPopup, setShowPopup] = useState(false);
+    // Original Rating feature part, moved to Contact already
+    // const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
+    // const [rate, setRate] = useState(3);
+    // const [showPopup, setShowPopup] = useState(false);
 
-    const handleRatingChange = (newValue) => {
-        setRate(newValue);
-        setShowPopup(true);
-    };
+    // const handleRatingChange = (newValue) => {
+    //     setRate(newValue);
+    //     setShowPopup(true);
+    // };
 
-    const alertStyles = {
-        width: 'auto',
-        padding: '8px 15px', // Smaller padding
-        fontSize: '14px' // Smaller font size
-    };
+    // const alertStyles = {
+    //     width: 'auto',
+    //     padding: '8px 15px', // Smaller padding
+    //     fontSize: '14px' // Smaller font size
+    // };
 
-    const [loading, setLoading] = useState(false);
-    const [open, setOpen] = useState(false);
-    const formRef = useRef();
+    // const [loading, setLoading] = useState(false);
+    // const [open, setOpen] = useState(false);
+    // const formRef = useRef();
 
-    const showModal = () => {
-        setOpen(true);
-    };
+    // const showModal = () => {
+    //     setOpen(true);
+    // };
 
-    const handleOk = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            setOpen(false);
-            // Call a function to handle sending the context to the specific email address.
-            sendEmail(formRef.current);
-        }, 3000);
-    };
+    // const handleOk = () => {
+    //     setLoading(true);
+    //     setTimeout(() => {
+    //         setLoading(false);
+    //         setOpen(false);
+    //         // Call a function to handle sending the context to the specific email address.
+    //         sendEmail(formRef.current);
+    //     }, 3000);
+    // };
 
-    const handleCancel = () => {
-        setOpen(false);
-    };
+    // const handleCancel = () => {
+    //     setOpen(false);
+    // };
 
-    const sendEmail = (form) => {
-        emailjs
-            .sendForm('emailpls', 'template_uzkjpaa', form, 'hEzNolfyTe3J3GvE4')
-            .then(
-                (result) => {
-                    console.log(result.text);
-                },
-                (error) => {
-                    console.log(error.text);
-                }
-            );
-    };
+    // const sendEmail = (form) => {
+    //     emailjs
+    //         .sendForm('emailpls', 'template_uzkjpaa', form, 'hEzNolfyTe3J3GvE4')
+    //         .then(
+    //             (result) => {
+    //                 console.log(result.text);
+    //             },
+    //             (error) => {
+    //                 console.log(error.text);
+    //             }
+    //         );
+    // };
 
     return (
         <PageContainer id="main">
@@ -954,6 +955,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 }}
                             ></div>
                         )}
+
+                        {/* // Original Rating feature part, moved to Contact already
                         <Rating>
                             <p
                                 style={{
@@ -983,7 +986,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     />
                                 </Modal>
                             )}
-                        </Rating>
+                        </Rating> */}
 
                         {/* <div
                                     style={{
@@ -1494,6 +1497,7 @@ const SliderValue = styled.span`
     margin-left: 10px;
     font-family: Roboto;
     font-weight: 100;
+    display: block; 
 `;
 
 const ListOfFavorites = styled.div`
@@ -1789,24 +1793,24 @@ const TitleMarker = styled.img`
     margin-left: 10px;
 `;
 
-const Rating = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    margin-top: 20px;
-    margin-left: 40px;
-    margin-right: 40px;
-    @media screen and (max-width: 400px) {
-    }
-`;
+// const Rating = styled.div`
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: flex-start;
+//     margin-top: 20px;
+//     margin-left: 40px;
+//     margin-right: 40px;
+//     @media screen and (max-width: 400px) {
+//     }
+// `;
 
-const CustomParagraph = styled.p`
-    margin-bottom: 10px;
-`;
+// const CustomParagraph = styled.p`
+//     margin-bottom: 10px;
+// `;
 
-const FeedbackInput = styled.input`
-    height: 60px;
-    width: 450px;
-    padding-left: 20px;
-`;
+// const FeedbackInput = styled.input`
+//     height: 60px;
+//     width: 450px;
+//     padding-left: 20px;
+// `;

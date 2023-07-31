@@ -5,6 +5,7 @@ import { OrbitControls, Stage } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import Statue from './Statue';
 import Navbar from './Navbar';
+import { Alert, Rate, Modal } from 'antd';
 
 const Section = styled.div`
   height: 100vh;
@@ -37,15 +38,33 @@ const Left = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   @media only screen and (max-width: 768px) {
     justify-content: center;
   }
 `;
 
 const Title = styled.h2`
-  font-weight: 150;
+  font-weight: 250;
   font-weight: bold;
+  margin-bottom: 0;
+`;
+
+const HeadContainer = styled.div`
+  display: flex;
+  align-items: flex-end; /* Align items to the bottom */
+`;
+
+const Rating = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 40px;
+    margin-right: 40px;
+    @media screen and (max-width: 400px) {
+    }
 `;
 
 const Form = styled.form`
@@ -60,14 +79,14 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-  padding: 20px;
+  padding: 15px;
   background-color: #e8e6e6;
   border: none;
   border-radius: 5px;
 `;
 
 const TextArea = styled.textarea`
-  padding: 20px;
+  padding: 15px;
   border: none;
   border-radius: 5px;
   background-color: #e8e6e6;
@@ -80,7 +99,7 @@ const Button = styled.button`
   font-weight: bold;
   cursor: pointer;
   border-radius: 5px;
-  padding: 20px;
+  padding: 15px;
 `;
 
 const SuccessMessage = styled.p`
@@ -89,7 +108,7 @@ const SuccessMessage = styled.p`
 
 const Right = styled.div`
   flex: 1;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 
   @media only screen and (max-width: 768px) {
     display: none;
@@ -102,6 +121,21 @@ const Right = styled.div`
 
 
 const Contact = () => {
+  const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
+  const [rate, setRate] = useState(3);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleRatingChange = (newValue) => {
+      setRate(newValue);
+      setShowPopup(true);
+  };
+
+  const alertStyles = {
+      width: 'auto',
+      padding: '8px 15px', // Smaller padding
+      fontSize: '14px' // Smaller font size
+  };
+
   const ref = useRef();
   const [success, setSuccess] = useState(null);
 
@@ -132,7 +166,43 @@ const Contact = () => {
         <Container>
           <Left>
             <Form ref={ref} onSubmit={handleSubmit}>
-              <Title>Contact Us</Title>
+              <HeadContainer>
+                <Title>
+                  Contact Us
+                </Title>
+                <Rating>
+                    <p
+                        style={{
+                            fontFamily: 'Roboto',
+                            fontWeight: 'bold',
+                            color:'white',
+                            margin: 0,
+                        }}
+                    >
+                        and rate us 😊
+                    </p>
+                    <Rate
+                        tooltips={desc}
+                        onChange={handleRatingChange}
+                        value={rate}
+                    />
+
+                    {showPopup && (
+                        <Modal
+                            visible={showPopup}
+                            onCancel={() => setShowPopup(false)}
+                            footer={null}
+                            centered
+                        >
+                            <Alert
+                                message="Thank you very much for your feedback!"
+                                type="success"
+                                style={alertStyles}
+                            />
+                        </Modal>
+                    )}
+                </Rating>
+              </HeadContainer>
               <Input placeholder="Name" name="name" />
               <Input placeholder="Email" name="email" />
               <TextArea

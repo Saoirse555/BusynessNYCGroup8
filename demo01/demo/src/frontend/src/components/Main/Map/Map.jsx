@@ -267,7 +267,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                 (day) => day === today.slice(0, 3)
             );
             setSelectedDayIndex(parseInt(index));
-            setSelectedDay(index);
+            setSelectedDay(0);
             setSelectedHour(parseInt(time));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1533,10 +1533,10 @@ const RangeText = styled.h4`
 `;
 
 const SliderValue = styled.span`
-    margin-left: 10px;
+    margin-left: 30px;
     font-family: Roboto;
     font-weight: 100;
-    display: block; 
+    display: block;
 `;
 
 const ListOfFavorites = styled.div`

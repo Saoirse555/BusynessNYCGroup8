@@ -12,7 +12,7 @@ import {
 } from '@react-google-maps/api';
 import geoJsonData from './manhattan.json';
 import colors from './color';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import EvStationIcon from '@mui/icons-material/EvStation';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
@@ -98,6 +98,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
 
         if (map) {
+            setIsLoading(false);
             const newGeoJsonLayer = new window.google.maps.Data();
             newGeoJsonLayer.addGeoJson(geoJsonData);
             newGeoJsonLayer.setStyle((feature) => {
@@ -121,8 +122,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
             // Set the newGeoJsonLayer in the state for future reference
             setGeoJsonLayer(newGeoJsonLayer);
-            console.log({ color });
-            console.log('GeoJSON Loaded');
+            // console.log({ color });
+            // console.log('GeoJSON Loaded');
 
             // Show info window for the clicked location
             newGeoJsonLayer.addListener('click', async (e) => {
@@ -285,7 +286,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     };
 
     const getModelInput = async () => {
-        console.log(selectedDay, selectedHour);
+        // console.log(selectedDay, selectedHour);
         if (foreCastInfo && selectedHour) {
             const timeStamp = foreCastInfo.list[selectedDay * 8].dt;
             const weather = foreCastInfo.list[selectedDay * 8];
@@ -315,29 +316,43 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
             console.log({ modelInput });
 
-            const model_output = getBusyness(JSON.stringify(modelInput)).then(
-                (data) => data
-            );
-            return model_output;
+            try {
+                const model_output = await getBusyness(
+                    JSON.stringify(modelInput)
+                ).then((data) => data);
+                return model_output;
+            } catch (error) {
+                console.log('Error in getting busyness');
+            }
         }
     };
 
     const fetchBusyness = async () => {
         try {
-            const updatedColor = await getModelInput();
-            setColor(processColorData(updatedColor));
-            // onLoad(map);
+            const data = await getModelInput();
+            const updatedColor = processColorData(data);
+            setColor(updatedColor);
+            setIsLoading(false);
         } catch (error) {
             console.error('Error fetching busyness data:', error);
         }
     };
 
+    const [isLoading, setIsLoading] = useState(false);
+
     useEffect(() => {
-        console.log('day or hour is changed');
+        console.log({ isLoading });
+    }, [isLoading]);
+
+    useEffect(() => {
+        setIsLoading(true);
+        // console.log('day or hour is changed');
         fetchBusyness();
     }, [selectedDay, selectedHour]);
 
     useEffect(() => {
+        setIsLoading(true);
+        // console.log('Fetching busyness on reload...');
         fetchBusyness();
     }, []);
 
@@ -354,7 +369,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             busynessArray[busynessPerLocation.location] =
                 colorPicker[busynessPerLocation.level];
         }
-        console.log({ busynessArray });
+        // console.log({ busynessArray });
         return busynessArray;
     };
 
@@ -635,7 +650,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             const { data } = await axios.get(
                 `/api/getevents?key=5fcac6b5dc2c4372a0416f46929d4cc1&format=json`
             );
-            console.log('alertdata', data);
+            // console.log('alertdata', data);
             // Return the retrieved alert data
             return data;
         } catch (error) {
@@ -1463,6 +1478,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
                             <TrafficLayer autoUpdate />
                         </GoogleMap>
+                        <MapBlurLayer isLoading={isLoading}>
+                            {isLoading ? 'Loading...' : null}
+                        </MapBlurLayer>
                     </Right>
                 </LoadScript>
             </Container>
@@ -1471,6 +1489,27 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 };
 
 export default Map;
+
+const MapBlurLayer = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    background-color: ${(props) =>
+        props.isLoading ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0)'};
+    z-index: 2;
+    backdrop-filter: ${(props) => (props.isLoading ? 'blur(20px)' : 'none')};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    color: white;
+    pointer-events: none; /* Prevent clicks on the overlay */
+    font-family: Roboto;
+    font-weight: 100;
+`;
 
 const EmptyCookieText = styled.p`
     font-family: Roboto;

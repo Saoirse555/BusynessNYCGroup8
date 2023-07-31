@@ -724,12 +724,25 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     //         );
     // };
 
+    const scrollToContact = () => {
+        const contactSection = document.getElementById('contact');
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      };
+
     return (
         <PageContainer id="main">
             <PageHeader>
                 <PageTitle>
                     Auto Mate
                     <TitleMarker src="../../img/marker.png" alt="red-marker" />
+                    <List>
+                        <ListItem><a href="#home">Home</a></ListItem>
+                        <ListItem><a href="#main">Map</a></ListItem>
+                        <ListItem><a href="#about">About Us</a></ListItem>
+                    </List>
+                    <Button2 onClick={scrollToContact}>
+                        Contact
+                    </Button2>
                 </PageTitle>
             </PageHeader>
             <Container>
@@ -1810,7 +1823,7 @@ const PageContainer = styled.div`
 `;
 const PageHeader = styled.div`
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
     background-color: #222222;
     width: 100%;
@@ -1818,6 +1831,8 @@ const PageHeader = styled.div`
 `;
 const PageTitle = styled.h1`
     color: white;
+    display: flex;
+    align-items: center;
     font-size: 2rem;
     font-family: Roboto;
     font-style: italic;
@@ -1831,6 +1846,62 @@ const TitleMarker = styled.img`
     height: auto;
     margin-left: 10px;
 `;
+
+const List = styled.ul`
+    display: flex;
+    gap:30px;
+    list-style:none;
+    align-items: center; 
+    padding: 20px; 
+    margin-left: 50px;
+`
+
+const ListItem = styled.li`
+    cursor: pointer;
+    font-weight:bold;
+    color:white;
+    margin-right: 50px;
+    position: relative;
+    font-size:15px;
+    margin-left: 80px;
+    font-family: Arial;
+    font-style: normal;
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -3px;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(45deg, #00ffff, #00bfff, #00ffff);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+    }
+
+    &:hover::after {
+        transform: scaleX(1);
+    }
+`
+
+const Button2 = styled.button`
+    height: 40px;
+    width: 90px;
+    padding: 20px;150px;
+    background-color: #00ffff;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight:bold;
+    margin-right: 20px;
+    margin-left: 190px;
+`
+
 
 // const Rating = styled.div`
 //     display: flex;

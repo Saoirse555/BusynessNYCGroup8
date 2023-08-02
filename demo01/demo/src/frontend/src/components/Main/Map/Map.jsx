@@ -772,68 +772,82 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 </Marquee>
                             }
                         />
+
+                        <Busynesscheck>
+                            <p>Check Busyness</p>
+                            <Selector>
+                                <DaySelector
+                                    value={selectedDay}
+                                    onChange={handleDayChange}
+                                >
+                                    {[...Array(5)].map((_, index) => (
+                                        <option key={index} value={index}>
+                                            {
+                                                daysOfWeek[
+                                                    (selectedDayIndex + index) % 7
+                                                ]
+                                            }
+                                        </option>
+                                    ))}
+                                </DaySelector>
+                                <HourSelector
+                                    value={selectedHour}
+                                    onChange={handleHourChange}
+                                >
+                                    {[...Array(24)].map((_, index) => (
+                                        <option key={index} value={index}>
+                                            {index.toString().padStart(2, '0')} : 00
+                                        </option>
+                                    ))}
+                                </HourSelector>
+                            </Selector>
+                        </Busynesscheck>    
+
+
+
                         <InputContainer>
-                            <StandaloneSearchBox
-                                options={SearchOptions}
-                                onLoad={(ref) => (inputStartRef.current = ref)}
-                                onPlacesChanged={handleStartPlaceChange}
-                            >
-                                <StartInput
-                                    id="start-input"
-                                    type="text"
-                                    placeholder="Search start..."
-                                    onKeyDown={handleEmptyCase}
-                                    ref={startInputRef}
-                                />
-                            </StandaloneSearchBox>
-                            <StandaloneSearchBox
-                                options={SearchOptions}
-                                onLoad={(ref) => (inputDestRef.current = ref)}
-                                onPlacesChanged={handleDestPlaceChange}
-                            >
-                                <EndInput
-                                    id="end-input"
-                                    type="text"
-                                    placeholder="Search destination..."
-                                    onKeyDown={handleEmptyCase}
-                                    ref={destInputRef}
-                                />
-                            </StandaloneSearchBox>
-                            <Button
-                                type="primary"
-                                onClick={() =>
-                                    fetchDirections(startLocation, destLocation)
-                                }
-                            >
-                                Route
-                            </Button>
-                        </InputContainer>
-                        <Selector>
-                            <DaySelector
-                                value={selectedDay}
-                                onChange={handleDayChange}
-                            >
-                                {[...Array(5)].map((_, index) => (
-                                    <option key={index} value={index}>
-                                        {
-                                            daysOfWeek[
-                                                (selectedDayIndex + index) % 7
-                                            ]
+                            <ContentContainer>
+                                <SearchBoxContainer>
+                                    <StandaloneSearchBox
+                                        options={SearchOptions}
+                                        onLoad={(ref) => (inputStartRef.current = ref)}
+                                        onPlacesChanged={handleStartPlaceChange}
+                                    >
+                                        <StartInput
+                                            id="start-input"
+                                            type="text"
+                                            placeholder="Search start..."
+                                            onKeyDown={handleEmptyCase}
+                                            ref={startInputRef}
+                                        />
+                                    </StandaloneSearchBox>
+                                    <StandaloneSearchBox
+                                        options={SearchOptions}
+                                        onLoad={(ref) => (inputDestRef.current = ref)}
+                                        onPlacesChanged={handleDestPlaceChange}
+                                    >
+                                        <EndInput
+                                            id="end-input"
+                                            type="text"
+                                            placeholder="Search destination..."
+                                            onKeyDown={handleEmptyCase}
+                                            ref={destInputRef}
+                                        />
+                                    </StandaloneSearchBox>
+                                </SearchBoxContainer>
+                                <ButtonContainer>
+                                    <Button
+                                        type="primary"
+                                        onClick={() =>
+                                            fetchDirections(startLocation, destLocation)
                                         }
-                                    </option>
-                                ))}
-                            </DaySelector>
-                            <HourSelector
-                                value={selectedHour}
-                                onChange={handleHourChange}
-                            >
-                                {[...Array(24)].map((_, index) => (
-                                    <option key={index} value={index}>
-                                        {index.toString().padStart(2, '0')} : 00
-                                    </option>
-                                ))}
-                            </HourSelector>
-                        </Selector>
+                                    >
+                                        See Route
+                                    </Button>
+                                </ButtonContainer>
+                            </ContentContainer>        
+                        </InputContainer>
+                        
 
                         <AmenitiesContainer>
                             <CarParks
@@ -859,11 +873,13 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 <EvStationIcon color={'success'} />
                             </EVCharging>
                         </AmenitiesContainer>
+
                         <RangeText>
                             {destLocation
                                 ? 'Max distance between destination and car parks:'
-                                : 'Enter a valid destination to show nearby car parks.'}
+                                : 'See nearby car parks near your destination.'}
                         </RangeText>
+
                         <RangeSlider
                             type="range"
                             min={0}
@@ -1539,17 +1555,16 @@ const RangeSlider = styled.input`
 `;
 
 const RangeText = styled.h4`
-    margin-top: 36px;
+    margin-top: 10px;
     margin-left: 30px;
-    font-family: Roboto;
-    font-weight: 100;
+    font-weight: bold;
 `;
 
 const SliderValue = styled.span`
     margin-left: 30px;
-    font-family: Roboto;
-    font-weight: 100;
+    font-weight: bold;
     display: block;
+    font-size:8px;
 `;
 
 const ListOfFavorites = styled.div`
@@ -1665,8 +1680,7 @@ const Selector = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
-    margin-left: 40px;
+    margin-top: 10px;
     margin-right: 40px;
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.25);
@@ -1701,7 +1715,9 @@ const HourSelector = styled.select`
         padding: 0;
     }
 `;
+
 const AmenitiesContainer = styled.div`
+    margin-top:10px;
     flex: 0 0 auto;
     display: flex;
     flex-direction: row;
@@ -1709,7 +1725,6 @@ const AmenitiesContainer = styled.div`
     align-items: center;
     width: 100%;
     height: 40px;
-    padding-top: 40px;
 `;
 
 const CarParks = styled.button`
@@ -1751,20 +1766,45 @@ const EVCharging = styled.button`
     width: 100px;
     height: 30px;
 `;
+
 const InputContainer = styled.div`
-    margin-top: 20px;
+    font-weight:bold;
+    margin-top: 10px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     width: 100%;
-    height: 50px;
+    margin-left:7%;
+
+    & > * {
+        margin-bottom: 10px; 
+    }
+
     @media screen and (max-width: 400px) {
         flex-direction: column;
-        height: 80px;
         margin-top: 10px;
     }
 `;
+
+const ContentContainer = styled.div`
+    display: flex;
+    align-items: flex-start;
+`;
+
+const SearchBoxContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    & > * + * {
+        margin-top: 10px;
+    }
+`;
+
+const ButtonContainer = styled.div`
+    margin-left: 50px;
+    margin-top:20px;
+`;
+
 const StartInput = styled.input`
     width: 200px;
     height: 36px;
@@ -1787,6 +1827,7 @@ const EndInput = styled.input`
         height: 18px;
     }
 `;
+
 const Container = styled.div`
     display: flex;
     flex-direction: row;
@@ -1901,7 +1942,11 @@ const Button2 = styled.button`
     margin-right: 20px;
     margin-left: 190px;
 `
-
+const Busynesscheck = styled.div`
+      font-weight:bold;
+      margin-left: 5%;
+      padding:10px;
+      `
 
 // const Rating = styled.div`
 //     display: flex;

@@ -4,7 +4,7 @@ import {
     getWeatherForeCast
 } from './components/Main/Weather/getWeatherAPI';
 import styled from 'styled-components';
-import Hero from './components/Hero/Hero';
+// import Hero from './components/Hero/Hero';
 import Map from './components/Main/Map/Map';
 import Add from './components/Add';
 import './App.css';
@@ -54,14 +54,14 @@ const App = () => {
     //Render the App component
     return (
         <Container>
-            <Hero />
+            {/* <Hero /> */}
             <Add />
-            <About />
             <Map
                 weatherInfo={weatherData}
                 foreCastInfo={foreCastData}
                 locationInfo={locations}
             />
+            <About />
             <Contact />
         </Container>
     );

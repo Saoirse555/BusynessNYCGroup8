@@ -9,10 +9,8 @@ import com.example.demo.Utils.PredictionUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -37,10 +35,14 @@ public class PredictionServiceImpl implements PredictionService {
             double result = PredictionUtils.makePrediction(locationID, modelInput);
             //classify busyness level
             String level;
-            if (result<9.0){
+            if (result<6.5){
+                level = "VERY LOW";
+            }else if (result<20) {
                 level = "LOW";
-            }else if (result<93){
+            }else if(result<52.5) {
                 level = "MEDIUM";
+            }else if (result<112){
+                level = "HIGH";
             }else {
                 level = "HIGH";
             }

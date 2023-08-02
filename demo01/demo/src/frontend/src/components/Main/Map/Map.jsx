@@ -876,7 +876,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
                         <RangeText>
                             {destLocation
-                                ? 'Max distance between destination and car parks:'
+                                ? 'Choose distance to check car parks near destination.'
                                 : 'See nearby car parks near your destination.'}
                         </RangeText>
 

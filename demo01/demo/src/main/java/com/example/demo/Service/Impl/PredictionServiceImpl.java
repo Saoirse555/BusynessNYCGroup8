@@ -44,7 +44,7 @@ public class PredictionServiceImpl implements PredictionService {
             }else if (result<112){
                 level = "HIGH";
             }else {
-                level = "HIGH";
+                level = "VERY HIGH";
             }
 
             //create BO entity

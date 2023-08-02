@@ -24,14 +24,14 @@ import evmarker from './evmarker.svg';
 import Cookies from 'js-cookie';
 import favoritedIcon from './favorited_active.svg';
 import notfavoritedIcon from './favorited_empty.svg';
-import { Alert, Rate, Button, Modal } from 'antd';
+import { Alert, Button } from 'antd';
 import Marquee from 'react-fast-marquee';
 import { getDistance } from 'geolib';
 import fuel_stations from '../Data/fuel_stations.json';
 import charging_stations from '../Data/charging_stations.json';
 import axios from 'axios';
 import { getBusyness } from '../Data/busynessGetter';
-import emailjs from 'emailjs-com';
+import Navbar from '../../Navbar';
 
 // Map component
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
@@ -732,7 +732,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     return (
         <PageContainer id="main">
             <PageHeader>
-                <PageTitle>
+                {/* <PageTitle>
                     Auto Mate
                     <TitleMarker src="../../img/marker.png" alt="red-marker" />
                     <List>
@@ -743,9 +743,12 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                     <Button2 onClick={scrollToContact}>
                         Contact
                     </Button2>
-                </PageTitle>
+                </PageTitle> */}
+                <Navbar/>
             </PageHeader>
+
             <Container>
+                {/* codes for alert data display */}
                 <LoadScript
                     googleMapsApiKey="AIzaSyDQxFVWqXZ4sTsX7_Zsf6Hio3J4nr7_wgY"
                     libraries={libraries}
@@ -755,9 +758,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                             banner
                             message={
                                 <Marquee pauseOnHover gradient={false}>
-                                    {/* Click on Red markers to create a route.
-                                    Click on gas/charging icons to create a
-                                    waypoint. */}
                                     {alertData === undefined && (
                                         <li>
                                             There are currently no emergency
@@ -1832,7 +1832,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: row;
     height: 100%;
-    width: 100vw;
+    width: 100%;
     @media screen and (max-width: 900px) {
         flex-direction: column;
     }
@@ -1855,13 +1855,14 @@ const Right = styled.div`
 `;
 const PageContainer = styled.div`
     display: flex;
-    /* width: 100vw; */
+    width: 100%;
     height: 100vh;
     flex-direction: column;
     z-index: 10;
     scroll-snap-align: center;
     overflow: hidden;
 `;
+
 const PageHeader = styled.div`
     display: flex;
     justify-content: space-between;
@@ -1870,83 +1871,87 @@ const PageHeader = styled.div`
     width: 100%;
     height: 60px;
 `;
-const PageTitle = styled.h1`
-    color: white;
-    display: flex;
-    align-items: center;
-    font-size: 2rem;
-    font-family: Roboto;
-    font-style: italic;
-    font-weight: 500;
-    line-height: 170%;
-    letter-spacing: 3px;
-    padding-left: 2%;
-`;
-const TitleMarker = styled.img`
-    width: 1.5rem;
-    height: auto;
-    margin-left: 10px;
-`;
 
-const List = styled.ul`
-    display: flex;
-    gap:30px;
-    list-style:none;
-    align-items: center; 
-    padding: 20px; 
-    margin-left: 50px;
-`
+// Orginal navbar
+// const PageTitle = styled.h1`
+//     color: white;
+//     display: flex;
+//     align-items: center;
+//     font-size: 2rem;
+//     font-family: Roboto;
+//     font-style: italic;
+//     font-weight: 500;
+//     line-height: 170%;
+//     letter-spacing: 3px;
+//     padding-left: 2%;
+// `;
+// const TitleMarker = styled.img`
+//     width: 1.5rem;
+//     height: auto;
+//     margin-left: 10px;
+// `;
 
-const ListItem = styled.li`
-    cursor: pointer;
-    font-weight:bold;
-    color:white;
-    margin-right: 50px;
-    position: relative;
-    font-size:15px;
-    margin-left: 80px;
-    font-family: Arial;
-    font-style: normal;
+// const List = styled.ul`
+//     display: flex;
+//     gap:30px;
+//     list-style:none;
+//     align-items: center; 
+//     padding: 20px; 
+//     margin-left: 50px;
+// `
 
-    &::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: -3px;
-        width: 100%;
-        height: 4px;
-        background: linear-gradient(45deg, #00ffff, #00bfff, #00ffff);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.3s ease;
-    }
+// const ListItem = styled.li`
+//     cursor: pointer;
+//     font-weight:bold;
+//     color:white;
+//     margin-right: 50px;
+//     position: relative;
+//     font-size:15px;
+//     margin-left: 80px;
+//     font-family: Arial;
+//     font-style: normal;
 
-    &:hover::after {
-        transform: scaleX(1);
-    }
-`
+//     &::after {
+//         content: '';
+//         position: absolute;
+//         left: 0;
+//         bottom: -3px;
+//         width: 100%;
+//         height: 4px;
+//         background: linear-gradient(45deg, #00ffff, #00bfff, #00ffff);
+//         transform: scaleX(0);
+//         transform-origin: left;
+//         transition: transform 0.3s ease;
+//     }
 
-const Button2 = styled.button`
-    height: 40px;
-    width: 90px;
-    padding: 20px;150px;
-    background-color: #00ffff;
-    color:white;
-    border:none;
-    border-radius:5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight:bold;
-    margin-right: 20px;
-    margin-left: 190px;
-`
+//     &:hover::after {
+//         transform: scaleX(1);
+//     }
+// `
+
+// const Button2 = styled.button`
+//     height: 40px;
+//     width: 90px;
+//     padding: 20px;150px;
+//     background-color: #87cefa;
+//     color:white;
+//     border:none;
+//     border-radius:5px;
+//     cursor: pointer;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     font-weight:bold;
+//     margin-right: 20px;
+//     margin-left: 280px;
+// `
+
 const Busynesscheck = styled.div`
       font-weight:bold;
       margin-left: 5%;
       padding:10px;
       `
+
 
 // const Rating = styled.div`
 //     display: flex;

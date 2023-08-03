@@ -100,6 +100,11 @@ const ListItem = styled.li`
     &:hover::after {
         width: 100%;
         }    
+
+    @media only screen and (max-width: 768px) {
+        padding: 20px;
+        justify-content: center;
+        }
 `;
 
 const moveDown = keyframes`

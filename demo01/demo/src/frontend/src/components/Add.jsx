@@ -5,6 +5,12 @@ import { HiChevronDoubleDown } from 'react-icons/hi';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei';
 
+const breakpoints = {
+  small: '760px',
+  medium: '900px',
+  large: '1400px',
+};
+
 const Section = styled.div`
     height:100vh;
     scroll-snap-align: center;
@@ -16,12 +22,12 @@ const Section = styled.div`
     justify-content:space-between;
     overflow: hidden;
 
-    @media only screen and (max-width: 768px) {
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
+    @media screen and (max-width: ${breakpoints.medium}) {
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }  
 `
 
 const Container = styled.div`
@@ -31,14 +37,13 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
 
-  @media screen and (max-width: 900px) {
-    white-space: normal;
-    font-size: 3rem;
-    }  
+  @media screen and (max-width: ${breakpoints.medium}) {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 
-   @media screen and (max-width: 760px) {
-        font-size: 1.5rem;
-    }
 `;
 
 const Left = styled.div`
@@ -48,10 +53,10 @@ const Left = styled.div`
   justify-content: center;
   gap: 20px;
 
-  @media only screen and (max-width: 768px) {
-    flex: 1;
-    align-items: center;
-  }
+  // @media only screen and (max-width: 768px) {
+  //   flex: 1;
+  //   align-items: center;
+  // }
 `;
 
 const Title = styled.h1`
@@ -59,8 +64,13 @@ const Title = styled.h1`
   font-size: 85px;
   margin-left: 70px;
   color: #ffff4d;
-  @media only screen and (max-width: 768px) {
-    text-align: center;
+  // @media only screen and (max-width: 768px) {
+  //   text-align: center;
+  // }
+  @media screen and (max-width: ${breakpoints.medium}) {
+    white-space: normal;
+    font-size: 2.5rem;
+    margin-top:12rem;
   }
 `;
 
@@ -70,14 +80,11 @@ const Subtitle = styled.h2`
   margin-top: 55px;
   font-weight:bold;
 
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: ${breakpoints.medium}) {
     white-space: normal;
-    font-size: 3rem;
-    }  
-
-   @media screen and (max-width: 760px) {
-        font-size: 1.5rem;
-    }
+    font-size: 2rem;
+    margin-top:0rem;
+  }
 `;
 
 const Desc = styled.p`
@@ -87,9 +94,15 @@ const Desc = styled.p`
   margin-left: 70px;
   margin-top: 50px;
   margin-bottom: 45px;
-  @media only screen and (max-width: 768px) {
-    padding: 20px;
-    text-align: center;
+  // @media only screen and (max-width: 768px) {
+  //   padding: 20px;
+  //   text-align: center;
+  // }
+
+  @media screen and (max-width: ${breakpoints.medium}) {
+    white-space: normal;
+    font-size: 1rem;
+    margin-top:0rem;
   }
 `;
 
@@ -122,17 +135,23 @@ const Img = styled.img`
   margin-bottom:45px;
 //   animation: animate 2s infinite ease alternate;
 
-  @media only screen and (max-width: 768px) {
-    width: 300px;
-    height: 300px;
-  }
+  // @media only screen and (max-width: 768px) {
+  //   width: 300px;
+  //   height: 300px;
+  // }
 
 //   @keyframes animate {
 //     to {
 //       transform: translateY(20px);
 //     }
 //   }
-// `;
+
+  @media screen and (max-width: ${breakpoints.medium}) {
+    width: 300px;
+    height: 300px;
+    margin-top:3rem;
+  }
+`;
 
 const moveDown = keyframes`
   0% {
@@ -158,14 +177,18 @@ const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
   bottom:25px;
 
 
-  @media screen and (max-width: 900px) {
-    white-space: normal;
-    font-size: 3rem;
-    }  
+  // @media screen and (max-width: 900px) {
+  //   white-space: normal;
+  //   font-size: 3rem;
+  //   }  
 
-   @media screen and (max-width: 760px) {
-        font-size: 1.5rem;
-    }
+  //  @media screen and (max-width: 760px) {
+  //       font-size: 1.5rem;
+  //   }
+  @media screen and (max-width: ${breakpoints.medium}) {
+    white-space: normal;
+    font-size: 1.5rem;
+  }
 `;
 
 const Add = () =>{

@@ -123,7 +123,7 @@ const Right = styled.div`
 
 const Contact = () => {
   const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
-  const [rate, setRate] = useState(3);
+  const [rate, setRate] = useState(5);
   const [showPopup, setShowPopup] = useState(false);
 
   const handleRatingChange = (newValue) => {

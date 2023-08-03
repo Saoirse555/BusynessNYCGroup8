@@ -102,8 +102,8 @@ const ListItem = styled.li`
         }    
 
     @media only screen and (max-width: 768px) {
-        padding: 20px;
         justify-content: center;
+        font-size:1.3rem;
         }
 `;
 

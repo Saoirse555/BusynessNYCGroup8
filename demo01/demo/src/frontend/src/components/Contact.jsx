@@ -131,21 +131,18 @@ const Contact = () => {
         setRate(newValue);
         setShowPopup(true);
 
-        console.log({ newValue });
-        const data = {
-            rating: newValue
+        const value = parseInt(newValue);
+        console.log({ value });
+        const headers = {
+            'Content-Type': 'application/json'
         };
-
-        // const headers = {
-        //     'Content-Type': 'text/plain'
-        // };
 
         try {
             // Make an HTTP GET request to retrieve parking station data
             const { rating } = await axios.post(
                 'http://localhost:8080/api/v1/rating',
-                data
-                // { headers }
+                value,
+                { headers }
             );
 
             // Log a message indicating that the station data is being retrieved

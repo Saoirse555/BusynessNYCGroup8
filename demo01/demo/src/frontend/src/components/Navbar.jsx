@@ -31,6 +31,7 @@ const Icons = styled.div`
     display: flex;
     align-items: center;
     gap: 20px;
+    margin-left: auto;
 `
 
 const List = styled.ul`
@@ -73,7 +74,7 @@ const Button = styled.button`
     height: 40px;
     width: 90px;
     padding: 20px;150px;
-    background-color: #00ffff;
+    background-color: #87cefa;
     color:white;
     border:none;
     border-radius:5px;
@@ -83,6 +84,7 @@ const Button = styled.button`
     justify-content: center;
     font-weight:bold;
     margin-right: 40px;
+    margin-left: auto;
 `
 
 const Navbar = () =>{

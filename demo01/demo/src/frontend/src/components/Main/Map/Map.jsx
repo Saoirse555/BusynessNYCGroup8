@@ -25,14 +25,13 @@ import evmarker from './evmarker.svg';
 import Cookies from 'js-cookie';
 import favoritedIcon from './favorited_active.svg';
 import notfavoritedIcon from './favorited_empty.svg';
-import { Alert, Rate, Button, Modal } from 'antd';
+import { Alert, Button } from 'antd';
 import Marquee from 'react-fast-marquee';
 import { getDistance } from 'geolib';
 import fuel_stations from '../Data/fuel_stations.json';
 import charging_stations from '../Data/charging_stations.json';
 import axios from 'axios';
 import { getBusyness } from '../Data/busynessGetter';
-import emailjs from 'emailjs-com';
 
 // Map component
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
@@ -725,15 +724,30 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     //         );
     // };
 
+    const scrollToContact = () => {
+        const contactSection = document.getElementById('contact');
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      };
+
     return (
         <PageContainer id="main">
             <PageHeader>
                 <PageTitle>
-                    Auto Mate
-                    <TitleMarker src="../../img/marker.png" alt="red-marker" />
+                    {/* Auto Mate */}
+                    <TitleMarker src="./img/icon.png" />
+                    <List>
+                        <ListItem><a href="#home">Home</a></ListItem>
+                        <ListItem><a href="#main">Map</a></ListItem>
+                        <ListItem><a href="#about">About Us</a></ListItem>
+                    </List>
+                    <Button2 onClick={scrollToContact}>
+                        Contact
+                    </Button2>
                 </PageTitle>
             </PageHeader>
+
             <Container>
+                {/* codes for alert data display */}
                 <LoadScript
                     googleMapsApiKey="AIzaSyDQxFVWqXZ4sTsX7_Zsf6Hio3J4nr7_wgY"
                     libraries={libraries}
@@ -743,9 +757,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                             banner
                             message={
                                 <Marquee pauseOnHover gradient={false}>
-                                    {/* Click on Red markers to create a route.
-                                    Click on gas/charging icons to create a
-                                    waypoint. */}
                                     {alertData === undefined && (
                                         <li>
                                             There are currently no emergency
@@ -760,68 +771,82 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 </Marquee>
                             }
                         />
+
+                        <Busynesscheck>
+                            <p>Check Busyness</p>
+                            <Selector>
+                                <DaySelector
+                                    value={selectedDay}
+                                    onChange={handleDayChange}
+                                >
+                                    {[...Array(5)].map((_, index) => (
+                                        <option key={index} value={index}>
+                                            {
+                                                daysOfWeek[
+                                                    (selectedDayIndex + index) % 7
+                                                ]
+                                            }
+                                        </option>
+                                    ))}
+                                </DaySelector>
+                                <HourSelector
+                                    value={selectedHour}
+                                    onChange={handleHourChange}
+                                >
+                                    {[...Array(24)].map((_, index) => (
+                                        <option key={index} value={index}>
+                                            {index.toString().padStart(2, '0')} : 00
+                                        </option>
+                                    ))}
+                                </HourSelector>
+                            </Selector>
+                        </Busynesscheck>    
+
+
+
                         <InputContainer>
-                            <StandaloneSearchBox
-                                options={SearchOptions}
-                                onLoad={(ref) => (inputStartRef.current = ref)}
-                                onPlacesChanged={handleStartPlaceChange}
-                            >
-                                <StartInput
-                                    id="start-input"
-                                    type="text"
-                                    placeholder="Search start..."
-                                    onKeyDown={handleEmptyCase}
-                                    ref={startInputRef}
-                                />
-                            </StandaloneSearchBox>
-                            <StandaloneSearchBox
-                                options={SearchOptions}
-                                onLoad={(ref) => (inputDestRef.current = ref)}
-                                onPlacesChanged={handleDestPlaceChange}
-                            >
-                                <EndInput
-                                    id="end-input"
-                                    type="text"
-                                    placeholder="Search destination..."
-                                    onKeyDown={handleEmptyCase}
-                                    ref={destInputRef}
-                                />
-                            </StandaloneSearchBox>
-                            <Button
-                                type="primary"
-                                onClick={() =>
-                                    fetchDirections(startLocation, destLocation)
-                                }
-                            >
-                                Route
-                            </Button>
-                        </InputContainer>
-                        <Selector>
-                            <DaySelector
-                                value={selectedDay}
-                                onChange={handleDayChange}
-                            >
-                                {[...Array(5)].map((_, index) => (
-                                    <option key={index} value={index}>
-                                        {
-                                            daysOfWeek[
-                                                (selectedDayIndex + index) % 7
-                                            ]
+                            <ContentContainer>
+                                <SearchBoxContainer>
+                                    <StandaloneSearchBox
+                                        options={SearchOptions}
+                                        onLoad={(ref) => (inputStartRef.current = ref)}
+                                        onPlacesChanged={handleStartPlaceChange}
+                                    >
+                                        <StartInput
+                                            id="start-input"
+                                            type="text"
+                                            placeholder="Search start..."
+                                            onKeyDown={handleEmptyCase}
+                                            ref={startInputRef}
+                                        />
+                                    </StandaloneSearchBox>
+                                    <StandaloneSearchBox
+                                        options={SearchOptions}
+                                        onLoad={(ref) => (inputDestRef.current = ref)}
+                                        onPlacesChanged={handleDestPlaceChange}
+                                    >
+                                        <EndInput
+                                            id="end-input"
+                                            type="text"
+                                            placeholder="Search destination..."
+                                            onKeyDown={handleEmptyCase}
+                                            ref={destInputRef}
+                                        />
+                                    </StandaloneSearchBox>
+                                </SearchBoxContainer>
+                                <ButtonContainer>
+                                    <Button
+                                        type="primary"
+                                        onClick={() =>
+                                            fetchDirections(startLocation, destLocation)
                                         }
-                                    </option>
-                                ))}
-                            </DaySelector>
-                            <HourSelector
-                                value={selectedHour}
-                                onChange={handleHourChange}
-                            >
-                                {[...Array(24)].map((_, index) => (
-                                    <option key={index} value={index}>
-                                        {index.toString().padStart(2, '0')} : 00
-                                    </option>
-                                ))}
-                            </HourSelector>
-                        </Selector>
+                                    >
+                                        See Route
+                                    </Button>
+                                </ButtonContainer>
+                            </ContentContainer>        
+                        </InputContainer>
+                        
 
                         <AmenitiesContainer>
                             <CarParks
@@ -847,11 +872,13 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 <EvStationIcon color={'success'} />
                             </EVCharging>
                         </AmenitiesContainer>
+
                         <RangeText>
                             {destLocation
-                                ? 'Max distance between destination and car parks:'
-                                : 'Enter a valid destination to show nearby car parks.'}
+                                ? 'Choose distance to check car parks near destination.'
+                                : 'See nearby car parks near your destination.'}
                         </RangeText>
+
                         <RangeSlider
                             type="range"
                             min={0}
@@ -1534,17 +1561,16 @@ const RangeSlider = styled.input`
 `;
 
 const RangeText = styled.h4`
-    margin-top: 36px;
+    margin-top: 10px;
     margin-left: 30px;
-    font-family: Roboto;
-    font-weight: 100;
+    font-weight: bold;
 `;
 
 const SliderValue = styled.span`
     margin-left: 30px;
-    font-family: Roboto;
-    font-weight: 100;
+    font-weight: bold;
     display: block;
+    font-size:8px;
 `;
 
 const ListOfFavorites = styled.div`
@@ -1660,8 +1686,7 @@ const Selector = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
-    margin-left: 40px;
+    margin-top: 10px;
     margin-right: 40px;
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.25);
@@ -1696,7 +1721,9 @@ const HourSelector = styled.select`
         padding: 0;
     }
 `;
+
 const AmenitiesContainer = styled.div`
+    margin-top:10px;
     flex: 0 0 auto;
     display: flex;
     flex-direction: row;
@@ -1704,7 +1731,6 @@ const AmenitiesContainer = styled.div`
     align-items: center;
     width: 100%;
     height: 40px;
-    padding-top: 40px;
 `;
 
 const CarParks = styled.button`
@@ -1746,20 +1772,45 @@ const EVCharging = styled.button`
     width: 100px;
     height: 30px;
 `;
+
 const InputContainer = styled.div`
-    margin-top: 20px;
+    font-weight:bold;
+    margin-top: 10px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     width: 100%;
-    height: 50px;
+    margin-left:7%;
+
+    & > * {
+        margin-bottom: 10px; 
+    }
+
     @media screen and (max-width: 400px) {
         flex-direction: column;
-        height: 80px;
         margin-top: 10px;
     }
 `;
+
+const ContentContainer = styled.div`
+    display: flex;
+    align-items: flex-start;
+`;
+
+const SearchBoxContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    & > * + * {
+        margin-top: 10px;
+    }
+`;
+
+const ButtonContainer = styled.div`
+    margin-left: 50px;
+    margin-top:20px;
+`;
+
 const StartInput = styled.input`
     width: 200px;
     height: 36px;
@@ -1782,11 +1833,12 @@ const EndInput = styled.input`
         height: 18px;
     }
 `;
+
 const Container = styled.div`
     display: flex;
     flex-direction: row;
     height: 100%;
-    width: 100vw;
+    width: 100%;
     @media screen and (max-width: 900px) {
         flex-direction: column;
     }
@@ -1809,23 +1861,28 @@ const Right = styled.div`
 `;
 const PageContainer = styled.div`
     display: flex;
-    /* width: 100vw; */
+    width: 100%;
     height: 100vh;
     flex-direction: column;
     z-index: 10;
     scroll-snap-align: center;
     overflow: hidden;
 `;
+
 const PageHeader = styled.div`
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
     background-color: #222222;
     width: 100%;
     height: 60px;
 `;
+
+// Orginal navbar
 const PageTitle = styled.h1`
     color: white;
+    display: flex;
+    align-items: center;
     font-size: 2rem;
     font-family: Roboto;
     font-style: italic;
@@ -1835,10 +1892,69 @@ const PageTitle = styled.h1`
     padding-left: 2%;
 `;
 const TitleMarker = styled.img`
-    width: 1.5rem;
-    height: auto;
-    margin-left: 10px;
+    height: 50px;
+    margin-left: 30px;
 `;
+
+const List = styled.ul`
+    display: flex;
+    list-style:none;
+    align-items: center; 
+    padding: 5px; 
+    margin-left: 200px;
+`
+
+const ListItem = styled.li`
+    cursor: pointer;
+    font-weight:bold;
+    color:white;
+    position: relative;
+    font-size:15px;
+    margin-left: 90px;
+    font-family: Arial;
+    font-style: normal;
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -3px;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(45deg, #00ffff, #00bfff, #00ffff);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+    }
+
+    &:hover::after {
+        transform: scaleX(1);
+    }
+`
+
+const Button2 = styled.button`
+    height: 40px;
+    width: 90px;
+    padding: 20px;150px;
+    background-color: #87cefa;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight:bold;
+    margin-right: 20px;
+    margin-left: 280px;
+`
+
+const Busynesscheck = styled.div`
+      font-weight:bold;
+      margin-left: 5%;
+      padding:10px;
+      `
+
 
 // const Rating = styled.div`
 //     display: flex;

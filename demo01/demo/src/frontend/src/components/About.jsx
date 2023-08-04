@@ -69,7 +69,7 @@ const List = styled.ul`
 const ListItem = styled.li`
     font-size:30px;
     font-weight:bold;
-    color: transparent;
+    color: white;
     -webkit-text-stroke: 1.5px white;
     position: relative;
     
@@ -85,9 +85,9 @@ const ListItem = styled.li`
         position: absolute;
         top: 0;
         left: 0;
-        // background-color:forestgreen ;
-        background-image: url(./img/NYC.jpg); 
-        background-size: cover;
+        background-color:#afeeee ;
+        // background-image: url(./img/NYC.jpg); 
+        // background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         width: 0%;
@@ -100,6 +100,11 @@ const ListItem = styled.li`
     &:hover::after {
         width: 100%;
         }    
+
+    @media only screen and (max-width: 768px) {
+        justify-content: center;
+        font-size:1.3rem;
+        }
 `;
 
 const moveDown = keyframes`

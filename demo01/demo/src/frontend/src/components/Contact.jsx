@@ -86,6 +86,7 @@ const Input = styled.input`
 `;
 
 const TextArea = styled.textarea`
+  font-family:Arial;
   padding: 15px;
   border: none;
   border-radius: 5px;
@@ -93,7 +94,7 @@ const TextArea = styled.textarea`
 `;
 
 const Button = styled.button`
-  background-color: #6495ed;
+  background-color: #87cefa;
   color: white;
   border: none;
   font-weight: bold;
@@ -122,7 +123,7 @@ const Right = styled.div`
 
 const Contact = () => {
   const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
-  const [rate, setRate] = useState(3);
+  const [rate, setRate] = useState(5);
   const [showPopup, setShowPopup] = useState(false);
 
   const handleRatingChange = (newValue) => {
@@ -175,7 +176,7 @@ const Contact = () => {
                         style={{
                             fontFamily: 'Roboto',
                             fontWeight: 'bold',
-                            color:'white',
+                            color:'black',
                             margin: 0,
                         }}
                     >
@@ -212,7 +213,7 @@ const Contact = () => {
               />
               <Button type="submit">Send</Button>
               {success && <SuccessMessage>
-                  {'Your message has been sent. We will get back to you soon :)'}
+                  {'Your message has been sent. We will get back to you soon. 🙇'}
                   </SuccessMessage>}
             </Form>
           </Left>

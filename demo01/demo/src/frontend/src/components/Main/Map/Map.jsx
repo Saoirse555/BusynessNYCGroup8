@@ -32,6 +32,7 @@ import fuel_stations from '../Data/fuel_stations.json';
 import charging_stations from '../Data/charging_stations.json';
 import axios from 'axios';
 import { getBusyness } from '../Data/busynessGetter';
+import colorPicker from '../Data/colorPicker';
 
 // Map component
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
@@ -673,6 +674,12 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         };
     }, []);
 
+    const percentageColorCoder = (percent) => {
+        const rd = -2.55 * percent + 255;
+        const grn = 2.55 * percent;
+        return [rd, grn, 0];
+    };
+
     // Original Rating feature part, moved to Contact already
     // const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
     // const [rate, setRate] = useState(3);
@@ -727,7 +734,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     const scrollToContact = () => {
         const contactSection = document.getElementById('contact');
         contactSection.scrollIntoView({ behavior: 'smooth' });
-      };
+    };
 
     return (
         <PageContainer id="main">
@@ -736,13 +743,17 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                     {/* Auto Mate */}
                     <TitleMarker src="./img/icon.png" />
                     <List>
-                        <ListItem><a href="#home">Home</a></ListItem>
-                        <ListItem><a href="#main">Map</a></ListItem>
-                        <ListItem><a href="#about">About Us</a></ListItem>
+                        <ListItem>
+                            <a href="#home">Home</a>
+                        </ListItem>
+                        <ListItem>
+                            <a href="#main">Map</a>
+                        </ListItem>
+                        <ListItem>
+                            <a href="#about">About Us</a>
+                        </ListItem>
                     </List>
-                    <Button2 onClick={scrollToContact}>
-                        Contact
-                    </Button2>
+                    <Button2 onClick={scrollToContact}>Contact</Button2>
                 </PageTitle>
             </PageHeader>
 
@@ -783,7 +794,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         <option key={index} value={index}>
                                             {
                                                 daysOfWeek[
-                                                    (selectedDayIndex + index) % 7
+                                                    (selectedDayIndex + index) %
+                                                        7
                                                 ]
                                             }
                                         </option>
@@ -795,21 +807,22 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 >
                                     {[...Array(24)].map((_, index) => (
                                         <option key={index} value={index}>
-                                            {index.toString().padStart(2, '0')} : 00
+                                            {index.toString().padStart(2, '0')}{' '}
+                                            : 00
                                         </option>
                                     ))}
                                 </HourSelector>
                             </Selector>
-                        </Busynesscheck>    
-
-
+                        </Busynesscheck>
 
                         <InputContainer>
                             <ContentContainer>
                                 <SearchBoxContainer>
                                     <StandaloneSearchBox
                                         options={SearchOptions}
-                                        onLoad={(ref) => (inputStartRef.current = ref)}
+                                        onLoad={(ref) =>
+                                            (inputStartRef.current = ref)
+                                        }
                                         onPlacesChanged={handleStartPlaceChange}
                                     >
                                         <StartInput
@@ -822,7 +835,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     </StandaloneSearchBox>
                                     <StandaloneSearchBox
                                         options={SearchOptions}
-                                        onLoad={(ref) => (inputDestRef.current = ref)}
+                                        onLoad={(ref) =>
+                                            (inputDestRef.current = ref)
+                                        }
                                         onPlacesChanged={handleDestPlaceChange}
                                     >
                                         <EndInput
@@ -838,15 +853,17 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     <Button
                                         type="primary"
                                         onClick={() =>
-                                            fetchDirections(startLocation, destLocation)
+                                            fetchDirections(
+                                                startLocation,
+                                                destLocation
+                                            )
                                         }
                                     >
                                         See Route
                                     </Button>
                                 </ButtonContainer>
-                            </ContentContainer>        
+                            </ContentContainer>
                         </InputContainer>
-                        
 
                         <AmenitiesContainer>
                             <CarParks
@@ -1196,24 +1213,67 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 >
                                     <>
                                         <h3>Location ID: {selectedLocation}</h3>
+                                        <br />
+
                                         <h4>
                                             Area Busyness:
-                                            {color
-                                                ? color[selectedLocation] ===
-                                                  '#FF0000'
-                                                    ? 'Heavy'
-                                                    : color[
+                                            <span style={{ fontWeight: '100' }}>
+                                                {color ? (
+                                                    color[selectedLocation] ===
+                                                    '#FF0000' ? (
+                                                        <span
+                                                            style={{
+                                                                color: 'red'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Heavy
+                                                        </span>
+                                                    ) : color[
                                                           selectedLocation
-                                                      ] === '#FFFF00'
-                                                    ? 'Moderate'
-                                                    : 'Light'
-                                                : ''}{' '}
-                                            {' prediction accuracy: '}
-                                            {
-                                                predictionAccuracy[
-                                                    selectedLocation
-                                                ]
-                                            }
+                                                      ] === '#FFFF00' ? (
+                                                        <span
+                                                            style={{
+                                                                color: 'orange'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Moderate
+                                                        </span>
+                                                    ) : (
+                                                        <span
+                                                            style={{
+                                                                color: 'green'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Light
+                                                        </span>
+                                                    )
+                                                ) : (
+                                                    ''
+                                                )}{' '}
+                                            </span>
+                                        </h4>
+                                        <br />
+                                        <h4>
+                                            {'Prediction Accuracy: '}
+                                            <span
+                                                style={{
+                                                    fontWeight: '100',
+                                                    color: colorPicker[
+                                                        predictionAccuracy[
+                                                            selectedLocation
+                                                        ]
+                                                    ]
+                                                }}
+                                            >
+                                                {
+                                                    predictionAccuracy[
+                                                        selectedLocation
+                                                    ]
+                                                }
+                                            </span>
                                         </h4>
                                     </>
                                 </InfoWindow>
@@ -1319,20 +1379,65 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                 <br />
                                                 <br />
                                                 <h4>Area Busyness: </h4>
-
-                                                {color
-                                                    ? color[
+                                                {color ? (
+                                                    color[
+                                                        infoWindowData.zoneID
+                                                    ] === '#FF0000' ? (
+                                                        <span
+                                                            style={{
+                                                                color: 'red'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Heavy
+                                                        </span>
+                                                    ) : color[
                                                           infoWindowData.zoneID
-                                                      ] === '#FF0000'
-                                                        ? 'Heavy'
-                                                        : color[
-                                                              infoWindowData
-                                                                  .zoneID
-                                                          ] === '#FFFF00'
-                                                        ? 'Moderate'
-                                                        : 'Light'
-                                                    : ''}
-
+                                                      ] === '#FFFF00' ? (
+                                                        <span
+                                                            style={{
+                                                                color: 'orange'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Moderate
+                                                        </span>
+                                                    ) : (
+                                                        <span
+                                                            style={{
+                                                                color: 'green'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Light
+                                                        </span>
+                                                    )
+                                                ) : (
+                                                    ''
+                                                )}
+                                                <br />
+                                                <br />
+                                                <h4>
+                                                    {'Prediction Accuracy: '}
+                                                    <span
+                                                        style={{
+                                                            fontWeight: '100',
+                                                            color: colorPicker[
+                                                                predictionAccuracy[
+                                                                    infoWindowData
+                                                                        .zoneID
+                                                                ]
+                                                            ]
+                                                        }}
+                                                    >
+                                                        {
+                                                            predictionAccuracy[
+                                                                infoWindowData
+                                                                    .zoneID
+                                                            ]
+                                                        }
+                                                    </span>
+                                                </h4>
                                                 <LikeButton
                                                     onClick={() =>
                                                         handleAddFavorite(
@@ -1397,18 +1502,65 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                 <br />
                                                 <h4>Area Busyness: </h4>
 
-                                                {color
-                                                    ? color[
+                                                {color ? (
+                                                    color[
+                                                        infoWindowData.zoneID
+                                                    ] === '#FF0000' ? (
+                                                        <span
+                                                            style={{
+                                                                color: 'red'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Heavy
+                                                        </span>
+                                                    ) : color[
                                                           infoWindowData.zoneID
-                                                      ] === '#FF0000'
-                                                        ? 'Heavy'
-                                                        : color[
-                                                              infoWindowData
-                                                                  .zoneID
-                                                          ] === '#FFFF00'
-                                                        ? 'Moderate'
-                                                        : 'Light'
-                                                    : ''}
+                                                      ] === '#FFFF00' ? (
+                                                        <span
+                                                            style={{
+                                                                color: 'orange'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Moderate
+                                                        </span>
+                                                    ) : (
+                                                        <span
+                                                            style={{
+                                                                color: 'green'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Light
+                                                        </span>
+                                                    )
+                                                ) : (
+                                                    ''
+                                                )}
+                                                <br />
+                                                <br />
+                                                <h4>
+                                                    {'Prediction Accuracy: '}
+                                                    <span
+                                                        style={{
+                                                            fontWeight: '100',
+                                                            color: colorPicker[
+                                                                predictionAccuracy[
+                                                                    infoWindowData
+                                                                        .zoneID
+                                                                ]
+                                                            ]
+                                                        }}
+                                                    >
+                                                        {
+                                                            predictionAccuracy[
+                                                                infoWindowData
+                                                                    .zoneID
+                                                            ]
+                                                        }
+                                                    </span>
+                                                </h4>
                                             </CarParkInfoWindow>
                                         )}
                                         {infoWindowData.type ===
@@ -1419,18 +1571,65 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                 <h4>Operator: </h4>
                                                 {infoWindowData.operator}
                                                 <h4>Area Busyness: </h4>
-                                                {color
-                                                    ? color[
+                                                {color ? (
+                                                    color[
+                                                        infoWindowData.zoneID
+                                                    ] === '#FF0000' ? (
+                                                        <span
+                                                            style={{
+                                                                color: 'red'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Heavy
+                                                        </span>
+                                                    ) : color[
                                                           infoWindowData.zoneID
-                                                      ] === '#FF0000'
-                                                        ? 'Heavy'
-                                                        : color[
-                                                              infoWindowData
-                                                                  .zoneID
-                                                          ] === '#FFFF00'
-                                                        ? 'Moderate'
-                                                        : 'Light'
-                                                    : ''}
+                                                      ] === '#FFFF00' ? (
+                                                        <span
+                                                            style={{
+                                                                color: 'orange'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Moderate
+                                                        </span>
+                                                    ) : (
+                                                        <span
+                                                            style={{
+                                                                color: 'green'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Light
+                                                        </span>
+                                                    )
+                                                ) : (
+                                                    ''
+                                                )}
+                                                <br />
+                                                <br />
+                                                <h4>
+                                                    {'Prediction Accuracy: '}
+                                                    <span
+                                                        style={{
+                                                            fontWeight: '100',
+                                                            color: colorPicker[
+                                                                predictionAccuracy[
+                                                                    infoWindowData
+                                                                        .zoneID
+                                                                ]
+                                                            ]
+                                                        }}
+                                                    >
+                                                        {
+                                                            predictionAccuracy[
+                                                                infoWindowData
+                                                                    .zoneID
+                                                            ]
+                                                        }
+                                                    </span>
+                                                </h4>
                                             </CarParkInfoWindow>
                                         )}
                                     </>
@@ -1570,7 +1769,7 @@ const SliderValue = styled.span`
     margin-left: 30px;
     font-weight: bold;
     display: block;
-    font-size:8px;
+    font-size: 8px;
 `;
 
 const ListOfFavorites = styled.div`
@@ -1723,7 +1922,7 @@ const HourSelector = styled.select`
 `;
 
 const AmenitiesContainer = styled.div`
-    margin-top:10px;
+    margin-top: 10px;
     flex: 0 0 auto;
     display: flex;
     flex-direction: row;
@@ -1774,16 +1973,16 @@ const EVCharging = styled.button`
 `;
 
 const InputContainer = styled.div`
-    font-weight:bold;
+    font-weight: bold;
     margin-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    margin-left:7%;
+    margin-left: 7%;
 
     & > * {
-        margin-bottom: 10px; 
+        margin-bottom: 10px;
     }
 
     @media screen and (max-width: 400px) {
@@ -1808,7 +2007,7 @@ const SearchBoxContainer = styled.div`
 
 const ButtonContainer = styled.div`
     margin-left: 50px;
-    margin-top:20px;
+    margin-top: 20px;
 `;
 
 const StartInput = styled.input`
@@ -1898,18 +2097,18 @@ const TitleMarker = styled.img`
 
 const List = styled.ul`
     display: flex;
-    list-style:none;
-    align-items: center; 
-    padding: 5px; 
+    list-style: none;
+    align-items: center;
+    padding: 5px;
     margin-left: 200px;
-`
+`;
 
 const ListItem = styled.li`
     cursor: pointer;
-    font-weight:bold;
-    color:white;
+    font-weight: bold;
+    color: white;
     position: relative;
-    font-size:15px;
+    font-size: 15px;
     margin-left: 90px;
     font-family: Arial;
     font-style: normal;
@@ -1930,31 +2129,30 @@ const ListItem = styled.li`
     &:hover::after {
         transform: scaleX(1);
     }
-`
+`;
 
 const Button2 = styled.button`
     height: 40px;
     width: 90px;
-    padding: 20px;150px;
+    padding: 20px 150px;
     background-color: #87cefa;
-    color:white;
-    border:none;
-    border-radius:5px;
+    color: white;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight:bold;
+    font-weight: bold;
     margin-right: 20px;
     margin-left: 280px;
-`
+`;
 
 const Busynesscheck = styled.div`
-      font-weight:bold;
-      margin-left: 5%;
-      padding:10px;
-      `
-
+    font-weight: bold;
+    margin-left: 5%;
+    padding: 10px;
+`;
 
 // const Rating = styled.div`
 //     display: flex;

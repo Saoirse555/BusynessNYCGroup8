@@ -7,11 +7,11 @@ import Navbar from './Navbar';
 import { HiChevronDoubleDown } from 'react-icons/hi';
 
 const data = [
-    'We are CS Master students at UCD',
-    'This web app is called Auto Mate',
-    'Based on predicted Manhattan road Busyness',
-    'Help drivers plan their routes',
-    'Provide traffic information conveniently'
+    'We are Auto Mate',
+    'See predicted Manhattan busyness',
+    'Check the nearest Parking lots',
+    'Help route panning through amenities',
+    'Provide handy traffic information'
 ];
 
 const Section = styled.div`
@@ -71,6 +71,7 @@ const ListItem = styled.li`
     font-size: 40px;
     font-weight: 100;
     color: white;
+    font-weight:bold;
     -webkit-text-stroke: 1.5px white;
     position: relative;
 

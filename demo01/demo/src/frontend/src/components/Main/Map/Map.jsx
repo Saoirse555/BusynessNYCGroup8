@@ -359,9 +359,11 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
     const processColorData = (array) => {
         const colorPicker = {
-            LOW: '#00FF00',
+            'VERY LOW': '#00FF00',
+            LOW: '#ADFF2F',
             MEDIUM: '#FFFF00',
-            HIGH: '#FF0000'
+            HIGH: '#FFA500',
+            'VERY HIGH': '#FF0000'
         };
 
         if (!array) return;
@@ -1226,7 +1228,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                         <h3>Location ID: {selectedLocation}</h3>
                                         <br />
 
-                                        <h4>
+                                        {/* <h4>
                                             Area Busyness:
                                             <span style={{ fontWeight: '100' }}>
                                                 {color ? (
@@ -1240,7 +1242,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                             }}
                                                         >
                                                             {' '}
-                                                            Heavy
+                                                            Very Heavy
                                                         </span>
                                                     ) : color[
                                                           selectedLocation
@@ -1271,7 +1273,93 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                     ''
                                                 )}{' '}
                                             </span>
+                                        </h4> */}
+                                        <h4>
+                                            Area Busyness:
+                                            <span style={{ fontWeight: '100' }}>
+                                                {color ? (
+                                                    color[selectedLocation] ===
+                                                    '#FF0000' ? (
+                                                        <span
+                                                            style={{
+                                                                fontWeight:
+                                                                    '500',
+                                                                color: 'red'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Very Heavy
+                                                        </span>
+                                                    ) : color[
+                                                          selectedLocation
+                                                      ] === '#FFA500' ? (
+                                                        <span
+                                                            style={{
+                                                                fontWeight:
+                                                                    '500',
+                                                                color: 'red'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Heavy
+                                                        </span>
+                                                    ) : color[
+                                                          selectedLocation
+                                                      ] === '#FFFF00' ? (
+                                                        <span
+                                                            style={{
+                                                                fontWeight:
+                                                                    '500',
+                                                                color: 'orange'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Moderate
+                                                        </span>
+                                                    ) : color[
+                                                          selectedLocation
+                                                      ] === '#ADFF2F' ? (
+                                                        <span
+                                                            style={{
+                                                                fontWeight:
+                                                                    '500',
+                                                                color: '#00FF00'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Light
+                                                        </span>
+                                                    ) : color[
+                                                          selectedLocation
+                                                      ] === '#00FF00' ? (
+                                                        <span
+                                                            style={{
+                                                                fontWeight:
+                                                                    '500',
+                                                                color: 'green'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Very Light
+                                                        </span>
+                                                    ) : (
+                                                        <span
+                                                            style={{
+                                                                fontWeight:
+                                                                    '500',
+                                                                color: 'black'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Unknown
+                                                        </span>
+                                                    )
+                                                ) : (
+                                                    ''
+                                                )}{' '}
+                                            </span>
                                         </h4>
+
                                         <br />
                                         <h4>
                                             {'Prediction Accuracy: '}
@@ -1408,6 +1496,19 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                             }}
                                                         >
                                                             {' '}
+                                                            Very Heavy
+                                                        </span>
+                                                    ) : color[
+                                                          infoWindowData.zoneID
+                                                      ] === '#FFA500' ? (
+                                                        <span
+                                                            style={{
+                                                                fontWeight:
+                                                                    '500',
+                                                                color: 'red'
+                                                            }}
+                                                        >
+                                                            {' '}
                                                             Heavy
                                                         </span>
                                                     ) : color[
@@ -1423,7 +1524,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                             {' '}
                                                             Moderate
                                                         </span>
-                                                    ) : (
+                                                    ) : color[
+                                                          infoWindowData.zoneID
+                                                      ] === '#ADFF2F' ? (
                                                         <span
                                                             style={{
                                                                 fontWeight:
@@ -1434,10 +1537,34 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                             {' '}
                                                             Light
                                                         </span>
+                                                    ) : color[
+                                                          infoWindowData.zoneID
+                                                      ] === '#00FF00' ? (
+                                                        <span
+                                                            style={{
+                                                                fontWeight:
+                                                                    '500',
+                                                                color: 'green'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Very Light
+                                                        </span>
+                                                    ) : (
+                                                        <span
+                                                            style={{
+                                                                fontWeight:
+                                                                    '500',
+                                                                color: 'black'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Unknown
+                                                        </span>
                                                     )
                                                 ) : (
                                                     ''
-                                                )}
+                                                )}{' '}
                                                 <br />
                                                 <br />
                                                 <h4>
@@ -1537,6 +1664,19 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                             }}
                                                         >
                                                             {' '}
+                                                            Very Heavy
+                                                        </span>
+                                                    ) : color[
+                                                          infoWindowData.zoneID
+                                                      ] === '#FFA500' ? (
+                                                        <span
+                                                            style={{
+                                                                fontWeight:
+                                                                    '500',
+                                                                color: 'red'
+                                                            }}
+                                                        >
+                                                            {' '}
                                                             Heavy
                                                         </span>
                                                     ) : color[
@@ -1552,7 +1692,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                             {' '}
                                                             Moderate
                                                         </span>
-                                                    ) : (
+                                                    ) : color[
+                                                          infoWindowData.zoneID
+                                                      ] === '#ADFF2F' ? (
                                                         <span
                                                             style={{
                                                                 fontWeight:
@@ -1563,12 +1705,35 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                             {' '}
                                                             Light
                                                         </span>
+                                                    ) : color[
+                                                          infoWindowData.zoneID
+                                                      ] === '#00FF00' ? (
+                                                        <span
+                                                            style={{
+                                                                fontWeight:
+                                                                    '500',
+                                                                color: 'green'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Very Light
+                                                        </span>
+                                                    ) : (
+                                                        <span
+                                                            style={{
+                                                                fontWeight:
+                                                                    '500',
+                                                                color: 'black'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Unknown
+                                                        </span>
                                                     )
                                                 ) : (
                                                     ''
                                                 )}
                                                 <br />
-                                                {/* <br /> */}
                                                 <h4>
                                                     {'Prediction Accuracy: '}
                                                     <span
@@ -1612,6 +1777,19 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                             }}
                                                         >
                                                             {' '}
+                                                            Very Heavy
+                                                        </span>
+                                                    ) : color[
+                                                          infoWindowData.zoneID
+                                                      ] === '#FFA500' ? (
+                                                        <span
+                                                            style={{
+                                                                fontWeight:
+                                                                    '500',
+                                                                color: 'red'
+                                                            }}
+                                                        >
+                                                            {' '}
                                                             Heavy
                                                         </span>
                                                     ) : color[
@@ -1627,7 +1805,9 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                             {' '}
                                                             Moderate
                                                         </span>
-                                                    ) : (
+                                                    ) : color[
+                                                          infoWindowData.zoneID
+                                                      ] === '#ADFF2F' ? (
                                                         <span
                                                             style={{
                                                                 fontWeight:
@@ -1638,12 +1818,36 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                             {' '}
                                                             Light
                                                         </span>
+                                                    ) : color[
+                                                          infoWindowData.zoneID
+                                                      ] === '#00FF00' ? (
+                                                        <span
+                                                            style={{
+                                                                fontWeight:
+                                                                    '500',
+                                                                color: 'green'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Very Light
+                                                        </span>
+                                                    ) : (
+                                                        <span
+                                                            style={{
+                                                                fontWeight:
+                                                                    '500',
+                                                                color: 'black'
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            Unknown
+                                                        </span>
                                                     )
                                                 ) : (
                                                     ''
                                                 )}
                                                 <br />
-                                                {/* <br /> */}
+
                                                 <h4>
                                                     {'Prediction Accuracy: '}
                                                     <span

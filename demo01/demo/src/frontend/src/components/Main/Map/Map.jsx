@@ -12,6 +12,7 @@ import {
 } from '@react-google-maps/api';
 import geoJsonData from './manhattan.json';
 import colors from './color';
+import predictionAccuracy from '../Data/predictionAccuracy';
 import styled, { css } from 'styled-components';
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import EvStationIcon from '@mui/icons-material/EvStation';
@@ -1169,6 +1170,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     <>
                                         <h3>Location ID: {selectedLocation}</h3>
                                         <h4>
+                                            Area Busyness:
                                             {color
                                                 ? color[selectedLocation] ===
                                                   '#FF0000'
@@ -1178,7 +1180,13 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                       ] === '#FFFF00'
                                                     ? 'Moderate'
                                                     : 'Light'
-                                                : ''}
+                                                : ''}{' '}
+                                            {' prediction accuracy: '}
+                                            {
+                                                predictionAccuracy[
+                                                    selectedLocation
+                                                ]
+                                            }
                                         </h4>
                                     </>
                                 </InfoWindow>

@@ -755,8 +755,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                             <a href="#about">About Us</a>
                         </ListItem>
                     </List>
-                    <Button2 onClick={scrollToContact}>Contact</Button2>
                 </PageTitle>
+                <Button2 onClick={scrollToContact}>Contact</Button2>
             </PageHeader>
 
             <Container>
@@ -2387,8 +2387,8 @@ const Button2 = styled.button`
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    margin-right: 20px;
-    margin-left: 280px;
+    margin-right: 60px;
+    /* margin-left: 300px; */
 `;
 
 const Busynesscheck = styled.div`

@@ -784,7 +784,17 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                         />
 
                         <Busynesscheck>
-                            <p>Check Busyness</p>
+                            <p
+                                style={{
+                                    fontFamily: 'Roboto',
+                                    fontWeight: '500'
+
+                                    // font-family: Roboto;
+                                    // font-weight: 100;
+                                }}
+                            >
+                                Check Busyness
+                            </p>
                             <Selector>
                                 <DaySelector
                                     value={selectedDay}
@@ -893,7 +903,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                         <RangeText>
                             {destLocation
                                 ? 'Choose distance to check car parks near destination.'
-                                : 'See nearby car parks near your destination.'}
+                                : 'See car parks near your destination.'}
                         </RangeText>
 
                         <RangeSlider
@@ -1787,13 +1797,17 @@ const RangeText = styled.h4`
     margin-top: 10px;
     margin-left: 30px;
     font-weight: bold;
+    font-family: Roboto;
+    font-weight: 100;
 `;
 
 const SliderValue = styled.span`
     margin-left: 30px;
     font-weight: bold;
     display: block;
-    font-size: 8px;
+    font-size: 16px;
+    font-family: Roboto;
+    font-weight: 100;
 `;
 
 const ListOfFavorites = styled.div`

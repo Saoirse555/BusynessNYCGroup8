@@ -1137,6 +1137,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 mapId: 'cbd44d8f8f1a5330',
                                 disableAutoPan: true
                             }}
+                            tilt={35}
                         >
                             {startLocation && (
                                 <Marker

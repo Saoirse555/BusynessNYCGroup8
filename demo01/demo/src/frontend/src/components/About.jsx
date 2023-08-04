@@ -83,7 +83,7 @@ const ListItem = styled.li`
     &::after {
         content: '${(props) => props.text}';
         position: absolute;
-        top: 0;
+        top: 90%;
         left: 0;
         background-color: #afeeee;
         // background-image: url(./img/NYC.jpg);
@@ -91,7 +91,7 @@ const ListItem = styled.li`
         background-position: center;
         background-repeat: no-repeat;
         width: 0%;
-        height: 100%;
+        height: 10%;
         overflow: hidden;
         white-space: nowrap;
         transition: width 0.5s;

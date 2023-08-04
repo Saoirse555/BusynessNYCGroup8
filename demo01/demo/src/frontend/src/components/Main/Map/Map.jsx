@@ -1223,6 +1223,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                     '#FF0000' ? (
                                                         <span
                                                             style={{
+                                                                fontWeight:
+                                                                    '500',
                                                                 color: 'red'
                                                             }}
                                                         >
@@ -1234,6 +1236,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                       ] === '#FFFF00' ? (
                                                         <span
                                                             style={{
+                                                                fontWeight:
+                                                                    '500',
                                                                 color: 'orange'
                                                             }}
                                                         >
@@ -1243,6 +1247,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                     ) : (
                                                         <span
                                                             style={{
+                                                                fontWeight:
+                                                                    '500',
                                                                 color: 'green'
                                                             }}
                                                         >
@@ -1260,7 +1266,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                             {'Prediction Accuracy: '}
                                             <span
                                                 style={{
-                                                    fontWeight: '100',
+                                                    fontWeight: '500',
                                                     color: colorPicker[
                                                         predictionAccuracy[
                                                             selectedLocation
@@ -1385,6 +1391,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                     ] === '#FF0000' ? (
                                                         <span
                                                             style={{
+                                                                fontWeight:
+                                                                    '500',
                                                                 color: 'red'
                                                             }}
                                                         >
@@ -1396,6 +1404,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                       ] === '#FFFF00' ? (
                                                         <span
                                                             style={{
+                                                                fontWeight:
+                                                                    '500',
                                                                 color: 'orange'
                                                             }}
                                                         >
@@ -1405,6 +1415,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                     ) : (
                                                         <span
                                                             style={{
+                                                                fontWeight:
+                                                                    '500',
                                                                 color: 'green'
                                                             }}
                                                         >
@@ -1421,7 +1433,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                     {'Prediction Accuracy: '}
                                                     <span
                                                         style={{
-                                                            fontWeight: '100',
+                                                            fontWeight: '500',
                                                             color: colorPicker[
                                                                 predictionAccuracy[
                                                                     infoWindowData
@@ -1508,6 +1520,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                     ] === '#FF0000' ? (
                                                         <span
                                                             style={{
+                                                                fontWeight:
+                                                                    '500',
                                                                 color: 'red'
                                                             }}
                                                         >
@@ -1519,6 +1533,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                       ] === '#FFFF00' ? (
                                                         <span
                                                             style={{
+                                                                fontWeight:
+                                                                    '500',
                                                                 color: 'orange'
                                                             }}
                                                         >
@@ -1528,6 +1544,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                     ) : (
                                                         <span
                                                             style={{
+                                                                fontWeight:
+                                                                    '500',
                                                                 color: 'green'
                                                             }}
                                                         >
@@ -1544,7 +1562,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                     {'Prediction Accuracy: '}
                                                     <span
                                                         style={{
-                                                            fontWeight: '100',
+                                                            fontWeight: '500',
                                                             color: colorPicker[
                                                                 predictionAccuracy[
                                                                     infoWindowData
@@ -1577,6 +1595,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                     ] === '#FF0000' ? (
                                                         <span
                                                             style={{
+                                                                fontWeight:
+                                                                    '500',
                                                                 color: 'red'
                                                             }}
                                                         >
@@ -1588,6 +1608,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                       ] === '#FFFF00' ? (
                                                         <span
                                                             style={{
+                                                                fontWeight:
+                                                                    '500',
                                                                 color: 'orange'
                                                             }}
                                                         >
@@ -1597,6 +1619,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                     ) : (
                                                         <span
                                                             style={{
+                                                                fontWeight:
+                                                                    '500',
                                                                 color: 'green'
                                                             }}
                                                         >
@@ -1613,7 +1637,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                     {'Prediction Accuracy: '}
                                                     <span
                                                         style={{
-                                                            fontWeight: '100',
+                                                            fontWeight: '500',
                                                             color: colorPicker[
                                                                 predictionAccuracy[
                                                                     infoWindowData

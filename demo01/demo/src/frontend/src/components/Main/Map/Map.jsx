@@ -1567,7 +1567,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                     ''
                                                 )}
                                                 <br />
-                                                <br />
+                                                {/* <br /> */}
                                                 <h4>
                                                     {'Prediction Accuracy: '}
                                                     <span
@@ -1642,7 +1642,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                                     ''
                                                 )}
                                                 <br />
-                                                <br />
+                                                {/* <br /> */}
                                                 <h4>
                                                     {'Prediction Accuracy: '}
                                                     <span
@@ -2172,7 +2172,7 @@ const ListItem = styled.li`
 const Button2 = styled.button`
     height: 40px;
     width: 90px;
-    padding: 20px 150px;
+    padding: 20px;
     background-color: #87cefa;
     color: white;
     border: none;

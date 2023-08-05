@@ -6,6 +6,7 @@ import com.example.demo.Service.RatingService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.BatchUpdateException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;

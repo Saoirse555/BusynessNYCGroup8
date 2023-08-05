@@ -228,8 +228,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
     const displayTravelTime = (directions) => {
         const travelDuration = directions.routes[0]?.legs[0]?.duration.text;
-        setTravelDuration(travelDuration); 
-        };
+        setTravelDuration(travelDuration);
+    };
 
     const startInputRef = useRef(null);
     const destInputRef = useRef(null);
@@ -295,8 +295,11 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     };
 
     const getModelInput = async () => {
-        // console.log(selectedDay, selectedHour);
-        if (foreCastInfo && selectedHour) {
+        console.log('getModelInput called');
+        if (
+            foreCastInfo
+            // && selectedHour
+        ) {
             const timeStamp = foreCastInfo.list[selectedDay * 8].dt;
             const weather = foreCastInfo.list[selectedDay * 8];
             const hour = parseInt(selectedHour); //0 to 23
@@ -337,9 +340,11 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     };
 
     const fetchBusyness = async () => {
+        console.log('fetchBusyness called');
         try {
             const data = await getModelInput();
             const updatedColor = processColorData(data);
+            console.log({ updatedColor });
             setColor(updatedColor);
             setIsLoading(false);
         } catch (error) {
@@ -357,13 +362,21 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         setIsLoading(true);
         // console.log('day or hour is changed');
         fetchBusyness();
+        console.log(
+            'Running model on day/hour change: ',
+            selectedDay,
+            selectedHour
+        );
     }, [selectedDay, selectedHour]);
 
     useEffect(() => {
+        console.log('Running model initially');
+        console.log(selectedDay, selectedHour);
+
         setIsLoading(true);
         // console.log('Fetching busyness on reload...');
         fetchBusyness();
-    }, []);
+    }, [foreCastInfo]);
 
     const processColorData = (array) => {
         const colorPicker = {
@@ -884,9 +897,13 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 </ButtonContainer>
                             </ContentContainer>
                         </InputContainer>
-                        
+
                         <Traveltime>
-                        {travelDuration && <p>Estimated travelling time: {travelDuration}</p>}
+                            {travelDuration && (
+                                <p>
+                                    Estimated travelling time: {travelDuration}
+                                </p>
+                            )}
                         </Traveltime>
 
                         <AmenitiesContainer>
@@ -2410,7 +2427,8 @@ const Busynesscheck = styled.div`
 `;
 
 const Traveltime = styled.div`
-margin-left: 30px;
+    font-family: 'Roboto';
+    margin-left: 30px;
 `;
 
 // const Rating = styled.div`

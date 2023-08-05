@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 import styled from 'styled-components';
 import { OrbitControls, Stage } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import Statue from './Statue';
 import Navbar from './Navbar';
-import { Alert, Rate, Modal } from 'antd';
+import { Alert, Rate, Modal, Button, Popover } from 'antd';
 import axios from 'axios';
 
 const Section = styled.div`
@@ -95,8 +95,8 @@ const TextArea = styled.textarea`
     background-color: #e8e6e6;
 `;
 
-const Button = styled.button`
-    background-color: #87cefa;
+const ButtonForm = styled.button`
+    background-color: #1890ff;
     color: white;
     border: none;
     font-weight: bold;
@@ -123,9 +123,40 @@ const Right = styled.div`
 // `;
 
 const Contact = () => {
+    // Collect Rating and get average function
     const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
     const [rate, setRate] = useState(5);
     const [showPopup, setShowPopup] = useState(false);
+    const [backendRating, setBackendRating] = useState(null);
+
+    const getBackRating = async () => {
+        try {
+            // Make an HTTP GET request for current backend rating data
+            const { data } = await axios.get(
+                `http://localhost:8080/api/v1/rating`
+            );
+            // Log a message indicating that the API call was made
+            console.log('BackRating get');
+            console.log('Fetched Rating:', data);
+            console.log('Data Type of Fetched Rating:', typeof data);
+            // Return the retrieved rating data
+            setBackendRating(data);
+
+        } catch (error) {
+            // Log any errors that occur during the API call
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getBackRating();
+    }, []);
+
+    const content = (
+        <div>
+            <p> {backendRating !== null ? backendRating.toFixed(1) : '-'} / 5 </p>
+        </div>
+    );
 
     const handleRatingChange = async (newValue) => {
         setRate(newValue);
@@ -138,7 +169,7 @@ const Contact = () => {
         };
 
         try {
-            // Make an HTTP GET request to retrieve parking station data
+            // Make an HTTP post request to retrieve parking station data
             const { rating } = await axios.post(
                 'http://localhost:8080/api/v1/rating',
                 value,
@@ -162,6 +193,7 @@ const Contact = () => {
         fontSize: '14px' // Smaller font size
     };
 
+    // Send e-mail fuction
     const ref = useRef();
     const [success, setSuccess] = useState(null);
 
@@ -186,6 +218,7 @@ const Contact = () => {
                 }
             );
     };
+
     return (
         <Section id="contact">
             <Navbar />
@@ -205,6 +238,7 @@ const Contact = () => {
                                 >
                                     and rate us 😊
                                 </p>
+
                                 <Rate
                                     tooltips={desc}
                                     onChange={handleRatingChange}
@@ -213,7 +247,7 @@ const Contact = () => {
 
                                 {showPopup && (
                                     <Modal
-                                        visible={showPopup}
+                                        open={showPopup}
                                         onCancel={() => setShowPopup(false)}
                                         footer={null}
                                         centered
@@ -226,6 +260,11 @@ const Contact = () => {
                                     </Modal>
                                 )}
                             </Rating>
+                            {backendRating !== null && (
+                            <Popover content={content} title="So far, we got:" style={{ fontweight: 'bold' }}>
+                            <Button type="primary">Current rating</Button>
+                            </Popover>
+                                )}
                         </HeadContainer>
                         <Input placeholder="Name" name="name" />
                         <Input placeholder="Email" name="email" />
@@ -234,7 +273,7 @@ const Contact = () => {
                             name="message"
                             rows={10}
                         />
-                        <Button type="submit">Send</Button>
+                        <ButtonForm type="submit">Send</ButtonForm>
                         {success && (
                             <SuccessMessage>
                                 {
@@ -244,6 +283,7 @@ const Contact = () => {
                         )}
                     </Form>
                 </Left>
+                
                 <Right>
                     {/* <Img src="./img/statue.png"/> */}
                     <Canvas>

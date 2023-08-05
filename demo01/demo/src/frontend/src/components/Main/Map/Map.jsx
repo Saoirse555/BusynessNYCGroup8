@@ -2378,7 +2378,7 @@ const Button2 = styled.button`
     height: 40px;
     width: 90px;
     padding: 20px;
-    background-color: #87cefa;
+    background-color: #1890ff;
     color: white;
     border: none;
     border-radius: 5px;

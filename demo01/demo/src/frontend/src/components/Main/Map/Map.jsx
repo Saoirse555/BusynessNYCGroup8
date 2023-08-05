@@ -306,7 +306,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             const date = new Date(timeStamp * 1000);
             const month = date.getMonth() + 1; //1 to 12
             const day = date.getDate(); //1 to 31
-            const day_of_week = (date.getDay() + 6) % 7; //Sunday is 0!
+            const day_of_week = (date.getDay() + 5) % 7; //Sunday is 0!
             const vis = weather.visibility / 1000; //in km
             const wind_spd = weather.wind.speed; // in m/s
             const temp = parseFloat((weather.main.temp - 273.15).toFixed(2)); //in deg C
@@ -318,7 +318,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             const modelInput = {
                 hour: hour,
                 month: month,
-                day: day,
+                day: day - 1,
                 day_of_week: day_of_week,
                 wind_spd: wind_spd,
                 vis: vis,
@@ -327,7 +327,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             };
 
             console.log({ modelInput });
-
             try {
                 const model_output = await getBusyness(
                     JSON.stringify(modelInput)

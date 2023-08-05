@@ -72,34 +72,38 @@ const ListItem = styled.li`
     font-weight: 100;
     color: white;
     font-weight:bold;
-    -webkit-text-stroke: 1.5px white;
+    // -webkit-text-stroke: 1px white;
     position: relative;
 
     @media only screen and (max-width: 768px) {
         font-size: 24px;
         color: white;
-        -webkit-text-stroke: 0px;
+        // -webkit-text-stroke: 0px;
     }
 
     &::after {
         content: '${(props) => props.text}';
         position: absolute;
-        top: 90%;
+        // top: 90%;
         left: 0;
-        background-color: #afeeee;
+        background-color: #FFD700;
         // background-image: url(./img/NYC.jpg);
         // background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         width: 0%;
-        height: 10%;
+        height: 100%;
         overflow: hidden;
         white-space: nowrap;
-        transition: width 0.5s;
+        transition: width 0.5s, color 0.5s;
     }
 
     &:hover::after {
         width: 100%;
+    }
+
+    &:hover {
+        color: black; 
     }
 
     @media only screen and (max-width: 768px) {

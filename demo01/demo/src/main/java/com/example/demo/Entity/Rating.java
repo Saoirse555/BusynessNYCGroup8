@@ -8,7 +8,7 @@ import java.sql.Date;
 @Getter
 @Setter
 @Entity
-@Table
+@Table(name = "rating")
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString

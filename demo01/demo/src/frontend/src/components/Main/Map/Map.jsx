@@ -203,6 +203,8 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         }
     };
 
+    const [travelDuration, setTravelDuration] = useState(null);
+
     // Fetches the directions using the DirectionsService
     const fetchDirections = (start, end) => {
         if (!start || !end) return;
@@ -218,10 +220,16 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             (result, status) => {
                 if (status === 'OK' && result) {
                     setDirections(result);
+                    displayTravelTime(result);
                 }
             }
         );
     };
+
+    const displayTravelTime = (directions) => {
+        const travelDuration = directions.routes[0]?.legs[0]?.duration.text;
+        setTravelDuration(travelDuration); 
+        };
 
     const startInputRef = useRef(null);
     const destInputRef = useRef(null);
@@ -876,6 +884,10 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 </ButtonContainer>
                             </ContentContainer>
                         </InputContainer>
+                        
+                        <Traveltime>
+                        {travelDuration && <p>Estimated travelling time: {travelDuration}</p>}
+                        </Traveltime>
 
                         <AmenitiesContainer>
                             <CarParks
@@ -2002,7 +2014,7 @@ const RangeText = styled.h4`
     margin-top: 10px;
     margin-left: 30px;
     font-weight: bold;
-    font-family: Roboto;
+    font-family: Arial;
     font-weight: 100;
 `;
 
@@ -2011,7 +2023,7 @@ const SliderValue = styled.span`
     font-weight: bold;
     display: block;
     font-size: 16px;
-    font-family: Roboto;
+    font-family: Arial;
     font-weight: 100;
 `;
 
@@ -2395,6 +2407,10 @@ const Busynesscheck = styled.div`
     font-weight: bold;
     margin-left: 5%;
     padding: 10px;
+`;
+
+const Traveltime = styled.div`
+margin-left: 30px;
 `;
 
 // const Rating = styled.div`

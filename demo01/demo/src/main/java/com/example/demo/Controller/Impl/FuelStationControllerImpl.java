@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "api/v1/fuel-stations")
+@RequestMapping(path = "automate_api/v1/fuel-stations")
 @CrossOrigin(origins = "*")
 public class FuelStationControllerImpl implements FuelStationController {
     private final FuelStationServiceImpl fuelStationService;

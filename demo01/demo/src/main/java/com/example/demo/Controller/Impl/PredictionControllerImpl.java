@@ -12,7 +12,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/v1/prediction")
+@RequestMapping("automate_api/v1/prediction")
 @CrossOrigin(origins = "*")
 public class PredictionControllerImpl implements PredictionController {
     private final PredictionServiceImpl predictionService;

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "api/v1/rating")
+@RequestMapping(path = "automate_api/v1/rating")
 @CrossOrigin(origins = "*")
 public class RatingControllerImpl implements RatingController {
     private final RatingServiceImpl ratingService;

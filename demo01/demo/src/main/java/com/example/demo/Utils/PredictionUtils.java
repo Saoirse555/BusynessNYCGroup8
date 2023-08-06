@@ -64,37 +64,37 @@ public final class PredictionUtils {
     /**
      * Load raw input data
      *
-     * @param hour
-     * @param month
-     * @param day
-     * @param day_of_week
-     * @param wind_spd
-     * @param vis
-     * @param precip
-     * @param temp
-     * @return
+     * @param hour model feature
+     * @param month model feature
+     * @param day model feature
+     * @param day_of_week model feature
+     * @param wind_spd model feature
+     * @param vis model feature
+     * @param precip model feature
+     * @param temp model feature
+     * @return model needed map
      */
     Map<String, Object> getRawMap(Object timeslot, Object hour, Object month, Object day, Object day_of_week,
                                   Object wind_spd, Object vis, Object precip, Object temp) {
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("timeslot", timeslot);
-        data.put("x1", hour);
-        data.put("x2", month);
-        data.put("x3", day);
-        data.put("x4", day_of_week);
-        data.put("x5", wind_spd);
-        data.put("x6", vis);
-        data.put("x7", precip);
-        data.put("x8", temp);
+        data.put("x1", temp);
+        data.put("x2", precip);
+        data.put("x3", vis);
+        data.put("x4", wind_spd);
+        data.put("x5", day_of_week);
+        data.put("x6", day);
+        data.put("x7", month);
+        data.put("x8", hour);
         return data;
     }
 
     /**
      * Transfer raw input map to PMML needed map
      *
-     * @param evaluator
-     * @param input
-     * @return
+     * @param evaluator model evaluator
+     * @param input model input
+     * @return model input
      */
     private Map<FieldName, FieldValue> getFieldMap(Evaluator evaluator, Map<String, Object> input) {
         List<InputField> inputFields = evaluator.getInputFields();

@@ -133,7 +133,7 @@ const Contact = () => {
         try {
             // Make an HTTP GET request for current backend rating data
             const { data } = await axios.get(
-                `http://localhost:8080/api/v1/rating`
+                `http://137.43.49.42/automate_api/v1/rating`
             );
             // Log a message indicating that the API call was made
             console.log('BackRating get');
@@ -171,7 +171,7 @@ const Contact = () => {
         try {
             // Make an HTTP post request to retrieve parking station data
             const { rating } = await axios.post(
-                'http://localhost:8080/api/v1/rating',
+                'http://137.43.49.42/automate_api/v1/rating',
                 value,
                 { headers }
             );

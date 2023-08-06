@@ -3,22 +3,11 @@ FROM node:current-alpine as builder
 WORKDIR /app
 COPY . .
 #Set runtime dependecies
-RUN npm ci
-RUN npm install styled-components
-RUN npm install axios
-RUN npm install @mui/icons-material
-RUN npm install @emotion/styled
-RUN npm install @react-google-maps/api
-RUN npm install geolib
+RUN npm install
 #Build the app
 RUN npm run build
 
-FROM nginx:1.25.1-alpine as production
+FROM nginx as production
 ENV NODE_ENV production
 #Copy build assets
 COPY --from=builder /app/build /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-#Expose port
-EXPOSE 80
-#Start nginx
-CMD [ "nginx", "-g", "daemon off;" ]

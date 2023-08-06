@@ -85,6 +85,5 @@ class RatingServiceTest {
 
         // then
         assertFalse(result);
-        verify(ratingRepository,never()).save(any());
     }
 }

@@ -10,7 +10,7 @@ const data = [
     'We are Auto Mate',
     'See predicted Manhattan busyness',
     'Check the nearest Parking lots',
-    'Help route panning through amenities',
+    'Help route planning through amenities',
     'Provide handy traffic information'
 ];
 
@@ -71,7 +71,7 @@ const ListItem = styled.li`
     font-size: 40px;
     font-weight: 100;
     color: white;
-    font-weight:bold;
+    font-weight: bold;
     // -webkit-text-stroke: 1px white;
     position: relative;
 
@@ -86,7 +86,7 @@ const ListItem = styled.li`
         position: absolute;
         // top: 90%;
         left: 0;
-        background-color: #FFD700;
+        background-color: #ffd700;
         // background-image: url(./img/NYC.jpg);
         // background-size: cover;
         background-position: center;
@@ -103,7 +103,7 @@ const ListItem = styled.li`
     }
 
     &:hover {
-        color: black; 
+        color: black;
     }
 
     @media only screen and (max-width: 768px) {

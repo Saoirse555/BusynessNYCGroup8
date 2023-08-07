@@ -32,7 +32,7 @@ public final class PredictionUtils {
             modelEvaluatorBuilder.setModelEvaluatorFactory(modelEvaluatorFactory);
             modelEvaluator = modelEvaluatorBuilder.build();
             modelEvaluator.verify();
-            System.out.println("Model loaded successfully!");
+//            System.out.println("Model loaded successfully!");
         } catch (Exception e) {
             e.printStackTrace();
         }

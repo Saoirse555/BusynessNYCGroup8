@@ -295,10 +295,10 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
     };
 
     const getModelInput = async () => {
-        console.log('getModelInput called');
+        console.log('getModelInput called', foreCastInfo.list.length);
         if (
-            foreCastInfo
-            // && selectedHour
+            foreCastInfo.list
+            // && selectedHour && selectedDay
         ) {
             const timeStamp = foreCastInfo.list[selectedDay * 8].dt;
             const weather = foreCastInfo.list[selectedDay * 8];
@@ -306,7 +306,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             const date = new Date(timeStamp * 1000);
             const month = date.getMonth() + 1; //1 to 12
             const day = date.getDate(); //1 to 31
-            const day_of_week = (date.getDay() + 5) % 7; //Sunday is 0!
+            const day_of_week = (date.getDay() + 5) % 7; //Sunday is 6
             const vis = weather.visibility / 1000; //in km
             const wind_spd = weather.wind.speed; // in m/s
             const temp = parseFloat((weather.main.temp - 273.15).toFixed(2)); //in deg C
@@ -335,6 +335,13 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             } catch (error) {
                 console.log('Error in getting busyness');
             }
+        } else {
+            console.log(
+                'Something went wrong...',
+                foreCastInfo,
+                selectedDay,
+                selectedHour
+            );
         }
     };
 
@@ -347,7 +354,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             setColor(updatedColor);
             setIsLoading(false);
         } catch (error) {
-            console.error('Error fetching busyness data:', error);
+            // console.error('Error fetching busyness data:', error);
         }
     };
 
@@ -366,16 +373,17 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             selectedDay,
             selectedHour
         );
-    }, [selectedDay, selectedHour]);
+    }, [selectedDay, selectedHour, foreCastInfo]);
 
-    useEffect(() => {
-        console.log('Running model initially');
-        console.log(selectedDay, selectedHour);
-
-        setIsLoading(true);
-        // console.log('Fetching busyness on reload...');
-        fetchBusyness();
-    }, [foreCastInfo]);
+    // useEffect(() => {
+    //     console.log('Running model initially');
+    //     console.log(selectedDay, selectedHour);
+    //     console.log({ foreCastInfo });
+    //     if (foreCastInfo) {
+    //         setIsLoading(true);
+    //         fetchBusyness();
+    //     }
+    // }, [foreCastInfo]);
 
     const processColorData = (array) => {
         const colorPicker = {

@@ -98,7 +98,7 @@ const List = styled.ul`
         align-items: center;
         padding-left: 0rem;
         margin-left: 0rem;
-        padding: 0rem;
+        gap:1.3rem;
     }
 `;
 
@@ -131,8 +131,9 @@ const ListItem = styled.li`
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        margin-right: 0.2rem;
+        margin-right: 0.1rem;
         font-size:0.8rem;
+        margin-left: 0rem;
     }
 `;
 

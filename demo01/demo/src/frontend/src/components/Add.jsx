@@ -53,10 +53,12 @@ const Left = styled.div`
     justify-content: center;
     gap: 20px;
 
-    // @media only screen and (max-width: 768px) {
-    //   flex: 1;
-    //   align-items: center;
-    // }
+   @media screen and (max-width: ${breakpoints.medium}) {
+        white-space: normal;
+        font-size: 2.5rem;
+        margin-top: 25rem;
+        gap: 5px;
+    }
 `;
 
 const Title = styled.h1`
@@ -70,7 +72,7 @@ const Title = styled.h1`
     @media screen and (max-width: ${breakpoints.medium}) {
         white-space: normal;
         font-size: 2.5rem;
-        margin-top: 12rem;
+        margin-top: 15rem;
     }
 `;
 
@@ -83,7 +85,7 @@ const Subtitle = styled.h2`
     @media screen and (max-width: ${breakpoints.medium}) {
         white-space: normal;
         font-size: 2rem;
-        margin-top: 0rem;
+        margin-top: 1rem;
     }
 `;
 
@@ -102,7 +104,7 @@ const Desc = styled.p`
     @media screen and (max-width: ${breakpoints.medium}) {
         white-space: normal;
         font-size: 1rem;
-        margin-top: 0rem;
+        margin-top: 1rem;
     }
 `;
 
@@ -110,14 +112,11 @@ const Right = styled.div`
     flex: 3;
     position: relative;
     padding: 20px;
-    @media only screen and (max-width: 768px) {
-        flex: 1;
-        width: 100%;
-    }
 
-    @media only screen and (max-width: 768px) {
-        flex: 1;
+    @media screen and (max-width: ${breakpoints.medium}) {
+        width: 100%;
         align-items: center;
+        margin-bottom:15rem;
     }
 `;
 
@@ -177,14 +176,6 @@ const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
     z-index: 999;
     bottom: 25px;
 
-    // @media screen and (max-width: 900px) {
-    //   white-space: normal;
-    //   font-size: 3rem;
-    //   }
-
-    //  @media screen and (max-width: 760px) {
-    //       font-size: 1.5rem;
-    //   }
     @media screen and (max-width: ${breakpoints.medium}) {
         white-space: normal;
         font-size: 1.5rem;

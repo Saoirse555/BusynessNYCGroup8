@@ -6,6 +6,12 @@ import Cube from './Cube';
 import Navbar from './Navbar';
 import { HiChevronDoubleDown } from 'react-icons/hi';
 
+const breakpoints = {
+    small: '760px',
+    medium: '900px',
+    large: '1400px'
+};
+
 const data = [
     'We are Auto Mate',
     'See predicted Manhattan busyness',
@@ -23,6 +29,13 @@ const Section = styled.div`
     justify-content: center;
     overflow: hidden;
     position: relative;
+
+    @media screen and (max-width: ${breakpoints.medium}) {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 `;
 
 const Container = styled.div`
@@ -31,9 +44,12 @@ const Container = styled.div`
     justify-content: space-between;
     height: 82vh;
 
-    @media only screen and (max-width: 768px) {
+    @media screen and (max-width: ${breakpoints.medium}) {
         width: 100%;
         flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 5rem;
     }
 `;
 
@@ -44,9 +60,13 @@ const Left = styled.div`
     width: 66%;
     font-family: 'Roboto';
 
-    @media only screen and (max-width: 768px) {
-        padding: 20px;
-        justify-content: center;
+    @media screen and (max-width: ${breakpoints.medium}) {
+        white-space: normal;
+        font-size: 3rem;
+        margin-top: 8rem;
+        gap: 5px;
+        width:55vh;
+        margin-left:7vh;
     }
 `;
 
@@ -56,6 +76,12 @@ const Right = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     width: 34%;
+
+    @media screen and (max-width: ${breakpoints.medium} {
+        width: 200vh;
+        padding: 0rem;
+        margin-bottom: 25px;
+    }
 `;
 
 const List = styled.ul`
@@ -65,6 +91,14 @@ const List = styled.ul`
     flex-direction: column;
     gap: 20px;
     top: 20%;
+
+    @media screen and (max-width: ${breakpoints.medium}) {
+        width:100%;
+        white-space: normal;
+        font-size: 2rem;
+        margin-top: 0rem;
+        padding-bottom: 0rem;
+    }
 `;
 
 const ListItem = styled.li`
@@ -72,23 +106,13 @@ const ListItem = styled.li`
     font-weight: 100;
     color: white;
     font-weight: bold;
-    // -webkit-text-stroke: 1px white;
     position: relative;
-
-    @media only screen and (max-width: 768px) {
-        font-size: 24px;
-        color: white;
-        // -webkit-text-stroke: 0px;
-    }
 
     &::after {
         content: '${(props) => props.text}';
         position: absolute;
-        // top: 90%;
         left: 0;
         background-color: #ffd700;
-        // background-image: url(./img/NYC.jpg);
-        // background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         width: 0%;
@@ -106,9 +130,12 @@ const ListItem = styled.li`
         color: black;
     }
 
-    @media only screen and (max-width: 768px) {
-        justify-content: center;
-        font-size: 1.3rem;
+    @media screen and (max-width: ${breakpoints.medium}) {
+        white-space: normal;
+        font-size: 1rem;
+        margin-top: 0rem;
+        margin-bottom: 0rem;
+        margin-right:2rem;
     }
 `;
 
@@ -140,8 +167,10 @@ const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
         font-size: 3rem;
     }
 
-    @media screen and (max-width: 760px) {
+    @media screen and (max-width: ${breakpoints.medium}) {
+        white-space: normal;
         font-size: 1.5rem;
+        margin-top:1.5rem;
     }
 `;
 

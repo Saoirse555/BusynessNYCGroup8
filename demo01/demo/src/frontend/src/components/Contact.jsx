@@ -32,6 +32,13 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     gap: 50px;
+
+    @media only screen and (max-width: 768px) {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 `;
 
 const Left = styled.div`
@@ -40,7 +47,9 @@ const Left = styled.div`
     align-items: center;
     justify-content: flex-end;
     margin-bottom: 50px;
+
     @media only screen and (max-width: 768px) {
+        margin-top:5rem;
         justify-content: center;
     }
 `;
@@ -50,11 +59,23 @@ const Title = styled.h2`
     font-family: 'Roboto';
     font-weight: bold;
     margin-bottom: 0;
+
+    @media only screen and (max-width: 768px) {
+        width:0%;
+        justify-content: center;
+        color: rgba(0, 0, 0, 0); 
+        
+    }
 `;
 
 const HeadContainer = styled.div`
     display: flex;
     align-items: flex-end; /* Align items to the bottom */
+
+    @media only screen and (max-width: 768px) {
+        justify-content: center;
+        align-items: center;
+    }
 `;
 
 const Rating = styled.div`
@@ -65,7 +86,12 @@ const Rating = styled.div`
     margin-top: 20px;
     margin-left: 40px;
     margin-right: 40px;
-    @media screen and (max-width: 400px) {
+
+    @media only screen and (max-width: 768px) {
+        justify-content: center;
+        flex-direction: column;
+        margin: 0;
+        width:100%;
     }
 `;
 
@@ -227,6 +253,7 @@ const Contact = () => {
                     <Form ref={ref} onSubmit={handleSubmit}>
                         <HeadContainer>
                             <Title>Contact Us</Title>
+
                             <Rating>
                                 <p
                                     style={{

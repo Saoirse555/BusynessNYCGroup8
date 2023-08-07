@@ -1,12 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const breakpoints = {
+    small: '760px',
+    medium: '900px',
+    large: '1400px'
+};
+
 const Section = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
     height: 15vh;
     font-family: 'Roboto';
+
+    @media screen and (max-width: ${breakpoints.medium}) {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height:5vh;
+    }
 `;
 
 const Container = styled.div`
@@ -15,17 +29,41 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 20px 10px;
+
+    @media screen and (max-width: ${breakpoints.medium}) {
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: 15%;
+    }
 `;
 
 const Links = styled.div`
     display: flex;
     align-items: center;
     gap: 40px;
+
+    @media screen and (max-width: ${breakpoints.medium}) {
+        width: 80%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding-left:0rem;
+    }
 `;
 
 const Logo = styled.img`
     height: 50px;
     margin-left: 40px;
+
+    @media screen and (max-width: ${breakpoints.medium}) {
+        width: 20%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-left: 0rem;
+    }
 `;
 
 const Icons = styled.div`
@@ -33,6 +71,14 @@ const Icons = styled.div`
     align-items: center;
     gap: 20px;
     margin-left: auto;
+
+    @media screen and (max-width: ${breakpoints.medium}) {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-left: 0;
+        gap: 0rem;
+    }
 `;
 
 const List = styled.ul`
@@ -43,6 +89,14 @@ const List = styled.ul`
     padding: 20px;
     margin-left: 250px;
     padding-left: 40px;
+
+    @media screen and (max-width: ${breakpoints.medium}) {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding-left: 0rem;
+        margin-left: 0rem;
+    }
 `;
 
 const ListItem = styled.li`
@@ -69,6 +123,14 @@ const ListItem = styled.li`
     &:hover::after {
         transform: scaleX(1);
     }
+
+    @media screen and (max-width: ${breakpoints.medium}) {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        font-size:0.8rem;
+    }
 `;
 
 const Button = styled.button`
@@ -86,6 +148,13 @@ const Button = styled.button`
     font-weight: bold;
     margin-right: 40px;
     margin-left: auto;
+
+    @media screen and (max-width: ${breakpoints.medium}) {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0px;
+    }
 `;
 
 const Navbar = () => {

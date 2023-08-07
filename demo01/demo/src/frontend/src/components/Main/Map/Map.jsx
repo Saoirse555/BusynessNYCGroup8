@@ -2345,6 +2345,10 @@ const PageContainer = styled.div`
     z-index: 10;
     scroll-snap-align: center;
     overflow: hidden;
+
+    @media screen and (max-width: 900px) {
+        flex-direction: column;
+    }
 `;
 
 const PageHeader = styled.div`
@@ -2354,6 +2358,10 @@ const PageHeader = styled.div`
     background-color: #222222;
     width: 100%;
     height: 60px;
+
+    @media screen and (max-width: 900px) {
+        flex-direction: row;
+    }
 `;
 
 // Orginal navbar
@@ -2368,10 +2376,26 @@ const PageTitle = styled.h1`
     line-height: 170%;
     letter-spacing: 3px;
     padding-left: 2%;
+
+    @media screen and (max-width: 900px) {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        height:5vh;
+        width:85%;
+    }
 `;
+
+
 const TitleMarker = styled.img`
     height: 50px;
     margin-left: 30px;
+
+    @media screen and (max-width: 900px) {
+        width: 15%;
+        flex-direction: row;
+        margin-left: 0.6rem;
+    }
 `;
 
 const List = styled.ul`
@@ -2380,6 +2404,14 @@ const List = styled.ul`
     align-items: center;
     padding: 5px;
     margin-left: 200px;
+
+    @media screen and (max-width: 900px) {
+        width: 85%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-left: 0.5rem;
+    }
 `;
 
 const ListItem = styled.li`
@@ -2408,6 +2440,14 @@ const ListItem = styled.li`
     &:hover::after {
         transform: scaleX(1);
     }
+
+    @media screen and (max-width: 900px) {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-left: 0.8rem;
+        font-size:0.8rem;
+    }
 `;
 
 const Button2 = styled.button`
@@ -2425,6 +2465,15 @@ const Button2 = styled.button`
     font-weight: bold;
     margin-right: 60px;
     /* margin-left: 300px; */
+
+    @media screen and (max-width: 900px) {
+        width: 15%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-left: 0.2rem;
+        margin-right: 0.5rem;
+    }
 `;
 
 const Busynesscheck = styled.div`

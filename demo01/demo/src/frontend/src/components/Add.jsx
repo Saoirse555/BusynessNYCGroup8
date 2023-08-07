@@ -150,6 +150,7 @@ const Img = styled.img`
         width: 300px;
         height: 300px;
         margin-top: 3rem;
+        margin-left:1.5rem;
     }
 `;
 
@@ -187,6 +188,7 @@ const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
     @media screen and (max-width: ${breakpoints.medium}) {
         white-space: normal;
         font-size: 1.5rem;
+        margin-top:1.5rem;
     }
 `;
 

@@ -50,6 +50,7 @@ const Links = styled.div`
         align-items: center;
         justify-content: center;
         padding-left:0rem;
+        margin-left: 0rem;
     }
 `;
 
@@ -76,8 +77,9 @@ const Icons = styled.div`
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        margin-left: 0;
+        margin-left: 0rem;
         gap: 0rem;
+        margin-right: 0rem;
     }
 `;
 
@@ -91,11 +93,12 @@ const List = styled.ul`
     padding-left: 40px;
 
     @media screen and (max-width: ${breakpoints.medium}) {
+        width: 80%;
         flex-direction: row;
         align-items: center;
-        justify-content: center;
         padding-left: 0rem;
         margin-left: 0rem;
+        padding: 0rem;
     }
 `;
 
@@ -125,10 +128,10 @@ const ListItem = styled.li`
     }
 
     @media screen and (max-width: ${breakpoints.medium}) {
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         justify-content: center;
-        margin-right: 1rem;
+        margin-right: 0.2rem;
         font-size:0.8rem;
     }
 `;
@@ -154,6 +157,7 @@ const Button = styled.button`
         align-items: center;
         justify-content: center;
         margin-right: 0px;
+        width: 3.5rem;
     }
 `;
 

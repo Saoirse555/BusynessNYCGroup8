@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/locations")
+@RequestMapping(path = "automate_api/v1/locations")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class LocationControllerImpl implements LocationController {

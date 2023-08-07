@@ -8,7 +8,7 @@ export const getBusyness = async (info) => {
     try {
         // Make an HTTP GET request to retrieve parking station data
         const { data } = await axios.post(
-            'http://localhost:8080/api/v1/prediction',
+            'http://137.43.49.42/automate_api/v1/prediction',
             info,
             { headers }
         );

@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "api/v1/parkingstations")
+@RequestMapping(path = "automate_api/v1/parkingstations")
 @CrossOrigin(origins = "*")
 public class ParkingStationControllerImpl implements ParkingStationController {
     private final ParkingStationServiceImpl parkingStationService;

@@ -8,7 +8,7 @@ export const getWeatherData = async () => {
     try {
         // Make an HTTP GET request to the OpenWeatherMap API for current weather data
         const { data } = await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?lat=40.7831&lon=-73.9712&appid=${APIKey}`
+            `http://137.43.49.42/realtimeWeather`
         );
         // Log a message indicating that the API call was made
         console.log('API Called');
@@ -25,7 +25,7 @@ export const getWeatherForeCast = async () => {
     try {
         // Make an HTTP GET request to the OpenWeatherMap API for weather forecast data
         const { data } = await axios.get(
-            `https://api.openweathermap.org/data/2.5/forecast?lat=40.7831&lon=-73.9712&appid=${APIKey}`
+            `http://137.43.49.42/forecastWeather`
         );
         // Return the retrieved forecast data
         return data;

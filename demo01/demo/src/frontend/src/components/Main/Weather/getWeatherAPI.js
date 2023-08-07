@@ -1,8 +1,5 @@
 import axios from 'axios';
 
-// API key for OpenWeatherMap
-const APIKey = '227c18c04734a077388738019aae8744';
-
 // Function to get current weather data
 export const getWeatherData = async () => {
     try {

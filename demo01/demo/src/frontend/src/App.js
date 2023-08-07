@@ -82,6 +82,7 @@ const Container = styled.div`
         display: none;
     }
     @media screen and (max-width: 900px) {
-        height: auto;
+        /* height: auto; */
+        height: 100vh;
     }
 `;

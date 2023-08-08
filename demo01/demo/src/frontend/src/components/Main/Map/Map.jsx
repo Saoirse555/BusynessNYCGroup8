@@ -679,7 +679,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         try {
             // Make an HTTP GET request to the 511ny API for current alert data
             const { data } = await axios.get(
-                `/api/getevents?key=5fcac6b5dc2c4372a0416f46929d4cc1&format=json`
+                `http://137.43.49.42/automate_api/v1/get_alert`
             );
             // console.log('alertdata', data);
             // Return the retrieved alert data

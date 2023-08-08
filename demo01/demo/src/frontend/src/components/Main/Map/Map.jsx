@@ -33,6 +33,7 @@ import charging_stations from '../Data/charging_stations.json';
 import axios from 'axios';
 import { getBusyness } from '../Data/busynessGetter';
 import colorPicker from '../Data/colorPicker';
+import moreIcon from './forMore.svg';
 
 // Map component
 const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
@@ -129,6 +130,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             // Show info window for the clicked location
             newGeoJsonLayer.addListener('click', async (e) => {
                 setShowInfoWindow(false);
+                setUserInputShow(false);
                 setSelectedLocPosition({
                     lat: e.latLng.lat(),
                     lng: e.latLng.lng()
@@ -710,61 +712,15 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         return [rd, grn, 0];
     };
 
-    // Original Rating feature part, moved to Contact already
-    // const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
-    // const [rate, setRate] = useState(3);
-    // const [showPopup, setShowPopup] = useState(false);
-
-    // const handleRatingChange = (newValue) => {
-    //     setRate(newValue);
-    //     setShowPopup(true);
-    // };
-
-    // const alertStyles = {
-    //     width: 'auto',
-    //     padding: '8px 15px', // Smaller padding
-    //     fontSize: '14px' // Smaller font size
-    // };
-
-    // const [loading, setLoading] = useState(false);
-    // const [open, setOpen] = useState(false);
-    // const formRef = useRef();
-
-    // const showModal = () => {
-    //     setOpen(true);
-    // };
-
-    // const handleOk = () => {
-    //     setLoading(true);
-    //     setTimeout(() => {
-    //         setLoading(false);
-    //         setOpen(false);
-    //         // Call a function to handle sending the context to the specific email address.
-    //         sendEmail(formRef.current);
-    //     }, 3000);
-    // };
-
-    // const handleCancel = () => {
-    //     setOpen(false);
-    // };
-
-    // const sendEmail = (form) => {
-    //     emailjs
-    //         .sendForm('emailpls', 'template_uzkjpaa', form, 'hEzNolfyTe3J3GvE4')
-    //         .then(
-    //             (result) => {
-    //                 console.log(result.text);
-    //             },
-    //             (error) => {
-    //                 console.log(error.text);
-    //             }
-    //         );
-    // };
-
     const scrollToContact = () => {
         const contactSection = document.getElementById('contact');
         contactSection.scrollIntoView({ behavior: 'smooth' });
     };
+
+    const [userInputShow, setUserInputShow] = useState(false);
+    useEffect(() => {
+        console.log({ userInputShow });
+    }, [userInputShow]);
 
     return (
         <PageContainer id="main">
@@ -793,7 +749,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                     googleMapsApiKey="AIzaSyDQxFVWqXZ4sTsX7_Zsf6Hio3J4nr7_wgY"
                     libraries={libraries}
                 >
-                    <Left>
+                    <Left toShow={userInputShow}>
                         <Alert
                             banner
                             message={
@@ -1063,103 +1019,29 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 }}
                             ></div>
                         )}
-
-                        {/* // Original Rating feature part, moved to Contact already
-                        <Rating>
-                            <p
-                                style={{
-                                    fontFamily: 'Roboto',
-                                    fontWeight: '100'
-                                }}
-                            >
-                                Please rate our website:
-                            </p>
-                            <Rate
-                                tooltips={desc}
-                                onChange={handleRatingChange}
-                                value={rate}
-                            />
-
-                            {showPopup && (
-                                <Modal
-                                    visible={showPopup}
-                                    onCancel={() => setShowPopup(false)}
-                                    footer={null}
-                                    centered
-                                >
-                                    <Alert
-                                        message="Thank you very much for your feedback!"
-                                        type="success"
-                                        style={alertStyles}
-                                    />
-                                </Modal>
-                            )}
-                        </Rating> */}
-
-                        {/* <div
-                                    style={{
-                                        marginTop: '20px',
-                                        marginLeft: '40px',
-                                        marginRight: '40px'
-                                    }}
-                                >
-                                    <Button type="primary" onClick={showModal}>
-                                        Discover an error?
-                                    </Button>
-
-                                    <Modal
-                                        open={open}
-                                        title="Whoops! Spotted a web blooper? 😅"
-                                        onOk={handleOk}
-                                        onCancel={handleCancel}
-                                        footer={[
-                                            <Button
-                                                key="back"
-                                                onClick={handleCancel}
-                                            >
-                                                Return
-                                            </Button>,
-                                            <Button
-                                                key="submit"
-                                                type="primary"
-                                                loading={loading}
-                                                onClick={handleOk}
-                                            >
-                                                Submit
-                                            </Button>
-                                        ]}
-                                    >
-                                        <CustomParagraph>
-                                            Feel free to drop us an email at
-                                            AutoMate_support@gmail.com
-                                        </CustomParagraph>
-                                        <CustomParagraph>
-                                            Or simply jot down your thoughts
-                                            below
-                                        </CustomParagraph>
-                                        <CustomParagraph>
-                                            Thanks a ton for your feedback!
-                                        </CustomParagraph>
-
-                                        <form ref={formRef}>
-                                            <p>
-                                                <textarea
-                                                name="message"
-                                                placeholder="Enter your feedback"
-                                                />
-                                            </p>
-                                        </form>
-                                    </Modal>
-                                </div> */}
                     </Left>
 
                     <Right>
+                        <ToggleLeft
+                            toShow={userInputShow}
+                            onClick={() => setUserInputShow(!userInputShow)}
+                        >
+                            <img
+                                src={moreIcon}
+                                alt="click for more"
+                                style={{ width: '36px', height: '36px' }}
+                            />
+                        </ToggleLeft>
+
                         <Weather
                             weatherInfo={weatherInfo}
                             foreCastInfo={foreCastInfo}
                         />
                         <GoogleMap
-                            onClick={() => setShowInfoWindow(false)}
+                            onClick={() => (
+                                setShowInfoWindow(false),
+                                setUserInputShow(false)
+                            )}
                             center={center}
                             zoom={zoom}
                             mapContainerStyle={{
@@ -2002,6 +1884,29 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
 export default Map;
 
+const ToggleLeft = styled.div`
+    display: none;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(20px);
+
+    top: ${(props) => (props.toShow ? '' : '20px')};
+    left: ${(props) => (props.toShow ? '' : '20px')};
+    right: ${(props) => (props.toShow ? '30px' : '')};
+    bottom: ${(props) => (props.toShow ? '400px' : '')};
+    @media screen and (max-width: 900px) {
+        display: ${(props) => (props.toShow ? 'none' : 'flex')};
+        z-index: 30;
+    }
+`;
+
 const MapBlurLayer = styled.div`
     position: absolute;
     top: 0;
@@ -2321,12 +2226,17 @@ const Container = styled.div`
         flex-direction: column;
     }
 `;
+
 const Left = styled.div`
     flex: 2;
     height: auto;
     scroll-snap-align: center;
     @media screen and (max-width: 900px) {
+        display: ${(props) => (props.toShow ? 'block' : 'none')};
+        background-color: white;
         flex: 1;
+        position: absolute;
+        z-index: 20;
     }
 `;
 const Right = styled.div`
@@ -2348,6 +2258,7 @@ const PageContainer = styled.div`
 
     @media screen and (max-width: 900px) {
         flex-direction: column;
+        position: relative;
     }
 `;
 
@@ -2381,11 +2292,10 @@ const PageTitle = styled.h1`
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        height:5vh;
-        width:85%;
+        height: 5vh;
+        width: 85%;
     }
 `;
-
 
 const TitleMarker = styled.img`
     height: 50px;
@@ -2446,7 +2356,7 @@ const ListItem = styled.li`
         align-items: center;
         justify-content: center;
         margin-left: 0.8rem;
-        font-size:0.8rem;
+        font-size: 0.8rem;
     }
 `;
 
@@ -2486,25 +2396,3 @@ const Traveltime = styled.div`
     font-family: 'Roboto';
     margin-left: 30px;
 `;
-
-// const Rating = styled.div`
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//     align-items: flex-start;
-//     margin-top: 20px;
-//     margin-left: 40px;
-//     margin-right: 40px;
-//     @media screen and (max-width: 400px) {
-//     }
-// `;
-
-// const CustomParagraph = styled.p`
-//     margin-bottom: 10px;
-// `;
-
-// const FeedbackInput = styled.input`
-//     height: 60px;
-//     width: 450px;
-//     padding-left: 20px;
-// `;

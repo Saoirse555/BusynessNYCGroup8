@@ -53,7 +53,7 @@ const Left = styled.div`
     justify-content: center;
     gap: 20px;
 
-   @media screen and (max-width: ${breakpoints.medium}) {
+    @media screen and (max-width: ${breakpoints.medium}) {
         white-space: normal;
         font-size: 2.5rem;
         margin-top: 25rem;
@@ -116,7 +116,7 @@ const Right = styled.div`
     @media screen and (max-width: ${breakpoints.medium}) {
         width: 100%;
         align-items: center;
-        margin-bottom:15rem;
+        margin-bottom: 15rem;
     }
 `;
 
@@ -132,24 +132,11 @@ const Img = styled.img`
     margin: auto;
     margin-left: 90px;
     margin-bottom: 45px;
-    //   animation: animate 2s infinite ease alternate;
-
-    // @media only screen and (max-width: 768px) {
-    //   width: 300px;
-    //   height: 300px;
-    // }
-
-    //   @keyframes animate {
-    //     to {
-    //       transform: translateY(20px);
-    //     }
-    //   }
-
     @media screen and (max-width: ${breakpoints.medium}) {
         width: 300px;
         height: 300px;
-        margin-top: 3rem;
-        margin-left:1.5rem;
+        margin-bottom: 0rem;
+        margin-left: 2rem;
     }
 `;
 
@@ -179,7 +166,7 @@ const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
     @media screen and (max-width: ${breakpoints.medium}) {
         white-space: normal;
         font-size: 1.5rem;
-        margin-top:1.5rem;
+        margin-top: 1.5rem;
     }
 `;
 

@@ -11,4 +11,4 @@ raw data not all included due to huge volume
 POI data for backend:
   parking_data.csv
   charging_station.csv
-  fuel_station.csv
+  fuel_rmduplicates_data.csv

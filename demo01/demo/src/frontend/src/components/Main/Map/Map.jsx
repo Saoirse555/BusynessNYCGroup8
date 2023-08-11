@@ -526,6 +526,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
     const addFavoritePlace = async (place) => {
         const favorites = getFavoriteFromCookie();
+        console.log('Favorites before removal: ', favorites);
         const address = await geoCoder(place);
         if (address !== undefined) {
             if (
@@ -534,18 +535,20 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                         places.lat === place.lat && places.lng === place.lng
                 )
             ) {
+                console.log('Removing from fav list');
                 const updatedArray = favorites.filter(
                     (obj) => obj.lat !== place.lat && obj.lng !== place.lng
                 );
                 Cookies.set('favorites', JSON.stringify(updatedArray), {
                     SameSite: 'Strict',
                     secure: true,
-                    expires: Infinity
+                    expires: 30
                 });
 
                 setFavCookie(updatedArray);
                 return;
             } else {
+                console.log('Adding this to fav list');
                 const element = {
                     lat: place.lat,
                     lng: place.lng,

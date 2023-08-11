@@ -1,0 +1,14 @@
+file description:
+  xgboostmodeling.ipynb:
+    applyed xgboost model and generate pmml files for each LocationID Model
+  yellowTaxi_process.ipynb:
+    data processing for taxi zone data, data visulization, combined with weather data and calculate busyness value, generate data for model training
+  weather_process.ipynb:
+    data processing for weather data
+
+raw data not all included due to huge volume
+
+POI data for backend:
+  parking_data.csv
+  charging_station.csv
+  fuel_station.csv

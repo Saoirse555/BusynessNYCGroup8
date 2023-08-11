@@ -124,8 +124,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
             // Set the newGeoJsonLayer in the state for future reference
             setGeoJsonLayer(newGeoJsonLayer);
-            // console.log({ color });
-            // console.log('GeoJSON Loaded');
 
             // Show info window for the clicked location
             newGeoJsonLayer.addListener('click', async (e) => {
@@ -356,7 +354,7 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             setColor(updatedColor);
             setIsLoading(false);
         } catch (error) {
-            // console.error('Error fetching busyness data:', error);
+            console.error('Error fetching busyness data:', error);
         }
     };
 
@@ -368,7 +366,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
 
     useEffect(() => {
         setIsLoading(true);
-        // console.log('day or hour is changed');
         fetchBusyness();
         console.log(
             'Running model on day/hour change: ',
@@ -376,16 +373,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             selectedHour
         );
     }, [selectedDay, selectedHour, foreCastInfo]);
-
-    // useEffect(() => {
-    //     console.log('Running model initially');
-    //     console.log(selectedDay, selectedHour);
-    //     console.log({ foreCastInfo });
-    //     if (foreCastInfo) {
-    //         setIsLoading(true);
-    //         fetchBusyness();
-    //     }
-    // }, [foreCastInfo]);
 
     const processColorData = (array) => {
         const colorPicker = {
@@ -623,7 +610,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                         recommended.push(location);
                     }
                 }
-                // return '';
             });
         }
         setRecommendArray(recommended);
@@ -686,8 +672,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
             const { data } = await axios.get(
                 `http://137.43.49.42/automate_api/v1/get_alert`
             );
-            // console.log('alertdata', data);
-            // Return the retrieved alert data
             return data;
         } catch (error) {
             // Log any errors that occur during the API call
@@ -729,7 +713,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
         <PageContainer id="main">
             <PageHeader>
                 <PageTitle>
-                    {/* Auto Mate */}
                     <TitleMarker src="./img/icon.png" />
                     <List>
                         <ListItem>
@@ -777,9 +760,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                 style={{
                                     fontFamily: 'Roboto',
                                     fontWeight: '500'
-
-                                    // font-family: Roboto;
-                                    // font-weight: 100;
                                 }}
                             >
                                 Check Busyness
@@ -1148,53 +1128,6 @@ const Map = ({ weatherInfo, foreCastInfo, locationInfo }) => {
                                     <>
                                         <h3>Location ID: {selectedLocation}</h3>
                                         <br />
-
-                                        {/* <h4>
-                                            Area Busyness:
-                                            <span style={{ fontWeight: '100' }}>
-                                                {color ? (
-                                                    color[selectedLocation] ===
-                                                    '#FF0000' ? (
-                                                        <span
-                                                            style={{
-                                                                fontWeight:
-                                                                    '500',
-                                                                color: 'red'
-                                                            }}
-                                                        >
-                                                            {' '}
-                                                            Very Heavy
-                                                        </span>
-                                                    ) : color[
-                                                          selectedLocation
-                                                      ] === '#FFFF00' ? (
-                                                        <span
-                                                            style={{
-                                                                fontWeight:
-                                                                    '500',
-                                                                color: 'orange'
-                                                            }}
-                                                        >
-                                                            {' '}
-                                                            Moderate
-                                                        </span>
-                                                    ) : (
-                                                        <span
-                                                            style={{
-                                                                fontWeight:
-                                                                    '500',
-                                                                color: 'green'
-                                                            }}
-                                                        >
-                                                            {' '}
-                                                            Light
-                                                        </span>
-                                                    )
-                                                ) : (
-                                                    ''
-                                                )}{' '}
-                                            </span>
-                                        </h4> */}
                                         <h4>
                                             Area Busyness:
                                             <span style={{ fontWeight: '100' }}>
@@ -2377,7 +2310,6 @@ const Button2 = styled.button`
     justify-content: center;
     font-weight: bold;
     margin-right: 60px;
-    /* margin-left: 300px; */
 
     @media screen and (max-width: 900px) {
         width: 15%;

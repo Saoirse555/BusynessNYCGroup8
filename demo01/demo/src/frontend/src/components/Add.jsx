@@ -66,9 +66,7 @@ const Title = styled.h1`
     font-size: 85px;
     margin-left: 70px;
     color: #ffff4d;
-    // @media only screen and (max-width: 768px) {
-    //   text-align: center;
-    // }
+
     @media screen and (max-width: ${breakpoints.medium}) {
         white-space: normal;
         font-size: 2.5rem;
@@ -96,10 +94,6 @@ const Desc = styled.p`
     margin-left: 70px;
     margin-top: 50px;
     margin-bottom: 45px;
-    // @media only screen and (max-width: 768px) {
-    //   padding: 20px;
-    //   text-align: center;
-    // }
 
     @media screen and (max-width: ${breakpoints.medium}) {
         white-space: normal;

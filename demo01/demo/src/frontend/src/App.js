@@ -4,7 +4,6 @@ import {
     getWeatherForeCast
 } from './components/Main/Weather/getWeatherAPI';
 import styled from 'styled-components';
-// import Hero from './components/Hero/Hero';
 import Map from './components/Main/Map/Map';
 import Add from './components/Add';
 import './App.css';
@@ -54,7 +53,6 @@ const App = () => {
     //Render the App component
     return (
         <Container>
-            {/* <Hero /> */}
             <Add />
             <Map
                 weatherInfo={weatherData}
@@ -82,7 +80,6 @@ const Container = styled.div`
         display: none;
     }
     @media screen and (max-width: 900px) {
-        /* height: auto; */
         height: 100vh;
     }
 `;

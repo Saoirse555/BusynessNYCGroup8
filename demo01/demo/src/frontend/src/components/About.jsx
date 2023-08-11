@@ -65,8 +65,8 @@ const Left = styled.div`
         font-size: 3rem;
         margin-top: 8rem;
         gap: 5px;
-        width:55vh;
-        margin-left:7vh;
+        width: 55vh;
+        margin-left: 7vh;
     }
 `;
 
@@ -77,7 +77,7 @@ const Right = styled.div`
     justify-content: flex-start;
     width: 34%;
 
-    @media screen and (max-width: ${breakpoints.medium} {
+    @media screen and (max-width: ${breakpoints.medium}) {
         width: 200vh;
         padding: 0rem;
         margin-bottom: 25px;
@@ -93,7 +93,7 @@ const List = styled.ul`
     top: 20%;
 
     @media screen and (max-width: ${breakpoints.medium}) {
-        width:100%;
+        width: 100%;
         white-space: normal;
         font-size: 2rem;
         margin-top: 0rem;
@@ -135,7 +135,7 @@ const ListItem = styled.li`
         font-size: 1rem;
         margin-top: 0rem;
         margin-bottom: 0rem;
-        margin-right:2rem;
+        margin-right: 2rem;
     }
 `;
 
@@ -170,7 +170,7 @@ const AnimatedHiChevronDoubleDown = styled(HiChevronDoubleDown)`
     @media screen and (max-width: ${breakpoints.medium}) {
         white-space: normal;
         font-size: 1.5rem;
-        margin-top:1.5rem;
+        margin-top: 1.5rem;
     }
 `;
 

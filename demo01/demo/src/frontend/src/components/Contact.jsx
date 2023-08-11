@@ -49,7 +49,7 @@ const Left = styled.div`
     margin-bottom: 50px;
 
     @media only screen and (max-width: 768px) {
-        margin-top:5rem;
+        margin-top: 5rem;
         justify-content: center;
     }
 `;
@@ -61,10 +61,9 @@ const Title = styled.h2`
     margin-bottom: 0;
 
     @media only screen and (max-width: 768px) {
-        width:0%;
+        width: 0%;
         justify-content: center;
-        color: rgba(0, 0, 0, 0); 
-        
+        color: rgba(0, 0, 0, 0);
     }
 `;
 
@@ -91,7 +90,7 @@ const Rating = styled.div`
         justify-content: center;
         flex-direction: column;
         margin: 0;
-        width:100%;
+        width: 100%;
     }
 `;
 
@@ -144,10 +143,6 @@ const Right = styled.div`
     }
 `;
 
-// const Img = styled.img`
-//   margin-top: 50px;
-// `;
-
 const Contact = () => {
     // Collect Rating and get average function
     const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
@@ -167,7 +162,6 @@ const Contact = () => {
             console.log('Data Type of Fetched Rating:', typeof data);
             // Return the retrieved rating data
             setBackendRating(data);
-
         } catch (error) {
             // Log any errors that occur during the API call
             console.log(error);
@@ -180,7 +174,10 @@ const Contact = () => {
 
     const content = (
         <div>
-            <p> {backendRating !== null ? backendRating.toFixed(1) : '-'} / 5 </p>
+            <p>
+                {' '}
+                {backendRating !== null ? backendRating.toFixed(1) : '-'} / 5{' '}
+            </p>
         </div>
     );
 
@@ -288,10 +285,16 @@ const Contact = () => {
                                 )}
                             </Rating>
                             {backendRating !== null && (
-                            <Popover content={content} title="So far, we got:" style={{ fontweight: 'bold' }}>
-                            <Button type="primary">Current rating</Button>
-                            </Popover>
-                                )}
+                                <Popover
+                                    content={content}
+                                    title="So far, we got:"
+                                    style={{ fontweight: 'bold' }}
+                                >
+                                    <Button type="primary">
+                                        Current rating
+                                    </Button>
+                                </Popover>
+                            )}
                         </HeadContainer>
                         <Input placeholder="Name" name="name" />
                         <Input placeholder="Email" name="email" />
@@ -310,9 +313,8 @@ const Contact = () => {
                         )}
                     </Form>
                 </Left>
-                
+
                 <Right>
-                    {/* <Img src="./img/statue.png"/> */}
                     <Canvas>
                         <Stage enviroment="city" intensity={0.6}>
                             <Statue rotation={[0, Math.PI * 1.3, 0]} />

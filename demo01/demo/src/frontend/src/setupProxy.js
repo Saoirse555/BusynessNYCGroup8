@@ -7,20 +7,4 @@ module.exports = function (app) {
             changeOrigin: true
         })
     );
-
-    // app.use(
-    //     '/api/v1/parkingstations',
-    //     createProxyMiddleware({
-    //         target: 'http://localhost:8080/',
-    //         changeOrigin: true
-    //     })
-    // );
-
-    // app.use(
-    //     '/api/v1/prediction',
-    //     createProxyMiddleware({
-    //         target: 'http://localhost:8080/',
-    //         changeOrigin: true
-    //     })
-    // );
 };

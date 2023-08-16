@@ -1,4 +1,4 @@
-# BusynessNYC
+# BusynessNYC Group 8
 To check how busy NYC is at a certain time 
 
 ## How to contribute to BusynessNYC?

@@ -2,3 +2,4 @@
 .DS_Store
 demo01/.idea/intellij-javadocs-4.0.1.xml
 demo01/.idea/vcs.xml
+demo01/demo/src/main/resources/META-INF/MANIFEST.MF

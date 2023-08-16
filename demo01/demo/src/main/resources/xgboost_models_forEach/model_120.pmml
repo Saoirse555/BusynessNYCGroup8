@@ -1,0 +1,1773 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
+	<Header>
+		<Application name="SkLearn2PMML package" version="0.95.0"/>
+		<Timestamp>2023-07-27T15:37:42Z</Timestamp>
+	</Header>
+	<DataDictionary>
+		<DataField name="y" optype="continuous" dataType="double"/>
+		<DataField name="timeslot" optype="categorical" dataType="string">
+			<Value value="Afternoon"/>
+			<Value value="Evening"/>
+			<Value value="Late Night"/>
+			<Value value="Morning"/>
+		</DataField>
+		<DataField name="x1" optype="continuous" dataType="double"/>
+		<DataField name="x2" optype="continuous" dataType="double"/>
+		<DataField name="x3" optype="continuous" dataType="double"/>
+		<DataField name="x4" optype="continuous" dataType="double"/>
+		<DataField name="x5" optype="continuous" dataType="double"/>
+		<DataField name="x6" optype="continuous" dataType="double"/>
+		<DataField name="x7" optype="continuous" dataType="double"/>
+		<DataField name="x8" optype="continuous" dataType="double"/>
+	</DataDictionary>
+	<MiningModel functionName="regression" algorithmName="XGBoost (GBTree)" x-mathContext="float">
+		<MiningSchema>
+			<MiningField name="y" usageType="target"/>
+			<MiningField name="timeslot" invalidValueTreatment="asIs"/>
+			<MiningField name="x1"/>
+			<MiningField name="x2"/>
+			<MiningField name="x3"/>
+			<MiningField name="x4"/>
+			<MiningField name="x5"/>
+			<MiningField name="x6"/>
+			<MiningField name="x7"/>
+			<MiningField name="x8"/>
+		</MiningSchema>
+		<Targets>
+			<Target field="y" rescaleConstant="0.5"/>
+		</Targets>
+		<LocalTransformations>
+			<DerivedField name="float(x1)" optype="continuous" dataType="float">
+				<FieldRef field="x1"/>
+			</DerivedField>
+			<DerivedField name="float(x2)" optype="continuous" dataType="float">
+				<FieldRef field="x2"/>
+			</DerivedField>
+			<DerivedField name="float(x3)" optype="continuous" dataType="float">
+				<FieldRef field="x3"/>
+			</DerivedField>
+			<DerivedField name="float(x4)" optype="continuous" dataType="float">
+				<FieldRef field="x4"/>
+			</DerivedField>
+			<DerivedField name="float(x5)" optype="continuous" dataType="float">
+				<FieldRef field="x5"/>
+			</DerivedField>
+			<DerivedField name="float(x6)" optype="continuous" dataType="float">
+				<FieldRef field="x6"/>
+			</DerivedField>
+			<DerivedField name="float(x7)" optype="continuous" dataType="float">
+				<FieldRef field="x7"/>
+			</DerivedField>
+			<DerivedField name="float(x8)" optype="continuous" dataType="float">
+				<FieldRef field="x8"/>
+			</DerivedField>
+		</LocalTransformations>
+		<Segmentation multipleModelMethod="sum" missingPredictionTreatment="returnMissing">
+			<Segment id="1">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="timeslot"/>
+						<MiningField name="float(x7)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="0.0052083335">
+						<True/>
+						<Node score="0.0044207317">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="16.5"/>
+							<Node score="0.004166667">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="9.5"/>
+								<Node score="5.1020406E-4">
+									<SimplePredicate field="timeslot" operator="equal" value="Evening"/>
+								</Node>
+							</Node>
+							<Node score="0.007746479">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="5.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0020912548">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							<Node score="0.003874539">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="9.5"/>
+							</Node>
+						</Node>
+						<Node score="0.025">
+							<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="10.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="2">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="timeslot"/>
+						<MiningField name="float(x2)"/>
+						<MiningField name="float(x5)"/>
+						<MiningField name="float(x6)"/>
+					</MiningSchema>
+					<Node score="0.0030988802">
+						<True/>
+						<Node score="0.012265021">
+							<SimplePredicate field="timeslot" operator="equal" value="Evening"/>
+							<Node score="0.004926034">
+								<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="0.5"/>
+								<Node score="0.007313836">
+									<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="20.5"/>
+								</Node>
+							</Node>
+							<Node score="-2.6137065E-4">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="4.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0032775158">
+							<SimplePredicate field="timeslot" operator="equal" value="Late Night"/>
+							<Node score="0.0053747147">
+								<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="2.5"/>
+							</Node>
+						</Node>
+						<Node score="-1.4837444E-4">
+							<SimplePredicate field="float(x2)" operator="greaterOrEqual" value="0.875"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="3">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="timeslot"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x6)"/>
+					</MiningSchema>
+					<Node score="0.0022035327">
+						<True/>
+						<Node score="0.0022343423">
+							<SimplePredicate field="timeslot" operator="equal" value="Morning"/>
+							<Node score="0.017606951">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="4.8500004"/>
+								<Node score="0.0022307779">
+									<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="6.5"/>
+								</Node>
+							</Node>
+							<Node score="4.3195402E-4">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="2.6999998"/>
+							</Node>
+						</Node>
+						<Node score="0.0030587676">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="4.95"/>
+							<Node score="-3.9982377E-4">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="18.0"/>
+							</Node>
+						</Node>
+						<Node score="0.004642584">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="2.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="4">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x2)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="0.0053654895">
+						<True/>
+						<Node score="0.0055980296">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="16.5"/>
+							<Node score="0.018739054">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="18.05"/>
+								<Node score="0.005259413">
+									<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="19.15"/>
+								</Node>
+							</Node>
+							<Node score="0.00282465">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="19.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0025413833">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							<Node score="-4.045019E-4">
+								<SimplePredicate field="float(x2)" operator="greaterOrEqual" value="0.625"/>
+							</Node>
+						</Node>
+						<Node score="0.02461936">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="26.95"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="5">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x6)"/>
+					</MiningSchema>
+					<Node score="0.010805412">
+						<True/>
+						<Node score="0.0070619616">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="25.85"/>
+							<Node score="-6.377794E-4">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="26.5"/>
+								<Node score="0.0035493777">
+									<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="29.15"/>
+								</Node>
+							</Node>
+							<Node score="-7.244725E-4">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="31.95"/>
+							</Node>
+						</Node>
+						<Node score="5.186614E-4">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="0.85"/>
+							<Node score="0.0032473286">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="6.3999996"/>
+							</Node>
+						</Node>
+						<Node score="0.0031432365">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="5.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="6">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x3)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x7)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="0.001487364">
+						<True/>
+						<Node score="-0.0010370956">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="16.5"/>
+							<Node score="0.005514478">
+								<SimplePredicate field="float(x3)" operator="greaterOrEqual" value="5.5"/>
+								<Node score="0.0014445652">
+									<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="10.5"/>
+								</Node>
+							</Node>
+							<Node score="0.0076637142">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="5.1"/>
+							</Node>
+						</Node>
+						<Node score="0.02367839">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="27.25"/>
+							<Node score="0.0052102967">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="4.5"/>
+							</Node>
+						</Node>
+						<Node score="0.002909077">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="9.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="7">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="timeslot"/>
+						<MiningField name="float(x5)"/>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x7)"/>
+					</MiningSchema>
+					<Node score="0.003792404">
+						<True/>
+						<Node score="0.003598934">
+							<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="3.5"/>
+							<Node score="0.007774789">
+								<SimplePredicate field="timeslot" operator="equal" value="Late Night"/>
+								<Node score="0.0038961086">
+									<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="4.5"/>
+								</Node>
+							</Node>
+							<Node score="-8.4530184E-4">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="10.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0012527535">
+							<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="7.5"/>
+							<Node score="0.0053121294">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="15.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0013159817">
+							<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="0.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="8">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x7)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="-0.0014064289">
+						<True/>
+						<Node score="0.0024151586">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="9.5"/>
+							<Node score="0.0030317288">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="9.5"/>
+								<Node score="-2.6384485E-4">
+									<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="2.05"/>
+								</Node>
+							</Node>
+							<Node score="0.004881969">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="3.5"/>
+							</Node>
+						</Node>
+						<Node score="0.004625802">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							<Node score="6.409416E-4">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.35"/>
+							</Node>
+						</Node>
+						<Node score="0.008581433">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="13.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="9">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="0.0074933297">
+						<True/>
+						<Node score="0.022911826">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="27.25"/>
+							<Node score="0.010805457">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="4.5"/>
+								<Node score="0.0037739188">
+									<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="3.5"/>
+								</Node>
+							</Node>
+						</Node>
+						<Node score="6.8330945E-4">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							<Node score="0.0026533874">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="9.5"/>
+							</Node>
+						</Node>
+						<Node score="-0.0014460516">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="20.45"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="10">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="-0.0018371296">
+						<True/>
+						<Node score="0.0015122154">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							<Node score="0.0016280452">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="9.5"/>
+								<Node score="0.0035797015">
+									<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="9.15"/>
+								</Node>
+							</Node>
+							<Node score="-2.6760876E-4">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="19.5"/>
+							</Node>
+						</Node>
+						<Node score="0.007946476">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="4.5"/>
+							<Node score="0.02163252">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="27.15"/>
+							</Node>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="11">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="timeslot"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x5)"/>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x7)"/>
+					</MiningSchema>
+					<Node score="0.0026460337">
+						<True/>
+						<Node score="-0.0016445237">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="27.5"/>
+							<Node score="-0.001339737">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="8.5"/>
+								<Node score="0.0044709677">
+									<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.8"/>
+								</Node>
+							</Node>
+							<Node score="0.003086037">
+								<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="5.5"/>
+							</Node>
+						</Node>
+						<Node score="2.7181616E-4">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="17.5"/>
+							<Node score="0.0040537724">
+								<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="0.5"/>
+							</Node>
+						</Node>
+						<Node score="4.660985E-4">
+							<SimplePredicate field="timeslot" operator="equal" value="Afternoon"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="12">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="-9.4835385E-4">
+						<True/>
+						<Node score="0.007119381">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="9.5"/>
+							<Node score="0.00932113">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="18.05"/>
+								<Node score="0.0032311957">
+									<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="19.15"/>
+								</Node>
+							</Node>
+							<Node score="0.002030243">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="1.5"/>
+							</Node>
+						</Node>
+						<Node score="0.004797088">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							<Node score="-9.354123E-6">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="0.3"/>
+							</Node>
+						</Node>
+						<Node score="0.008507497">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.7"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="13">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x7)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="0.0028327142">
+						<True/>
+						<Node score="0.0028955487">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="9.5"/>
+							<Node score="0.015376264">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="9.5"/>
+								<Node score="3.7624228E-5">
+									<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="0.6"/>
+								</Node>
+							</Node>
+							<Node score="0.0061968984">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="8.5"/>
+							</Node>
+						</Node>
+						<Node score="4.3548393E-4">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							<Node score="0.0040923827">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="4.7"/>
+							</Node>
+						</Node>
+						<Node score="0.017615927">
+							<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="10.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="14">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x7)"/>
+					</MiningSchema>
+					<Node score="0.0030744502">
+						<True/>
+						<Node score="0.002880959">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="27.25"/>
+							<Node score="-0.002490307">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="29.7"/>
+								<Node score="0.0031534408">
+									<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="13.0"/>
+								</Node>
+							</Node>
+							<Node score="0.014225475">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="7.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0058875903">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="3.5"/>
+							<Node score="0.0020393643">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="4.5"/>
+							</Node>
+						</Node>
+						<Node score="-0.001429533">
+							<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="4.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="15">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x7)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="5.0038466E-4">
+						<True/>
+						<Node score="0.0036192727">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							<Node score="0.0025312917">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="9.5"/>
+								<Node score="-1.5890454E-4">
+									<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="10.5"/>
+								</Node>
+							</Node>
+							<Node score="-2.4448644E-4">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="0.3"/>
+							</Node>
+						</Node>
+						<Node score="0.005672933">
+							<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="9.5"/>
+							<Node score="0.024774019">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="9.6"/>
+							</Node>
+						</Node>
+						<Node score="0.02017623">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="27.15"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="16">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x2)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x5)"/>
+					</MiningSchema>
+					<Node score="0.0013083505">
+						<True/>
+						<Node score="0.0017324843">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="25.85"/>
+							<Node score="0.006052952">
+								<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="1.5"/>
+								<Node score="-0.002141515">
+									<SimplePredicate field="float(x2)" operator="greaterOrEqual" value="0.125"/>
+								</Node>
+							</Node>
+							<Node score="-0.0027503548">
+								<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="0.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0050916187">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.75"/>
+							<Node score="0.0019040378">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="2.05"/>
+							</Node>
+						</Node>
+						<Node score="-0.002277643">
+							<SimplePredicate field="float(x2)" operator="greaterOrEqual" value="0.125"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="17">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="0.014667756">
+						<True/>
+						<Node score="0.0030064222">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="18.05"/>
+							<Node score="0.015839105">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="22.5"/>
+								<Node score="0.005324091">
+									<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="20.3"/>
+								</Node>
+							</Node>
+							<Node score="-9.864056E-4">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="27.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0011692856">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="0.6"/>
+							<Node score="-0.0015240983">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="16.85"/>
+							</Node>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="18">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x5)"/>
+						<MiningField name="float(x6)"/>
+					</MiningSchema>
+					<Node score="0.0024736896">
+						<True/>
+						<Node score="0.0032521188">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="25.85"/>
+							<Node score="0.010326256">
+								<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="1.5"/>
+								<Node score="0.003434268">
+									<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="10.5"/>
+								</Node>
+							</Node>
+							<Node score="-0.0025872698">
+								<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="0.5"/>
+							</Node>
+						</Node>
+						<Node score="-2.5415796E-4">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="-4.3"/>
+							<Node score="0.0015106838">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="5.3"/>
+							</Node>
+						</Node>
+						<Node score="0.009020555">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="-5.85"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="19">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x5)"/>
+					</MiningSchema>
+					<Node score="0.0012034636">
+						<True/>
+						<Node score="0.014664344">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="24.7"/>
+							<Node score="0.005173084">
+								<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="1.5"/>
+								<Node score="-0.0025548113">
+									<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="31.95"/>
+								</Node>
+							</Node>
+							<Node score="-5.4355914E-4">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="25.3"/>
+							</Node>
+						</Node>
+						<Node score="0.0011438368">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="21.400002"/>
+							<Node score="-0.0017196875">
+								<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="2.5"/>
+							</Node>
+						</Node>
+						<Node score="0.004300988">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="18.599998"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="20">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x7)"/>
+					</MiningSchema>
+					<Node score="0.00475271">
+						<True/>
+						<Node score="0.0026645504">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="18.05"/>
+							<Node score="0.010733056">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="27.5"/>
+								<Node score="-0.001767473">
+									<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="18.599998"/>
+								</Node>
+							</Node>
+							<Node score="0.010767947">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="26.5"/>
+							</Node>
+						</Node>
+						<Node score="-6.402583E-5">
+							<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="4.5"/>
+							<Node score="0.0029816106">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="26.5"/>
+							</Node>
+						</Node>
+						<Node score="9.772682E-4">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="5.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="21">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x2)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x7)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="0.001202809">
+						<True/>
+						<Node score="0.002506382">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="12.5"/>
+							<Node score="0.014597364">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="20.5"/>
+								<Node score="8.81731E-4">
+									<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.0"/>
+								</Node>
+							</Node>
+							<Node score="-0.0011271161">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="10.5"/>
+							</Node>
+						</Node>
+						<Node score="-1.4387467E-4">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="1.5"/>
+							<Node score="0.0024936544">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="4.05"/>
+							</Node>
+						</Node>
+						<Node score="0.009508417">
+							<SimplePredicate field="float(x2)" operator="greaterOrEqual" value="0.125"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="22">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="timeslot"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x7)"/>
+					</MiningSchema>
+					<Node score="0.0036545347">
+						<True/>
+						<Node score="-0.001764535">
+							<SimplePredicate field="timeslot" operator="equal" value="Morning"/>
+							<Node score="0.011451914">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="4.8500004"/>
+								<Node score="7.676608E-4">
+									<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="6.5"/>
+								</Node>
+							</Node>
+							<Node score="-3.2259122E-5">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="2.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0040846546">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="13.5"/>
+							<Node score="0.0016252771">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="15.5"/>
+							</Node>
+						</Node>
+						<Node score="3.4597956E-4">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.25"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="23">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="timeslot"/>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x4)"/>
+					</MiningSchema>
+					<Node score="0.0017624792">
+						<True/>
+						<Node score="2.9571689E-5">
+							<SimplePredicate field="timeslot" operator="equal" value="Morning"/>
+							<Node score="0.0069019767">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="4.75"/>
+								<Node score="-0.0022127917">
+									<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="5.95"/>
+								</Node>
+							</Node>
+							<Node score="0.010560264">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="30.3"/>
+							</Node>
+						</Node>
+						<Node score="0.0075057982">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="18.05"/>
+							<Node score="0.001891239">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="19.25"/>
+							</Node>
+						</Node>
+						<Node score="2.9583523E-4">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="13.05"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="24">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x5)"/>
+						<MiningField name="float(x7)"/>
+					</MiningSchema>
+					<Node score="-2.1919925E-4">
+						<True/>
+						<Node score="0.0028351236">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="24.7"/>
+							<Node score="-0.0035163928">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="29.7"/>
+								<Node score="0.0011064323">
+									<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.8499999"/>
+								</Node>
+							</Node>
+							<Node score="0.009014946">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="28.599998"/>
+							</Node>
+						</Node>
+						<Node score="0.001969606">
+							<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="5.5"/>
+							<Node score="0.0062695867">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="10.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0010562384">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.75"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="25">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x2)"/>
+						<MiningField name="float(x3)"/>
+						<MiningField name="float(x7)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="0.0021412482">
+						<True/>
+						<Node score="-0.0027465697">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="16.5"/>
+							<Node score="0.0015327046">
+								<SimplePredicate field="float(x3)" operator="greaterOrEqual" value="5.5"/>
+								<Node score="0.00302607">
+									<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="6.5"/>
+								</Node>
+							</Node>
+							<Node score="0.0026337707">
+								<SimplePredicate field="float(x2)" operator="greaterOrEqual" value="3.25"/>
+							</Node>
+						</Node>
+						<Node score="0.0030686487">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							<Node score="-1.817662E-5">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="0.85"/>
+							</Node>
+						</Node>
+						<Node score="0.024159394">
+							<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="10.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="26">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="5.081839E-4">
+						<True/>
+						<Node score="-0.0013952529">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="16.5"/>
+							<Node score="-0.0028490217">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="5.6499996"/>
+							</Node>
+							<Node score="0.0023249963">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.35"/>
+							</Node>
+						</Node>
+						<Node score="0.0033929718">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="3.0"/>
+							<Node score="-4.3937247E-4">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0025997744">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="12.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="27">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x6)"/>
+					</MiningSchema>
+					<Node score="0.004843641">
+						<True/>
+						<Node score="-0.0030740553">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="25.85"/>
+							<Node score="0.009977731">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="5.5"/>
+								<Node score="0.0022200472">
+									<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="10.0"/>
+								</Node>
+							</Node>
+							<Node score="0.009707856">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="3.75"/>
+							</Node>
+						</Node>
+						<Node score="-3.011293E-4">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="4.5"/>
+							<Node score="7.870394E-4">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="11.5"/>
+							</Node>
+						</Node>
+						<Node score="4.1794032E-4">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="11.25"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="28">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="timeslot"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x5)"/>
+						<MiningField name="float(x6)"/>
+					</MiningSchema>
+					<Node score="-4.3909598E-4">
+						<True/>
+						<Node score="0.0027138633">
+							<SimplePredicate field="timeslot" operator="equal" value="Evening"/>
+							<Node score="0.002621236">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="2.9499998"/>
+								<Node score="0.009815378">
+									<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="26.5"/>
+								</Node>
+							</Node>
+							<Node score="1.7231387E-5">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="10.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0017359871">
+							<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="1.5"/>
+							<Node score="1.3567354E-4">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="3.0"/>
+							</Node>
+						</Node>
+						<Node score="0.0018400959">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="4.75"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="29">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x3)"/>
+						<MiningField name="float(x7)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="0.0011902665">
+						<True/>
+						<Node score="0.0030760595">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							<Node score="-0.00181692">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="17.5"/>
+								<Node score="0.0020540433">
+									<SimplePredicate field="float(x3)" operator="greaterOrEqual" value="5.5"/>
+								</Node>
+							</Node>
+							<Node score="1.9255465E-4">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="0.85"/>
+							</Node>
+						</Node>
+						<Node score="0.024844855">
+							<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="10.5"/>
+						</Node>
+						<Node score="0.019692557">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="27.15"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="30">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x3)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x7)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="-0.0017104704">
+						<True/>
+						<Node score="-0.0030419098">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="17.5"/>
+							<Node score="0.0014066006">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="2.1999998"/>
+								<Node score="-5.0009275E-4">
+									<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="7.5"/>
+								</Node>
+							</Node>
+							<Node score="0.0035234361">
+								<SimplePredicate field="float(x3)" operator="greaterOrEqual" value="7.0"/>
+							</Node>
+						</Node>
+						<Node score="5.446043E-4">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							<Node score="-6.8119593E-4">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="10.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0066034603">
+							<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="6.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="31">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x2)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x6)"/>
+					</MiningSchema>
+					<Node score="0.0014594354">
+						<True/>
+						<Node score="0.017339753">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="9.15"/>
+							<Node score="0.0014006941">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="10.450001"/>
+								<Node score="-6.173537E-4">
+									<SimplePredicate field="float(x2)" operator="greaterOrEqual" value="0.125"/>
+								</Node>
+							</Node>
+							<Node score="0.0035340083">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="4.5"/>
+							</Node>
+						</Node>
+						<Node score="-0.0026889734">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="5.95"/>
+						</Node>
+						<Node score="-1.8883769E-4">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="0.85"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="32">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="timeslot"/>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x7)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="1.9407324E-5">
+						<True/>
+						<Node score="0.0022653358">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="9.5"/>
+							<Node score="-0.0020615892">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="10.5"/>
+								<Node score="0.0017150826">
+									<SimplePredicate field="timeslot" operator="equal" value="Late Night"/>
+								</Node>
+							</Node>
+							<Node score="5.707977E-4">
+								<SimplePredicate field="timeslot" operator="equal" value="Afternoon"/>
+							</Node>
+						</Node>
+						<Node score="0.017161228">
+							<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="10.5"/>
+							<Node score="6.400146E-4">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							</Node>
+						</Node>
+						<Node score="-9.286941E-4">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="11.799999"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="33">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="3.4722209E-4">
+						<True/>
+						<Node score="0.01536323">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="17.5"/>
+							<Node score="-6.8419165E-4">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="20.5"/>
+								<Node score="0.0028468214">
+									<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="22.5"/>
+								</Node>
+							</Node>
+							<Node score="0.0023458565">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="-3.6"/>
+							</Node>
+						</Node>
+						<Node score="0.002305067">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="0.85"/>
+							<Node score="-1.3536852E-4">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							</Node>
+						</Node>
+						<Node score="0.00637754">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="-1.4000001"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="34">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="-0.0038666353">
+						<True/>
+						<Node score="0.0017422367">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="17.5"/>
+							<Node score="0.006319335">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="18.05"/>
+								<Node score="0.0014849844">
+									<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.55"/>
+								</Node>
+							</Node>
+							<Node score="-6.330348E-4">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="10.3"/>
+							</Node>
+						</Node>
+						<Node score="0.0024133709">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							<Node score="-1.0069163E-4">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="0.85"/>
+							</Node>
+						</Node>
+						<Node score="0.0047145477">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="4.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="35">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x5)"/>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x7)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="-0.0011019856">
+						<True/>
+						<Node score="0.0012612314">
+							<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="1.5"/>
+							<Node score="0.001938623">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="9.5"/>
+								<Node score="-0.0012140074">
+									<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="10.5"/>
+								</Node>
+							</Node>
+							<Node score="-0.0015622082">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="6.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0025331285">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="2.5"/>
+							<Node score="-3.3573993E-4">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="4.5"/>
+							</Node>
+						</Node>
+						<Node score="-0.003472066">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="7.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="36">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x5)"/>
+						<MiningField name="float(x7)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="0.002075324">
+						<True/>
+						<Node score="-1.7834835E-4">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							<Node score="0.0010571221">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="9.5"/>
+								<Node score="-0.0012427688">
+									<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="2.05"/>
+								</Node>
+							</Node>
+							<Node score="0.0010765383">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="9.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0033291706">
+							<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="9.5"/>
+							<Node score="0.027126">
+								<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="3.0"/>
+							</Node>
+						</Node>
+						<Node score="-0.0026852747">
+							<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="4.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="37">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x5)"/>
+						<MiningField name="float(x6)"/>
+					</MiningSchema>
+					<Node score="0.005075178">
+						<True/>
+						<Node score="-0.0014489958">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="15.5"/>
+							<Node score="0.008708078">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="28.599998"/>
+								<Node score="-9.987131E-4">
+									<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="4.5"/>
+								</Node>
+							</Node>
+							<Node score="0.0013924828">
+								<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="0.5"/>
+							</Node>
+						</Node>
+						<Node score="0.009909836">
+							<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="0.5"/>
+							<Node score="-3.5122526E-4">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="0.6"/>
+							</Node>
+						</Node>
+						<Node score="1.247445E-5">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="10.3"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="38">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x7)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="-0.0020824103">
+						<True/>
+						<Node score="9.844693E-4">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							<Node score="-8.2111463E-4">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="14.5"/>
+								<Node score="0.0015398728">
+									<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="9.5"/>
+								</Node>
+							</Node>
+							<Node score="-5.9252745E-4">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="11.5"/>
+							</Node>
+						</Node>
+						<Node score="0.026316917">
+							<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="9.5"/>
+							<Node score="0.00247116">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="17.0"/>
+							</Node>
+						</Node>
+						<Node score="0.0049024425">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="18.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="39">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="timeslot"/>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x7)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="-6.104132E-4">
+						<True/>
+						<Node score="-8.501065E-5">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="27.25"/>
+							<Node score="0.0019720264">
+								<SimplePredicate field="timeslot" operator="equal" value="Late Night"/>
+								<Node score="0.018574424">
+									<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.8499999"/>
+								</Node>
+							</Node>
+							<Node score="0.005584371">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="17.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0011135748">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="9.5"/>
+							<Node score="-0.0017250924">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="10.5"/>
+							</Node>
+						</Node>
+						<Node score="0.004684105">
+							<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="10.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="40">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x5)"/>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="-0.0036762587">
+						<True/>
+						<Node score="-0.0031262">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="22.5"/>
+							<Node score="0.0020373901">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="3.5"/>
+								<Node score="0.005090494">
+									<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="3.5"/>
+								</Node>
+							</Node>
+						</Node>
+						<Node score="-4.2603008E-4">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="0.5"/>
+							<Node score="7.8184943E-4">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="9.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0038517886">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="5.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="41">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="timeslot"/>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x4)"/>
+					</MiningSchema>
+					<Node score="8.887943E-4">
+						<True/>
+						<Node score="0.0017220142">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="3.5"/>
+							<Node score="-0.0020989599">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="-4.15"/>
+								<Node score="3.960259E-4">
+									<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="9.15"/>
+								</Node>
+							</Node>
+							<Node score="0.008919454">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="-4.55"/>
+							</Node>
+						</Node>
+						<Node score="-3.988353E-4">
+							<SimplePredicate field="timeslot" operator="equal" value="Morning"/>
+							<Node score="0.00646417">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="28.599998"/>
+							</Node>
+						</Node>
+						<Node score="0.0024925668">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="3.0"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="42">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="0.0015393922">
+						<True/>
+						<Node score="0.021651708">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="22.5"/>
+							<Node score="-0.0015033798">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.15"/>
+								<Node score="0.002909905">
+									<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="10.0"/>
+								</Node>
+							</Node>
+						</Node>
+						<Node score="-5.406949E-4">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="0.95000005"/>
+							<Node score="6.1294256E-4">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="5.3"/>
+							</Node>
+						</Node>
+						<Node score="-0.003640166">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="16.400002"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="43">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="timeslot"/>
+						<MiningField name="float(x2)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x6)"/>
+					</MiningSchema>
+					<Node score="3.089265E-4">
+						<True/>
+						<Node score="-9.847152E-4">
+							<SimplePredicate field="float(x2)" operator="greaterOrEqual" value="1.125"/>
+							<Node score="0.010475201">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="30.5"/>
+								<Node score="-0.0021891238">
+									<SimplePredicate field="timeslot" operator="equal" value="Evening"/>
+								</Node>
+							</Node>
+							<Node score="-0.0034069847">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="6.5"/>
+							</Node>
+						</Node>
+						<Node score="-0.0032921366">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="27.5"/>
+							<Node score="-3.070069E-5">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.55"/>
+							</Node>
+						</Node>
+						<Node score="0.0011536645">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="12.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="44">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="0.001983965">
+						<True/>
+						<Node score="0.0028308171">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="-4.3"/>
+							<Node score="0.0048901597">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="18.05"/>
+								<Node score="1.6688823E-4">
+									<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="19.25"/>
+								</Node>
+							</Node>
+							<Node score="-3.683238E-4">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="1.5"/>
+							</Node>
+						</Node>
+						<Node score="-0.0036362994">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="12.0"/>
+							<Node score="0.0033606086">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="20.0"/>
+							</Node>
+						</Node>
+						<Node score="0.010950833">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="9.0"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="45">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="timeslot"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x5)"/>
+						<MiningField name="float(x7)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="0.007386324">
+						<True/>
+						<Node score="-0.0015476787">
+							<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="1.5"/>
+							<Node score="0.02109852">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="22.5"/>
+								<Node score="0.002064545">
+									<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.15"/>
+								</Node>
+							</Node>
+							<Node score="6.552429E-4">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="1.5"/>
+							</Node>
+						</Node>
+						<Node score="1.05450845E-5">
+							<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="1.5"/>
+							<Node score="-0.0023173">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="15.5"/>
+							</Node>
+						</Node>
+						<Node score="-0.0021154245">
+							<SimplePredicate field="timeslot" operator="equal" value="Afternoon"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="46">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x5)"/>
+						<MiningField name="float(x7)"/>
+					</MiningSchema>
+					<Node score="-5.6533254E-4">
+						<True/>
+						<Node score="0.0016497233">
+							<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="3.5"/>
+							<Node score="-0.0011860336">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="4.5"/>
+								<Node score="0.0010996818">
+									<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="5.5"/>
+								</Node>
+							</Node>
+							<Node score="0.007773614">
+								<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="5.5"/>
+							</Node>
+						</Node>
+						<Node score="-0.0013360826">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="0.85"/>
+							<Node score="0.0030894105">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="17.25"/>
+							</Node>
+						</Node>
+						<Node score="0.002716941">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="4.45"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="47">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x7)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="0.0021727963">
+						<True/>
+						<Node score="8.497854E-4">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="9.5"/>
+							<Node score="0.008926815">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="9.5"/>
+								<Node score="-8.86351E-4">
+									<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="0.6"/>
+								</Node>
+							</Node>
+							<Node score="0.0040572206">
+								<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="8.5"/>
+							</Node>
+						</Node>
+						<Node score="0.0011229184">
+							<SimplePredicate field="float(x7)" operator="greaterOrEqual" value="10.5"/>
+							<Node score="0.012180523">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="3.6"/>
+							</Node>
+						</Node>
+						<Node score="-5.854987E-4">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.25"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="48">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="3.5689282E-4">
+						<True/>
+						<Node score="-2.936913E-4">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="21.5"/>
+							<Node score="0.016522845">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="27.25"/>
+								<Node score="0.0013362201">
+									<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="4.5"/>
+								</Node>
+							</Node>
+							<Node score="-0.004443458">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="24.7"/>
+							</Node>
+						</Node>
+						<Node score="0.0017980004">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="2.15"/>
+							<Node score="-0.0018917451">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="12.35"/>
+							</Node>
+						</Node>
+						<Node score="0.0026625588">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="19.0"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="49">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x5)"/>
+						<MiningField name="float(x6)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="-0.002677501">
+						<True/>
+						<Node score="0.012993842">
+							<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="5.5"/>
+							<Node score="-7.2886155E-4">
+								<SimplePredicate field="float(x6)" operator="greaterOrEqual" value="6.5"/>
+								<Node score="4.935713E-4">
+									<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.75"/>
+								</Node>
+							</Node>
+							<Node score="0.002135229">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="1.5"/>
+							</Node>
+						</Node>
+						<Node score="-0.001059288">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="4.05"/>
+							<Node score="0.0057938187">
+								<SimplePredicate field="float(x5)" operator="greaterOrEqual" value="2.5"/>
+							</Node>
+						</Node>
+						<Node score="-9.933788E-4">
+							<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="20.5"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+			<Segment id="50">
+				<True/>
+				<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="float(x1)"/>
+						<MiningField name="float(x4)"/>
+						<MiningField name="float(x8)"/>
+					</MiningSchema>
+					<Node score="-0.0024751367">
+						<True/>
+						<Node score="3.3565177E-4">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="18.05"/>
+							<Node score="8.201372E-4">
+								<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="19.15"/>
+								<Node score="-9.7041385E-4">
+									<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="2.15"/>
+								</Node>
+							</Node>
+							<Node score="0.0122804">
+								<SimplePredicate field="float(x8)" operator="greaterOrEqual" value="16.0"/>
+							</Node>
+						</Node>
+						<Node score="-0.0014643987">
+							<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="0.6"/>
+							<Node score="1.2249808E-4">
+								<SimplePredicate field="float(x4)" operator="greaterOrEqual" value="1.7"/>
+							</Node>
+						</Node>
+						<Node score="0.012809602">
+							<SimplePredicate field="float(x1)" operator="greaterOrEqual" value="14.450001"/>
+						</Node>
+					</Node>
+				</TreeModel>
+			</Segment>
+		</Segmentation>
+	</MiningModel>
+</PMML>
